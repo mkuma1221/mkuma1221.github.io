@@ -4,14 +4,25 @@
 @import "{{ site.theme }}";
 
 .page-header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('shuttle.jpg');
+  background-image: url('shuttle.jpg');
   background-size: cover;
   background-position: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Makes your white name/email pop */
+  
+  /* Smoky White Text */
+  color: #F5F5F5 !important; 
+  
+  /* This creates a soft, dark glow behind the text */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7), 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* This changes the "About Me" and "Project" titles below the banner */
-h2 {
-  color: #1B365D; /* Professional Aerospace Blue */
-  border-bottom: 1px solid #eee;
+/* Optional: Make the title extra bold to stand out against the clouds */
+.project-name {
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Optional: Make the email/links slightly more transparent for a 'HUD' look */
+.project-tagline {
+  color: rgba(245, 245, 245, 0.9);
+  font-weight: 400;
 }
