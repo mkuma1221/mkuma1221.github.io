@@ -16,5 +16,5 @@ Additionally, my experience collaborating on team projects has helped me develop
 
 
 
-<h3 style="color: #000080;">Project 1 - Solving Kepler's Problem</h3>
+<h2 style="color: #000080; font-size: 1.8em; margin-bottom: 10px;">Projects</h2>
 
