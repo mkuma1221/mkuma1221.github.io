@@ -1,0 +1,20 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.page-header {
+  background-image: url("/assets/images/shuttle.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.page-header::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.5); /* dark overlay */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
