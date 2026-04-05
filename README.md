@@ -6,7 +6,7 @@
   }
 </style>
 
-<h3 style="color: #000080;">About Me</h3>
+<h2 style="color: #000080; font-size: 1.8em; margin-bottom: 10px;">About Me</h2>
 
 Hi, my name is Mohana Kumanan, and I am a third-year aerospace engineering student with a focus on structural design and orbital mechanics. I have strong experience in both technical analysis and team-based project work, with a particular interest in applying engineering principles to real-world aerospace systems.
 
@@ -16,5 +16,5 @@ Additionally, my experience collaborating on team projects has helped me develop
 
 
 
-<h3 style="color: #70b37d;">Project 1 - Solving Kepler's Problem</h3>
+<h3 style="color: #000080;">Project 1 - Solving Kepler's Problem</h3>
 
