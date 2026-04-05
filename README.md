@@ -1,4 +1,4 @@
-<h3 style="color: #70b37d;">Aboutt Me</h3>
+<h3 style="color: #70b37d;">About Me</h3>
 
 My name is Mohana Kumanan, and I am a third-year aerospace engineering student with a focus on structural design and orbital mechanics. I have strong experience in both technical analysis and team-based project work, with a particular interest in applying engineering principles to real-world aerospace systems.
 
