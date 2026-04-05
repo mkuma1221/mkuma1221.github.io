@@ -4,17 +4,23 @@
 @import "{{ site.theme }}";
 
 .page-header {
+  position: relative;
   background-image: url("/assets/images/shuttle.jpg");
   background-size: cover;
   background-position: center;
 }
 
-.page-header::after {
+/* FIXED overlay */
+.page-header::before {
   content: "";
-  background: rgba(0, 0, 0, 0.5); /* dark overlay */
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4); /* adjust darkness here */
+  z-index: 0;
+}
+
+/* keep text above overlay */
+.page-header * {
+  position: relative;
+  z-index: 1;
 }
