@@ -4,8 +4,14 @@
 @import "{{ site.theme }}";
 
 .page-header {
-  background-image: url('shuttle.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('shuttle.jpg');
   background-size: cover;
   background-position: center;
-  color: #ffffff; /* This keeps your text white */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Makes your white name/email pop */
+}
+
+/* This changes the "About Me" and "Project" titles below the banner */
+h2 {
+  color: #1B365D; /* Professional Aerospace Blue */
+  border-bottom: 1px solid #eee;
 }
