@@ -1,3 +1,10 @@
+<style>
+  .page-header {
+    background-image: url('shuttle.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+</style>
 
 <h3 style="color: #70b37d;">About Me</h3>
 
