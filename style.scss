@@ -1,0 +1,11 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.page-header {
+  background-image: url('shuttle.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff; /* This keeps your text white */
+}
