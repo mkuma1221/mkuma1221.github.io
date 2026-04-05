@@ -4,39 +4,51 @@
 @import "{{ site.theme }}";
 
 .page-header {
-  /* Darker overlay (0.4 instead of 0.3) makes the shuttle stand out better against the text */
+  /* Darker overlay for better contrast */
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('shuttle.jpg');
   background-size: cover;
   background-position: center;
   
-  /* THIS PART MAKES THE SHUTTLE VISIBLE: Increase top and bottom padding */
+  /* Increases banner height to show more of the shuttle */
   padding: 8rem 2rem !important; 
   
+  /* Sets the main title color */
   color: #F5F5F5 !important; 
   
-  /* Stronger shadows for maximum readability over the exhaust smoke */
+  /* Strong shadows for maximum readability */
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
   
   text-align: center;
 }
 
 .project-name {
-  font-size: 3.5rem !important; /* Makes your title larger */
+  font-size: 3.5rem !important; 
   font-weight: 800;
   margin-bottom: 1rem;
+  color: #F5F5F5 !important;
 }
 
+/* This section makes the Email and LinkedIn match the Title exactly */
 .project-tagline {
   font-size: 1.2rem !important;
-  color: rgba(245, 245, 245, 1) !important;
   font-weight: 600 !important;
-  /* Adds a slight dark background "bar" behind the links for extra visibility */
-  background: rgba(0, 0, 0, 0.2); 
-  display: inline-block;
-  padding: 5px 15px;
-  border-radius: 5px;
+  /* Matching the Smoky White title color */
+  color: #F5F5F5 !important; 
+  opacity: 1 !important;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
 }
 
+/* Ensures any actual links in the tagline also turn Smoky White */
+.project-tagline a {
+  color: #F5F5F5 !important;
+  text-decoration: none;
+}
+
+.project-tagline a:hover {
+  text-decoration: underline;
+}
+
+/* "About Me" and "Project" headers below the banner */
 h2 {
   color: #1B365D; 
   border-bottom: 1px solid #eeeeee;
