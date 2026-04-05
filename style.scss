@@ -4,25 +4,44 @@
 @import "{{ site.theme }}";
 
 .page-header {
-  background-image: url('shuttle.jpg');
+  /* This adds a subtle dark tint so the white text stays readable over the shuttle smoke */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('shuttle.jpg');
   background-size: cover;
   background-position: center;
   
-  /* Smoky White Text */
+  /* Smoky White color for the main text */
   color: #F5F5F5 !important; 
   
-  /* This creates a soft, dark glow behind the text */
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7), 0px 0px 20px rgba(0, 0, 0, 0.4);
+  /* Layered shadows to create that "glow" effect and separate text from the background */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9), 0px 0px 15px rgba(0, 0, 0, 0.5);
+  
+  padding: 5rem 6rem; /* Adjusts the "height" of your banner area */
 }
 
-/* Optional: Make the title extra bold to stand out against the clouds */
+/* Makes your name/title extra bold and professional */
 .project-name {
   font-weight: 800;
   letter-spacing: 1px;
+  margin-bottom: 0.5rem;
 }
 
-/* Optional: Make the email/links slightly more transparent for a 'HUD' look */
+/* Ensures your email and LinkedIn links are clear and smoky white */
 .project-tagline {
-  color: rgba(245, 245, 245, 0.9);
-  font-weight: 400;
+  color: rgba(245, 245, 245, 0.9) !important;
+  font-weight: 500;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Changes the "About Me" and "Project" headers to a professional Aerospace Blue */
+h2 {
+  color: #1B365D; 
+  border-bottom: 1px solid #eeeeee;
+  margin-top: 2rem;
+}
+
+/* Professional styling for the buttons/links if you use them */
+.btn {
+  color: #F5F5F5;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.1);
 }
