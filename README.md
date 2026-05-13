@@ -1,6 +1,6 @@
 <style>
   .page-header {
-    background-image: url('shuttle.jpg') !important;
+    background-image: url('Galaxy.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
   }
