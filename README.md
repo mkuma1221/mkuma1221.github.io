@@ -23,10 +23,7 @@ Additionally, my experience collaborating on team projects has helped me develop
 </h3>
 
 <p style="color: #444; line-height: 1.6; margin-top: 10px;">
-    Developed a computational algorithm in MATLAB to solve Kepler’s transcendental equation using the 
-    <strong>Newton-Raphson method</strong>. The project focused on transforming mean anomaly into eccentric 
-    anomaly to precisely determine spacecraft position and velocity vectors, verified against 
-    standard orbital datasets for accuracy.
+Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements (COEs) from given position, velocity, and gravitational parameter (μ), verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices (DCMs) to transform states between perifocal (PQW) and ECI reference frames.
 </p>
 
 
