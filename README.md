@@ -7,6 +7,10 @@
 </style>
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 10px;">About Me</h2>
+
+body {
+  color: #000000 !important;
+}
 Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with a focus on control systems and orbital mechanics. I have experience in both technical analysis and collaborative engineering projects, with a strong interest in applying aerospace engineering principles to real-world systems.
 
 Through my coursework and projects, I have developed a solid foundation in orbital mechanics, dynamics, and control systems, along with practical experience in MATLAB, numerical methods, system modeling, and spacecraft state propagation. These experiences have strengthened my ability to analyze complex engineering problems, develop computational solutions, and validate results through analytical and numerical techniques.
