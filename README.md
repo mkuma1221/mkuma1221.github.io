@@ -1,6 +1,6 @@
 <style>
   .page-header {
-    background-image: url('Galaxy.jpg') !important;
+    background-image: url('GAX.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
   }
