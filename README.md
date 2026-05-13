@@ -7,11 +7,11 @@
 </style>
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 10px;">About Me</h2>
-Hi, my name is Mohana Kumanan, and I am a third-year aerospace engineering student with a focus on control systems and orbital mechanics. I have strong experience in both technical analysis and team-based project work, with a particular interest in applying engineering principles to real-world aerospace systems.
+Hi, my name is Mohana Kumanan, and I am a third-year aerospace engineering student with a focus on control systems and orbital mechanics. I have experience in both technical analysis and collaborative engineering projects, with a strong interest in applying aerospace engineering principles to real-world systems.
 
-Through my coursework and projects, I have built a solid foundation in orbital mechanics, dynamics, and control systems, while developing practical skills in MATLAB, system modeling, and problem-solving. I have worked on projects involving orbital state propagation, spacecraft dynamics, and numerical methods, which strengthened my ability to analyze complex systems and ensure accuracy in results.
+Through my coursework and projects, I have developed a solid foundation in orbital mechanics, dynamics, and control systems, along with practical experience in MATLAB, numerical methods, system modeling, and spacecraft state propagation. These experiences have strengthened my ability to analyze complex engineering problems, develop computational solutions, and validate results through analytical and numerical techniques.
 
-Additionally, my experience collaborating on team projects has helped me develop strong organizational, coordination, and attention to detail skills, allowing me to manage tasks efficiently and meet deadlines.
+This website serves as both a technical portfolio and a professional archive, documenting the methodologies, analysis, and engineering concepts developed throughout my projects while showcasing the technical experience and skills I have gained.
 
 
 
