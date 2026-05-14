@@ -39,8 +39,10 @@ This website serves as both a technical portfolio and a professional archive, do
     </td>
     
     <td width="55%" valign="top" align="center" style="border: none;">
-      <img src="SAT.png" alt="SAT" style="width: 100%; height: auto; display: block; border: none;">
+      <img src="sat.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block; border: none;">
       <p style="font-size: 13px; color: #000000; margin-top: 12px; font-style: italic; font-weight: normal;">
         Comparison of Newton Raphson to ODE 45
       </p>
     </td>
+  </tr>
+</table>
