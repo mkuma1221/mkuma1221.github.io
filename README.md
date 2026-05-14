@@ -24,13 +24,13 @@ This website serves as both a technical portfolio and a professional archive, do
 
 
 
-<h3 style="text-align: center; color: #002D62; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin-bottom: 20px;">
+<h3 style="text-align: center; color: #002D62; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin-bottom: 25px; font-size: 1.5em;">
   Kepler’s Problem Solver & Orbital Verification
 </h3>
 
 <table style="border: none; border-collapse: collapse; width: 100%; border-spacing: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" border="0" cellpadding="0" cellspacing="0">
   <tr style="border: none;">
-    <td width="45%" valign="top" style="border: none; padding-right: 25px; padding-top: 5px;">
+    <td width="45%" valign="top" style="border: none; padding-right: 30px; padding-top: 5px;">
       <p style="color: #000000; line-height: 1.6; margin: 0; font-size: 16px;">
         Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
       </p>
@@ -39,10 +39,8 @@ This website serves as both a technical portfolio and a professional archive, do
     </td>
     
     <td width="55%" valign="top" align="center" style="border: none;">
-      <img src="sat.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block; border: none;">
-      <p style="font-size: 13px; color: #000000; margin-top: 10px; font-style: italic;">
+      <img src="SAT.png" alt="SAT" style="width: 100%; height: auto; display: block; border: none;">
+      <p style="font-size: 13px; color: #000000; margin-top: 12px; font-style: italic; font-weight: normal;">
         Comparison of Newton Raphson to ODE 45
       </p>
     </td>
-  </tr>
-</table>
