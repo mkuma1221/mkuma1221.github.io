@@ -34,7 +34,7 @@ This website serves as both a technical portfolio and a professional archive, do
       <a href="INSERT_YOUR_LINK_HERE">View More Details</a>
     </td>
     <td width="50%" valign="top">
-      <img src="sat.png" alt="Satellite Trajectory">
+      <img src="SAT.png" alt="Satellite Trajectory">
     </td>
   </tr>
 </table>
