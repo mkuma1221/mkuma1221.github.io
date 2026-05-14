@@ -24,18 +24,18 @@ This website serves as both a technical portfolio and a professional archive, do
 
 
 
-<table style="border: none; border-collapse: collapse; width: 100%;" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="55% " valign="top" style="border: none; padding-right: 20px;">
-      <p style="color: #444; line-height: 1.6; margin-top: 10px; font-family: sans-serif;">
+<table style="border: none; border-collapse: collapse; width: 100%; border-spacing: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" border="0" cellpadding="0" cellspacing="0">
+  <tr style="border: none;">
+    <td width="55%" valign="top" style="border: none; padding-right: 25px; padding-top: 10px;">
+      <p style="color: #444; line-height: 1.6; margin: 0; font-size: 16px;">
         Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
       </p>
       <br>
-      <a href="INSERT_YOUR_GITHUB_OR_PAGE_LINK_HERE" style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">View More Details</a>
+      <a href="INSERT_LINK_HERE" style="text-decoration: none; color: #004a99; font-weight: 600; font-size: 15px;">View More Details</a>
     </td>
     <td width="45%" valign="top" align="center" style="border: none;">
-      <img src="SAT.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block;">
-      <p style="font-size: 0.85em; color: #666; margin-top: 8px; font-family: sans-serif;">
+      <img src="SAT.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block; border: none;">
+      <p style="font-size: 13px; color: #666; margin-top: 10px; font-style: italic;">
         Comparison of Newton Raphson to ODE 45
       </p>
     </td>
