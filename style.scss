@@ -1,5 +1,17 @@
 ---
 ---
+@import "{{ site.theme }}";
+
+.site-footer {
+    display: none !important;
+}
+
+.footer-col-wrapper, .site-footer-owner, .site-footer-credits {
+    display: none !important;
+}
+
+---
+---
 
 @import "{{ site.theme }}";
 
