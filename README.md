@@ -34,7 +34,7 @@ This website serves as both a technical portfolio and a professional archive, do
       <a href="INSERT_YOUR_GITHUB_OR_PAGE_LINK_HERE" style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">View More Details</a>
     </td>
     <td width="45%" valign="top" align="center" style="border: none;">
-      <img src="sat.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block;">
+      <img src="SAT.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block;">
       <p style="font-size: 0.85em; color: #666; margin-top: 8px; font-family: sans-serif;">
         Comparison of Newton Raphson to ODE 45
       </p>
