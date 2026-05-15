@@ -37,17 +37,16 @@
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 20px; font-family: sans-serif;">Projects</h2>
 
-<h3 style="color: #000080; font-size: 1.4em; margin-top: 30px; margin-bottom: 20px; text-align: center; font-family: sans-serif; border: none !important;">
+<h3 style="color: #000080; font-size: 1.4em; margin-top: 30px; margin-bottom: 25px; text-align: center; font-family: sans-serif; border: none !important;">
   Kepler’s Problem Solver & Orbital Verification
 </h3>
 
 <div class="project-container">
   <div class="project-text">
-    <p style="color: #444; line-height: 1.6; margin-top: 0; font-family: sans-serif;">
+    <p style="color: #444; line-height: 1.6; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">
       Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
     </p>
-    <br>
-    <a href="INSERT_YOUR_GITHUB_OR_PAGE_LINK_HERE" style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">View More Details →</a>
+    <a href="INSERT_YOUR_GITHUB_OR_PAGE_LINK_HERE" style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold; display: inline-block;">View More Details</a>
   </div>
   
   <div class="project-media">
@@ -57,4 +56,3 @@
     </p>
   </div>
 </div>
-
