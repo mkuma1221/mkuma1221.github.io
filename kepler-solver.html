@@ -1,2 +1,110 @@
-<h1>Kepler Solver Project</h1>
-<p>This page explains the full MATLAB implementation...</p>
+---
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kepler Solver Project</title>
+
+  <!-- Use Cayman theme styling automatically -->
+  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
+
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+
+    .page-header {
+      background-image: url('GAX.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content-wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      color: #000080;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      height: 2px;
+      background: #cfcfcf;
+      margin: 15px 0;
+    }
+
+    .image-box {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="page-header">
+    <div class="content-wrapper">
+      <h1>Kepler’s Problem Solver</h1>
+      <p>Orbital Mechanics • Newton–Raphson Method • State Verification</p>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+
+    <h2 class="section-title">Project Overview</h2>
+    <div class="divider"></div>
+
+    <p>
+      This project implements a numerical solution to Kepler’s Equation using the Newton–Raphson method.
+      It computes orbital parameters from state vectors and validates results using conservation of
+      energy and angular momentum.
+    </p>
+
+    <h2 class="section-title">Methodology</h2>
+    <div class="divider"></div>
+
+    <ul>
+      <li>Newton–Raphson iteration for eccentric anomaly</li>
+      <li>Classical Orbital Elements computation</li>
+      <li>ECI ↔ Perifocal transformations using DCM</li>
+      <li>Energy & angular momentum validation</li>
+    </ul>
+
+    <h2 class="section-title">Results</h2>
+    <div class="divider"></div>
+
+    <div class="image-box">
+      <img src="SAT.png" alt="Orbit comparison plot">
+      <p><em>Newton–Raphson vs ODE45 validation</em></p>
+    </div>
+
+    <h2 class="section-title">Code & Repository</h2>
+    <div class="divider"></div>
+
+    <p>
+      <a href="https://github.com/YOUR_USERNAME/YOUR_REPO">
+        View Full MATLAB Implementation
+      </a>
+    </p>
+
+  </div>
+
+</body>
+</html>
