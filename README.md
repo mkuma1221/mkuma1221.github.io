@@ -27,6 +27,14 @@
     text-align: center;
     border: none !important;
   }
+
+  /* Custom line style that avoids global overrides */
+  .project-divider {
+    display: block !important;
+    width: 100% !important;
+    height: 1px !important;
+    background-color: #e0e0e0 !important;
+  }
 </style>
 
 <h2 style="color: #000080; font-size: 1.8em; margin-top: 30px; margin-bottom: 15px; font-family: sans-serif;">About Me</h2>
@@ -37,7 +45,9 @@
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 20px; font-family: sans-serif;">Projects</h2>
 
-<h3 style="color: #000080; font-size: 1.4em; margin-top: 30px; margin-bottom: 25px; text-align: center; font-family: sans-serif; border: none !important;">
+<div class="project-divider" style="margin-top: 30px; margin-bottom: 25px;"></div>
+
+<h3 style="color: #000080; font-size: 1.4em; margin-top: 0; margin-bottom: 25px; text-align: center; font-family: sans-serif; border: none !important;">
   Kepler’s Problem Solver & Orbital Verification
 </h3>
 
@@ -56,3 +66,5 @@
     </p>
   </div>
 </div>
+
+<div class="project-divider" style="margin-top: 40px; margin-bottom: 20px;"></div>
