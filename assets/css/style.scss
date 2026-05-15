@@ -1,6 +1,3 @@
----
----
-
 @import "{{ site.theme }}";
 
 .page-header {
@@ -9,8 +6,8 @@
   background-size: cover;
   background-position: center;
   
-  /* Increases banner height to show more of the shuttle */
-  padding: 8rem 2rem !important; 
+  /* REDUCED PADDING: Shrunk from 8rem to 3.5rem to show less of the galaxy image */
+  padding: 3.5rem 2rem !important; 
   
   /* Sets the main title color */
   color: #F5F5F5 !important; 
@@ -55,5 +52,10 @@ h2 {
   margin-top: 3rem;
 }
 
-
+/* REMOVE BANNER LINE: This eliminates the line directly underneath the galaxy header */
+.main-content hr:first-of-type, 
+.page-header + hr,
+hr {
+  display: none !important;
+}
 
