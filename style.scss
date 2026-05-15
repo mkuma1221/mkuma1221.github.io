@@ -3,6 +3,22 @@
 
 @import "{{ site.theme }}";
 
+/* Global body styling for consistent font across all text */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Ensures paragraphs, tables, links, and list text stay consistent */
+p,
+td,
+li,
+a {
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Banner/Header Styling */
 .page-header {
   /* Darker overlay for better contrast */
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg');
@@ -21,6 +37,7 @@
   text-align: center;
 }
 
+/* Main Portfolio Title */
 .project-name {
   font-size: 3.5rem !important; 
   font-weight: 800;
@@ -28,17 +45,16 @@
   color: #F5F5F5 !important;
 }
 
-/* This section makes the Email and LinkedIn match the Title exactly */
+/* Email + LinkedIn section under title */
 .project-tagline {
   font-size: 1.2rem !important;
   font-weight: 600 !important;
-  /* Matching the Smoky White title color */
   color: #F5F5F5 !important; 
   opacity: 1 !important;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
 }
 
-/* Ensures any actual links in the tagline also turn Smoky White */
+/* Links inside tagline */
 .project-tagline a {
   color: #F5F5F5 !important;
   text-decoration: none;
@@ -48,12 +64,15 @@
   text-decoration: underline;
 }
 
-/* "About Me" and "Project" headers below the banner */
+/* Section headers like About Me and Projects */
 h2 {
   color: #1B365D; 
   border-bottom: 1px solid #eeeeee;
   margin-top: 3rem;
 }
 
-
-
+/* Project subsection titles */
+h3 {
+  color: #1B365D;
+  font-weight: 600;
+}
