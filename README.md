@@ -73,10 +73,10 @@
       Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
     </p>
 
-    <a href="INSERT_YOUR_LINK_HERE"
-       style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
-      View More Details
-    </a>
+<a href="kepler-solver.html"
+   style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
+  View More Details
+</a>
 
   </div>
 
