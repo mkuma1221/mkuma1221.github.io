@@ -23,7 +23,6 @@ This website serves as both a technical portfolio and a professional archive, do
 </h3>
 
 
-
 <table style="border: none; border-collapse: collapse; width: 100%;" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="55% " valign="top" style="border: none; padding-right: 20px;">
@@ -35,7 +34,7 @@ This website serves as both a technical portfolio and a professional archive, do
     </td>
     <td width="45%" valign="top" align="center" style="border: none;">
       <img src="SAT.png" alt="Satellite Trajectory" style="width: 100%; height: auto; display: block;">
-      <p style="font-size: 0.85em; color: #666; margin-top: 8px; font-family: sans-serif;">
+      <p style="font-size: 0.85em; color: #666; margin-top: 8px; font-family: sans-serif; font-style: italic;">
         Comparison of Newton Raphson to ODE 45
       </p>
     </td>
