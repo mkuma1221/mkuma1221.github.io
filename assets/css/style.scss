@@ -3,76 +3,8 @@
 
 @import "{{ site.theme }}";
 
-/* Global body styling for consistent font across all text */
+/* your custom css below */
+
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #444;
-  line-height: 1.6;
-}
-
-/* Ensures paragraphs, tables, links, and list text stay consistent */
-p,
-td,
-li,
-a {
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
-/* Banner/Header Styling */
-.page-header {
-  /* Darker overlay for better contrast */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg');
-  background-size: cover;
-  background-position: center;
-  
-  /* Increases banner height to show more of the shuttle */
-  padding: 8rem 2rem !important; 
-  
-  /* Sets the main title color */
-  color: #F5F5F5 !important; 
-  
-  /* Strong shadows for maximum readability */
-  text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
-  
-  text-align: center;
-}
-
-/* Main Portfolio Title */
-.project-name {
-  font-size: 3.5rem !important; 
-  font-weight: 800;
-  margin-bottom: 1rem;
-  color: #F5F5F5 !important;
-}
-
-/* Email + LinkedIn section under title */
-.project-tagline {
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  color: #F5F5F5 !important; 
-  opacity: 1 !important;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
-}
-
-/* Links inside tagline */
-.project-tagline a {
-  color: #F5F5F5 !important;
-  text-decoration: none;
-}
-
-.project-tagline a:hover {
-  text-decoration: underline;
-}
-
-/* Section headers like About Me and Projects */
-h2 {
-  color: #1B365D; 
-  border-bottom: 1px solid #eeeeee;
-  margin-top: 3rem;
-}
-
-/* Project subsection titles */
-h3 {
-  color: #1B365D;
-  font-weight: 600;
+  background: red !important;
 }
