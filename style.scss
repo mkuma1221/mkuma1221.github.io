@@ -3,11 +3,20 @@
 
 @import "{{ site.theme }}";
 
-/* Global body styling for consistent font across all text */
-body {
+/* Forces consistent font across ALL main website text */
+.main-content {
   font-family: "Segoe UI", Arial, sans-serif;
   color: #444;
   line-height: 1.6;
+}
+
+/* Makes all text elements inherit the same font */
+.main-content p,
+.main-content li,
+.main-content td,
+.main-content a,
+.main-content span {
+  font-family: inherit;
 }
 
 /* Ensures paragraphs, tables, links, and list text stay consistent */
