@@ -86,10 +86,55 @@
     <div class="divider"></div>
 
     <ul>
-      <li>Newton–Raphson iteration for eccentric anomaly</li>
-      <li>Classical Orbital Elements computation</li>
-      <li>ECI ↔ Perifocal transformations using DCM</li>
-      <li>Energy & angular momentum validation</li>
+
+      <li>
+        The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector, which defined the spacecraft’s motion relative to Earth and served as the starting condition for all orbital calculations.
+      </li>
+
+      <li>
+        Classical Orbital Elements (COEs) were computed from the initial state vectors to describe the orbit in terms of its size, shape, and orientation. These included the semi-major axis, eccentricity, inclination, Right Ascension of the Ascending Node (RAAN), argument of periapsis, and true anomaly.
+      </li>
+
+      <li>
+        The orbital elements were determined using the spacecraft’s specific orbital energy, angular momentum vector, and eccentricity vector derived directly from the ECI state vectors.
+      </li>
+
+      <li>
+        A Direction Cosine Matrix (DCM) was constructed to transform coordinates between the ECI frame and the perifocal frame. The perifocal frame aligns directly with the orbit geometry, simplifying orbital propagation calculations and coordinate transformations.
+      </li>
+
+      <li>
+        Keplerian propagation was performed analytically over five orbital periods by first computing the orbital period and mean motion from the semi-major axis.
+      </li>
+
+      <li>
+        Kepler’s Equation was solved using the Newton–Raphson iterative method. The key aspect of this approach was selecting an effective initial guess to ensure rapid convergence.
+      </li>
+
+      <li>
+        The mean anomaly was used as the initial guess for the eccentric anomaly because the two values are generally close for elliptical orbits. This provided a stable starting point for the iteration process and allowed the solution to converge efficiently within the specified tolerance.
+      </li>
+
+      <li>
+        Once the eccentric anomaly was obtained, it was converted into true anomaly and orbital radius at each time step to generate the spacecraft trajectory throughout the propagation interval.
+      </li>
+
+      <li>
+        The propagated perifocal position and velocity vectors were transformed back into the ECI frame using the DCM, producing the full three-dimensional orbit in inertial coordinates.
+      </li>
+
+      <li>
+        Numerical propagation was also performed using MATLAB’s ode45 solver to integrate the two-body equations of motion directly using tolerances of 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.
+      </li>
+
+      <li>
+        Analytical and numerical solutions were compared by plotting ECI position histories, velocity histories, and three-dimensional orbital trajectories.
+      </li>
+
+      <li>
+        Finally, specific orbital energy and specific angular momentum were evaluated throughout the propagation to verify conservation properties and assess numerical integration accuracy.
+      </li>
+
     </ul>
 
     <h2 class="section-title">Results</h2>
