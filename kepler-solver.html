@@ -64,11 +64,23 @@
     <h2 class="section-title">Project Overview and Goals</h2>
     <div class="divider"></div>
 
-    <p>
-      This project implements a numerical solution to Kepler’s Equation using the Newton–Raphson method.
-      It computes orbital parameters from state vectors and validates results using conservation of
-      energy and angular momentum.
-    </p>
+    <ul>
+      <li>Validate and compare two orbital propagation methods: analytical Keplerian propagation and numerical integration under ideal two-body orbital dynamics.</li>
+
+      <li>Compute the spacecraft’s Classical Orbital Elements (COEs) from an initial Earth-Centered Inertial (ECI) state vector.</li>
+
+      <li>Apply the Newton–Raphson method to solve Kepler’s Equation and generate a high-accuracy analytical reference solution over five orbital periods.</li>
+
+      <li>Implement MATLAB’s adaptive <strong>ode45</strong> solver to numerically integrate the two-body equations of motion using error tolerances of 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.</li>
+
+      <li>Analyze how numerical solver tolerance affects orbital propagation accuracy and long-term solution stability.</li>
+
+      <li>Compare ECI position and velocity histories between analytical and numerical solutions.</li>
+
+      <li>Visualize the spacecraft trajectory in three-dimensional space.</li>
+
+      <li>Evaluate conservation of specific mechanical energy and specific angular momentum to quantify numerical drift and integration accuracy.</li>
+    </ul>
 
     <h2 class="section-title">Methodology</h2>
     <div class="divider"></div>
