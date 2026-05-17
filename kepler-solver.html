@@ -1,179 +1,68 @@
----
----
+<!-- RESULTS -->
+<h2 class="section-title">Results</h2>
+<div class="divider"></div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Kepler Solver Project</title>
+<ul>
+  <li>
+    The results compare the analytical Kepler solution with the numerical ODE45 propagation for different solver tolerances.
+    The comparison is evaluated using state vectors, specific orbital energy, and specific angular momentum.
+  </li>
+</ul>
 
-  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
+<!-- STATE VECTOR -->
+<div class="image-box">
+  <img src="state.jpg" style="width:80%;">
+  <p><em>ECI State Vector Comparison</em></p>
+</div>
 
-  <style>
-    body {
-      font-family: sans-serif;
-      line-height: 1.7;
-    }
+<p>
+The state vector comparison shows strong agreement between the analytical and numerical solutions.
+As expected, the ODE45 solution with tighter tolerances closely follows the Newton–Raphson Kepler propagation.
+At higher tolerances, small deviations accumulate over time, particularly in the velocity components, due to numerical integration error in the two-body dynamics.
+</p>
 
-    .page-header {
-      background-image: url('HOR.jpg');
-      background-size: cover;
-      background-position: center;
-    }
+<br>
 
-    .content-wrapper {
-      max-width: 950px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
+<!-- SPECIFIC ENERGY -->
+<div class="equation">
+  <img src="SE.jpg" style="width:65%;">
+</div>
 
-    .section-title {
-      color: #000080;
-      margin-top: 35px;
-      margin-bottom: 10px;
-    }
+<p>
+The specific orbital energy is defined as:
+</p>
 
-    .divider {
-      height: 2px;
-      background: #cfcfcf;
-      margin: 15px 0 25px 0;
-    }
+<p style="text-align:center; font-size:0.9em;">
+\[
+\epsilon(t) = \frac{1}{2}\|\vec{v}(t)\|^2 - \frac{\mu}{\|\vec{r}(t)\|}
+\]
+</p>
 
-    img {
-      max-width: 100%;
-      border-radius: 6px;
-    }
+<p>
+From the results, the analytical solution maintains a perfectly constant energy, as expected for an ideal two-body system.
+The ODE45 solutions show slight numerical drift, with larger oscillations observed for the $10^{-2}$ tolerance case.
+As the tolerance is tightened, the energy conservation improves significantly, confirming increased numerical stability.
+</p>
 
-    .image-box {
-      text-align: center;
-      margin: 25px 0;
-    }
+<br>
 
-    .equation {
-      text-align: center;
-      margin: 25px 0;
-      font-size: 0.9em;   /* ✅ smaller equations */
-    }
+<!-- SPECIFIC ANGULAR MOMENTUM -->
+<div class="equation">
+  <img src="SA.jpg" style="width:65%;">
+</div>
 
-    ul {
-      padding-left: 22px;
-    }
+<p>
+The specific angular momentum magnitude is given by:
+</p>
 
-    li {
-      margin-bottom: 14px;
-    }
+<p style="text-align:center; font-size:0.9em;">
+\[
+\|\vec{h}(t)\| = \|\vec{r}(t) \times \vec{v}(t)\|
+\]
+</p>
 
-  </style>
-</head>
-
-<body>
-
-  <header class="page-header">
-    <div class="content-wrapper">
-      <h1>Kepler’s Problem Solver</h1>
-    </div>
-  </header>
-
-  <div class="content-wrapper">
-
-    <!-- OVERVIEW -->
-    <h2 class="section-title">Project Overview and Goals</h2>
-    <div class="divider"></div>
-
-    <ul>
-      <li>Validate analytical Kepler propagation vs numerical two-body integration.</li>
-      <li>Compute Classical Orbital Elements (COEs) from initial ECI state vectors.</li>
-      <li>Use Newton–Raphson to solve Kepler’s Equation over 5 orbital periods.</li>
-      <li>Compare ODE45 numerical propagation using different tolerances.</li>
-      <li>Analyze stability using energy and angular momentum conservation.</li>
-    </ul>
-
-    <!-- METHODOLOGY -->
-    <h2 class="section-title">Methodology</h2>
-    <div class="divider"></div>
-
-    <ul>
-      <li>
-        Initial ECI state vector is defined at <strong>t = 0</strong> and used as the starting condition.
-      </li>
-
-      <li>
-        Classical Orbital Elements (COEs) are computed from the ECI state vector to describe orbit geometry.
-      </li>
-
-      <li>
-        Orbital geometry is derived using specific orbital energy, angular momentum, and eccentricity vectors.
-      </li>
-    </ul>
-
-    <div class="equation">
-      <img src="energy_eq.png" style="width:60%;">
-    </div>
-
-    <ul>
-      <li>
-        A Direction Cosine Matrix (DCM) is used to transform between ECI and perifocal frames.
-      </li>
-    </ul>
-
-    <div class="equation">
-      <img src="dcm_eq.png" style="width:60%;">
-    </div>
-
-    <ul>
-      <li>
-        Mean motion and orbital period are computed from semi-major axis.
-      </li>
-    </ul>
-
-    <div class="equation">
-      <img src="mean_motion_eq.png" style="width:40%;">
-    </div>
-
-    <ul>
-      <li>
-        Kepler’s Equation is solved using Newton–Raphson iteration.
-      </li>
-
-      <li>
-        The mean anomaly is used as the initial guess since it is very close to the eccentric anomaly for elliptical orbits, ensuring fast convergence.
-      </li>
-    </ul>
-
-    <div class="equation">
-      <img src="kepler_eq.png" style="width:50%;">
-    </div>
-
-    <!-- RESULTS -->
-    <h2 class="section-title">Results</h2>
-    <div class="divider"></div>
-
-    <ul>
-      <li>
-        Analytical Kepler propagation closely matches numerical ODE45 results at tight tolerances.
-      </li>
-
-      <li>
-        Larger tolerances introduce visible drift in state vectors and orbital invariants.
-      </li>
-    </ul>
-
-    <div class="image-box">
-      <img src="state.jpg" style="width:80%;">
-      <p><em>ECI State Vector Comparison</em></p>
-    </div>
-
-    <div class="image-box">
-      <img src="SE.jpg" style="width:70%;">
-      <p><em>Specific Orbital Energy vs Time</em></p>
-    </div>
-
-    <div class="image-box">
-      <img src="SA.jpg" style="width:70%;">
-      <p><em>Specific Angular Momentum vs Time</em></p>
-    </div>
-
-  </div>
-
-</body>
-</html>
+<p>
+The angular momentum remains nearly constant for the analytical solution, as expected from conservation laws.
+For the numerical integration, slight deviations appear in the loose tolerance case due to accumulated numerical error.
+However, for tighter tolerances ($10^{-6}$ and $10^{-10}$), the solution closely preserves angular momentum, confirming the accuracy of the integrator.
+</p>
