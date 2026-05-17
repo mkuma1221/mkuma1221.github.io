@@ -108,12 +108,23 @@
 
     <ul>
       <li>
-        The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector at 
-        <strong>t = 0</strong>, which defined the spacecraft’s motion relative to Earth and served as the starting condition for all orbital calculations.
+        The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector for a satellite. These vectors defined the spacecraft’s instantaneous position and motion relative to Earth and served as the starting point for all orbital calculations.
       </li>
 
       <li>
-        Classical Orbital Elements (COEs) were computed from the initial state vectors.
+        Using the initial ECI state, the Classical Orbital Elements (COEs) were computed. The COEs provide a more intuitive description of an orbit by defining its size, shape, and orientation in space. The orbital elements calculated were:
+        <ul class="sub-list">
+          <li>Semi-major axis (a): defines the overall size of the orbit</li>
+          <li>Eccentricity (e): describes the orbit shape</li>
+          <li>Inclination (i): defines the tilt of the orbital plane</li>
+          <li>Right Ascension of the Ascending Node (RAAN): specifies orbital plane orientation about Earth’s equator</li>
+          <li>Argument of Periapsis (ω): defines orientation of orbit within the orbital plane</li>
+          <li>True Anomaly (f): spacecraft position along the orbit</li>
+        </ul>
+      </li>
+
+      <li>
+        The COEs were obtained by computing the specific orbital energy and angular momentum vector. The eccentricity vector was then used to determine orbit shape and periapsis direction.
       </li>
     </ul>
 
@@ -123,7 +134,10 @@
 
     <ul>
       <li>
-        A Direction Cosine Matrix (DCM) was constructed to transform between ECI and perifocal frames.
+        A Direction Cosine Matrix (DCM) was constructed to transform coordinates between the Earth-Centered Inertial (ECI) frame and the perifocal frame. The perifocal frame is aligned with the orbit geometry, simplifying orbital propagation.
+      </li>
+      <li>
+        The DCM was formed using vectors derived from the eccentricity vector and specific angular momentum vector.
       </li>
     </ul>
 
@@ -133,7 +147,10 @@
 
     <ul>
       <li>
-        Keplerian propagation was performed using mean motion and orbital period relationships.
+        This transformation enabled propagation in perifocal coordinates and conversion back into ECI for visualization and comparison.
+      </li>
+      <li>
+        Orbital propagation was performed analytically using Kepler’s Equation over five orbital periods. Orbital period and mean motion were computed from the semi-major axis.
       </li>
     </ul>
 
@@ -143,7 +160,7 @@
 
     <ul>
       <li>
-        Kepler’s Equation was solved using Newton–Raphson iteration with the mean anomaly as the initial guess.
+        Kepler’s Equation was solved using the Newton–Raphson iterative method. The mean anomaly (M) was used as the initial guess for eccentric anomaly to ensure fast convergence.
       </li>
     </ul>
 
@@ -153,10 +170,22 @@
 
     <ul>
       <li>
-        Perifocal state vectors were transformed back into ECI using the DCM.
+        Once eccentric anomaly was determined, it was converted into true anomaly and orbital radius at each time step to generate the full trajectory.
       </li>
       <li>
-        ODE45 was used for numerical propagation with multiple tolerance levels.
+        Perifocal position and velocity vectors were transformed back into the ECI frame using the DCM to produce the full 3D inertial orbit.
+      </li>
+      <li>
+        Numerical orbit propagation was also performed using MATLAB’s ODE45 solver to directly integrate the two-body equations of motion.
+      </li>
+      <li>
+        Three tolerance levels were tested: 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.
+      </li>
+      <li>
+        Analytical Kepler solutions and numerical ODE45 solutions were compared using ECI position components, velocity components, and full 3D trajectories.
+      </li>
+      <li>
+        Finally, conservation of specific orbital energy and specific angular momentum was evaluated for each tolerance case to assess numerical stability and drift.
       </li>
     </ul>
 
