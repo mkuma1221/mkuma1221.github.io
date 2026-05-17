@@ -1,20 +1,186 @@
-<!-- RESULTS -->
+---
+---
 
-<h2 class="section-title">Results</h2>
-<div class="divider"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kepler Solver Project</title>
 
-<!-- STATE VECTOR COMPARISON -->
-<div class="image-box">
-  <img src="state.jpg" alt="ECI State Vector Comparison">
-  <p><em>Comparison of ECI State Vectors (Kepler vs ODE45)</em></p>
-</div>
+  <!-- Cayman theme styling -->
+  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
 
-<div class="image-box">
-  <img src="SE.jpg" alt="Specific Energy vs Time">
-  <p><em>Specific Orbital Energy vs Time</em></p>
-</div>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.7;
+      color: #333;
+    }
 
-<div class="image-box">
-  <img src="SA.jpg" alt="Specific Angular Momentum vs Time">
-  <p><em>Specific Angular Momentum vs Time</em></p>
-</div>
+    .page-header {
+      background-image: url('HOR.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content-wrapper {
+      max-width: 950px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      color: #000080;
+      margin-top: 35px;
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      height: 2px;
+      background: #cfcfcf;
+      margin: 15px 0 25px 0;
+    }
+
+    .image-box {
+      text-align: center;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    ul {
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 18px;
+    }
+
+    .equation {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .equation img {
+      max-width: 400px;
+    }
+
+    .sub-list {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="page-header">
+    <div class="content-wrapper">
+      <h1>Kepler’s Problem Solver</h1>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+
+    <!-- OVERVIEW -->
+
+    <h2 class="section-title">Project Overview and Goals</h2>
+    <div class="divider"></div>
+
+    <ul>
+      <li>Validate and compare two orbital propagation methods: analytical Keplerian propagation and numerical integration under ideal two-body orbital dynamics.</li>
+      <li>Compute the spacecraft’s Classical Orbital Elements (COEs) from an initial Earth-Centered Inertial (ECI) state vector.</li>
+      <li>Apply the Newton–Raphson method to solve Kepler’s Equation and generate a high-accuracy analytical reference solution over five orbital periods.</li>
+      <li>Implement MATLAB’s adaptive ode45 solver to numerically integrate the two-body equations of motion using error tolerances of 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.</li>
+      <li>Analyze how numerical solver tolerance affects orbital propagation accuracy and long-term solution stability.</li>
+      <li>Compare ECI position and velocity histories between analytical and numerical solutions.</li>
+      <li>Visualize the spacecraft trajectory in three-dimensional space.</li>
+      <li>Evaluate conservation of specific mechanical energy and specific angular momentum to quantify numerical drift and integration accuracy.</li>
+    </ul>
+
+    <!-- METHODOLOGY -->
+
+    <h2 class="section-title">Methodology</h2>
+    <div class="divider"></div>
+
+    <ul>
+      <li>
+        The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector at 
+        <strong>t = 0</strong>, which defined the spacecraft’s motion relative to Earth and served as the starting condition for all orbital calculations.
+      </li>
+
+      <li>
+        Classical Orbital Elements (COEs) were computed from the initial state vectors.
+      </li>
+    </ul>
+
+    <div class="equation">
+      <img src="energy_eq.png" alt="Specific orbital energy equation">
+    </div>
+
+    <ul>
+      <li>
+        A Direction Cosine Matrix (DCM) was constructed to transform between ECI and perifocal frames.
+      </li>
+    </ul>
+
+    <div class="equation">
+      <img src="dcm_eq.png" alt="Direction cosine matrix equation">
+    </div>
+
+    <ul>
+      <li>
+        Keplerian propagation was performed using mean motion and orbital period relationships.
+      </li>
+    </ul>
+
+    <div class="equation">
+      <img src="mean_motion_eq.png" alt="Mean motion equation">
+    </div>
+
+    <ul>
+      <li>
+        Kepler’s Equation was solved using Newton–Raphson iteration with the mean anomaly as the initial guess.
+      </li>
+    </ul>
+
+    <div class="equation">
+      <img src="kepler_eq.png" alt="Kepler equation">
+    </div>
+
+    <ul>
+      <li>
+        Perifocal state vectors were transformed back into ECI using the DCM.
+      </li>
+      <li>
+        ODE45 was used for numerical propagation with multiple tolerance levels.
+      </li>
+    </ul>
+
+    <!-- RESULTS -->
+
+    <h2 class="section-title">Results</h2>
+    <div class="divider"></div>
+
+    <div class="image-box">
+      <img src="state.jpg" alt="State Vector Comparison">
+      <p><em>Comparison of ECI State Vectors (Kepler vs ODE45)</em></p>
+    </div>
+
+    <div class="image-box">
+      <img src="SE.jpg" alt="Specific Energy Plot">
+      <p><em>Specific Orbital Energy vs Time</em></p>
+    </div>
+
+    <div class="image-box">
+      <img src="SA.jpg" alt="Specific Angular Momentum Plot">
+      <p><em>Specific Angular Momentum vs Time</em></p>
+    </div>
+
+  </div>
+
+</body>
+</html>
