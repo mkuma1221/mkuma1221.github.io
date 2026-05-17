@@ -228,5 +228,33 @@
 
   </div>
 
+<p>
+    The variations observed in the <em>Specific Energy vs. Time</em> and 
+    <em>Specific Angular Momentum vs. Time</em> plots are primarily caused by the accumulation 
+    of numerical error inherent to the <code>ode45</code> variable-step integrator. When a loose 
+    tolerance of <strong>10<sup>-2</sup></strong> is used, the integrator permits larger truncation 
+    errors at each time step, producing noticeable numerical drift and sharp oscillations in both 
+    conserved quantities. As the tolerance is tightened to 
+    <strong>10<sup>-6</sup></strong> and further to 
+    <strong>10<sup>-10</sup></strong>, these variations decrease dramatically, and the quantities 
+    remain nearly constant throughout the propagation. Although the plots corresponding to the tighter 
+    tolerances may still appear slightly jagged, the y-axis scales reveal that these fluctuations are 
+    confined to extremely small ranges on the order of 
+    <strong>10<sup>-5</sup></strong> and 
+    <strong>10<sup>-9</sup></strong>, respectively. This demonstrates that the remaining deviations 
+    are negligible and primarily the result of finite numerical precision rather than physical inaccuracies 
+    in the orbital model itself. Monitoring specific energy and specific angular momentum provides an 
+    effective validation and health-checking method for orbital simulations because both are fundamental 
+    conserved quantities in the ideal two-body problem governed by Newtonian gravity. In an analytical 
+    solution, these values should remain perfectly constant over time, which would appear as perfectly 
+    flat horizontal lines on the plots. However, numerical integrators such as <code>ode45</code> 
+    approximate the solution step-by-step rather than solving the governing equations analytically, 
+    meaning small numerical deviations are unavoidable. Because the underlying physics requires exact 
+    conservation, any departure from the ideal constant value acts as a direct and quantifiable measure 
+    of numerical error. The fact that these deviations systematically decrease and converge toward a nearly 
+    flat baseline as the solver tolerance is reduced confirms that the simulation is mathematically 
+    consistent and converging toward the true physical solution.
+</p>
+
 </body>
 </html>
