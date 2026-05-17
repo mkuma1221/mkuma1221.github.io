@@ -209,14 +209,10 @@
     large tolerance is specified, these local truncation errors are permitted to be larger, which reduces
     computational cost but decreases long-term accuracy. Because orbital motion is a strongly nonlinear dynamical system, 
    these small local errors do not cancel out.Instead, they compound over time, leading to exponential 
-   growth in the global error rather than a linear drift.
-  </p>
-
-  <p>
-    By approximately <strong>2.5 × 10<sup>4</sup> seconds</strong>, the accumulated numerical error becomes dominant,
-    causing a pronounced and unphysical divergence in both the position and velocity state vectors relative
-    to the analytical solution. This highlights the sensitivity of long-term orbital propagation to solver tolerance
-    and numerical stability.
+   growth in the global error rather than a linear drift.By approximately <strong>2.5 × 10<sup>4</sup> seconds</strong>, 
+   the accumulated numerical error becomes dominant,causing a pronounced and unphysical divergence in both the
+   position and velocity state vectors relative to the analytical solution. This highlights the sensitivity 
+   of long-term orbital propagation to solver tolerance and numerical stability.
   </p>
 
     <div class="image-box">
