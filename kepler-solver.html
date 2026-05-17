@@ -204,6 +204,36 @@
       <p><em>Specific Orbital Energy vs Time</em></p>
     </div>
 
+    <div class="content-wrapper">
+
+  <p>
+    The numerical integration using ODE45 with a loose tolerance of 
+    <strong>10<sup>-2</sup></strong> (red dashed solution) begins to noticeably diverge from the analytical
+    Newton–Raphson Kepler solution as time progresses. This deviation grows gradually at first, but
+    becomes increasingly pronounced, resulting in significant error accumulation toward the end of the simulation.
+  </p>
+
+  <p>
+    This behavior is caused by the nature of adaptive numerical integration methods such as ODE45,
+    which approximate the solution by truncating higher-order terms at each time step. When a relatively
+    large tolerance is specified, these local truncation errors are permitted to be larger, which reduces
+    computational cost but decreases long-term accuracy.
+  </p>
+
+  <p>
+    Because orbital motion is a strongly nonlinear dynamical system, these small local errors do not cancel out.
+    Instead, they compound over time, leading to exponential growth in the global error rather than a linear drift.
+  </p>
+
+  <p>
+    By approximately <strong>2.5 × 10<sup>4</sup> seconds</strong>, the accumulated numerical error becomes dominant,
+    causing a pronounced and unphysical divergence in both the position and velocity state vectors relative
+    to the analytical solution. This highlights the sensitivity of long-term orbital propagation to solver tolerance
+    and numerical stability.
+  </p>
+
+</div>
+
     <div class="image-box">
       <img src="SA.jpg" alt="Specific Angular Momentum Plot">
       <p><em>Specific Angular Momentum vs Time</em></p>
