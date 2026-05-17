@@ -1,202 +1,143 @@
----
----
+```html
+<h2 class="section-title">Methodology</h2>
+<div class="divider"></div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Kepler Solver Project</title>
+<ul style="line-height: 1.8; padding-left: 22px;">
 
-  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
+  <li>
+    The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector at
+    <strong>t = 0</strong>, which defined the spacecraft’s motion relative to Earth and served as the starting condition
+    for all orbital calculations.
+  </li>
 
-  <style>
-    body {
-      font-family: sans-serif;
-      line-height: 1.7;
-      color: #333;
-    }
+  <br>
 
-    .page-header {
-      background-image: url('HOR.jpg');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .content-wrapper {
-      max-width: 950px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .section-title {
-      color: #000080;
-      margin-top: 35px;
-      margin-bottom: 10px;
-    }
-
-    .divider {
-      height: 2px;
-      background: #cfcfcf;
-      margin: 15px 0 25px 0;
-    }
-
-    .image-box {
-      text-align: center;
-      margin-top: 25px;
-      margin-bottom: 25px;
-    }
-
-    img {
-      max-width: 100%;
-      border-radius: 6px;
-    }
-
-    ul {
-      padding-left: 24px;
-    }
-
-    li {
-      margin-bottom: 18px;
-    }
-
-    .equation {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    .equation img {
-      max-width: 260px;
-    }
-
-    .sub-list {
-      margin-top: 10px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <header class="page-header">
-    <div class="content-wrapper">
-      <h1>Kepler’s Problem Solver</h1>
-    </div>
-  </header>
-
-  <div class="content-wrapper">
-
-    <!-- EVERYTHING ABOVE (UNCHANGED) -->
-
-    <h2 class="section-title">Project Overview and Goals</h2>
-    <div class="divider"></div>
+  <li>
+    Classical Orbital Elements (COEs) were computed from the initial state vectors to describe the orbit in
+    terms of its size, shape, and orientation. These included:
 
     <ul>
-      <li>Validate and compare two orbital propagation methods: analytical Keplerian propagation and numerical integration under ideal two-body orbital dynamics.</li>
-      <li>Compute the spacecraft’s Classical Orbital Elements (COEs) from an initial Earth-Centered Inertial (ECI) state vector.</li>
-      <li>Apply the Newton–Raphson method to solve Kepler’s Equation and generate a high-accuracy analytical reference solution over five orbital periods.</li>
-      <li>Implement MATLAB’s adaptive ode45 solver to numerically integrate the two-body equations of motion using error tolerances of 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.</li>
-      <li>Analyze how numerical solver tolerance affects orbital propagation accuracy and long-term solution stability.</li>
-      <li>Compare ECI position and velocity histories between analytical and numerical solutions.</li>
-      <li>Visualize the spacecraft trajectory in three-dimensional space.</li>
-      <li>Evaluate conservation of specific mechanical energy and specific angular momentum to quantify numerical drift and integration accuracy.</li>
+      <li>Semi-major axis (<em>a</em>)</li>
+      <li>Eccentricity (<em>e</em>)</li>
+      <li>Inclination (<em>i</em>)</li>
+      <li>Right Ascension of the Ascending Node (RAAN)</li>
+      <li>Argument of Periapsis (<em>ω</em>)</li>
+      <li>True Anomaly (<em>f</em>)</li>
     </ul>
+  </li>
 
-    <h2 class="section-title">Methodology</h2>
-    <div class="divider"></div>
+  <br>
 
-    <ul>
-      <li>The project began with an initial Earth-Centered Inertial (ECI) position and velocity state vector at <strong>t = 0</strong>.</li>
-      <li>Classical Orbital Elements (COEs) were computed from the initial state vectors.</li>
-      <li>The orbit was characterized using specific orbital energy, angular momentum, and eccentricity vectors.</li>
-    </ul>
+  <li>
+    The orbital elements were obtained using the spacecraft’s specific orbital energy,
+    angular momentum vector, and eccentricity vector derived directly from the ECI state vectors.
+  </li>
 
-    <div class="equation">
-      <img src="energy_eq.png">
-    </div>
+</ul>
 
-    <ul>
-      <li>A Direction Cosine Matrix (DCM) was used to transform between ECI and perifocal frames.</li>
-    </ul>
+<div style="text-align:center; margin: 25px 0;">
+  <img src="energy_eq.png" alt="Specific orbital energy equation" style="max-width:420px;">
+</div>
 
-    <div class="equation">
-      <img src="dcm_eq.png">
-    </div>
+<ul style="line-height: 1.8; padding-left: 22px;">
 
-    <ul>
-      <li>Keplerian propagation was performed using mean motion and orbital period relationships.</li>
-    </ul>
+  <li>
+    A Direction Cosine Matrix (DCM) was constructed to transform coordinates between the
+    ECI frame and the perifocal frame. The perifocal frame aligns directly with the orbit geometry,
+    simplifying orbital propagation calculations and coordinate transformations.
+  </li>
 
-    <div class="equation">
-      <img src="mean_motion_eq.png">
-    </div>
+</ul>
 
-    <ul>
-      <li>Kepler’s Equation was solved using Newton–Raphson iteration with the mean anomaly as the initial guess.</li>
-    </ul>
+<div style="text-align:center; margin: 25px 0;">
+  <img src="dcm_eq.png" alt="Direction cosine matrix equation" style="max-width:420px;">
+</div>
 
-    <div class="equation">
-      <img src="kepler_eq.png">
-    </div>
+<ul style="line-height: 1.8; padding-left: 22px;">
 
-    <ul>
-      <li>Perifocal state vectors were transformed back into ECI using the DCM.</li>
-      <li>ODE45 was used for numerical propagation with multiple tolerance levels.</li>
-    </ul>
+  <li>
+    Keplerian propagation was performed analytically over five orbital periods by first computing
+    the orbital period and mean motion from the semi-major axis.
+  </li>
 
-    <!-- ===================== RESULTS & DISCUSSION ===================== -->
+</ul>
 
-    <h2 class="section-title">Results and Discussion</h2>
-    <div class="divider"></div>
+<div style="text-align:center; margin: 25px 0;">
+  <img src="mean_motion_eq.png" alt="Mean motion equation" style="max-width:260px;">
+</div>
 
-    <ul>
-      <li>
-        The results compare analytical Kepler propagation with numerical ODE45 integration under different solver tolerances.
-      </li>
-    </ul>
+<ul style="line-height: 1.8; padding-left: 22px;">
 
-    <!-- STATE VECTOR -->
-    <div class="image-box">
-      <img src="state.jpg" style="width:75%;">
-      <p><em>Comparison of ECI State Vectors</em></p>
-    </div>
+  <li>
+    Kepler’s Equation was solved using the Newton–Raphson iterative method. The key aspect of
+    this approach was selecting an effective initial guess to ensure rapid convergence.
+  </li>
 
-    <p>
-      The state vector comparison shows strong agreement between analytical and numerical solutions.
-      The ODE45 solution with tighter tolerances closely follows the Keplerian reference.
-      At higher tolerances, small deviations accumulate over time, particularly in velocity components,
-      due to numerical integration error in solving the two-body equations of motion.
-    </p>
+  <li>
+    The mean anomaly was used as the initial guess for the eccentric anomaly because the two values
+    are generally close for elliptical orbits. This provided a stable starting point for the iteration process
+    and allowed the solution to converge efficiently within the specified tolerance.
+  </li>
 
-    <!-- SPECIFIC ENERGY -->
-    <div class="image-box">
-      <img src="SE.jpg" style="width:65%;">
-      <p><em>Specific Orbital Energy vs Time</em></p>
-    </div>
+</ul>
 
-    <p>
-      The specific orbital energy remains constant in the analytical solution, as expected for a conservative two-body system.
-      The numerical solution shows slight drift, especially for the $10^{-2}$ tolerance case.
-      As tolerance is tightened, energy conservation improves significantly, confirming higher numerical accuracy.
-    </p>
+<div style="text-align:center; margin: 25px 0;">
+  <img src="kepler_eq.png" alt="Kepler equation" style="max-width:320px;">
+</div>
 
-    <!-- SPECIFIC ANGULAR MOMENTUM -->
-    <div class="image-box">
-      <img src="SA.jpg" style="width:65%;">
-      <p><em>Specific Angular Momentum vs Time</em></p>
-    </div>
+<ul style="line-height: 1.8; padding-left: 22px;">
 
-    <p>
-      The magnitude of specific angular momentum remains nearly constant for the analytical solution.
-      Numerical integration introduces small variations, primarily in the loose tolerance case.
-      For tighter tolerances, angular momentum is well preserved, confirming correct implementation of the two-body dynamics.
-    </p>
+  <li>
+    Once the eccentric anomaly was obtained, it was converted into true anomaly and orbital radius
+    at each time step to generate the spacecraft trajectory throughout the propagation interval.
+  </li>
 
-    <p>
-      Overall, the results demonstrate that the Newton–Raphson Kepler solution provides a highly accurate reference,
-      while ODE45 performance strongly depends on tolerance selection.
-      Both energy and angular momentum conservation confirm the physical correctness of the propagation methods.
-    </p>
+  <li>
+    The propagated perifocal position and velocity vectors were transformed back into the ECI frame
+    using the DCM, producing the full three-dimensional orbit in inertial coordinates.
+  </li>
 
-  </div>
+  <li>
+    Numerical propagation was also performed using MATLAB’s <code>ode45</code> solver to integrate
+    the two-body equations of motion directly using tolerances of 10<sup>-2</sup>, 10<sup>-6</sup>, and 10<sup>-10</sup>.
+  </li>
 
-</body>
-</html>
+  <li>
+    Analytical and numerical solutions were compared by plotting ECI position histories,
+    velocity histories, and three-dimensional orbital trajectories.
+  </li>
+
+  <li>
+    Finally, specific orbital energy and specific angular momentum were evaluated throughout the
+    propagation to verify conservation properties and assess numerical integration accuracy.
+  </li>
+
+</ul>
+```
+
+### Recommended Equation Images to Add
+
+Export these equations from LaTeX as PNGs and place them in your repository:
+
+* `energy_eq.png`
+* `dcm_eq.png`
+* `mean_motion_eq.png`
+* `kepler_eq.png`
+
+Suggested equations:
+
+```latex
+\epsilon = \frac{v^2}{2} - \frac{\mu}{r}
+```
+
+```latex
+C_{NP} = R_3(\Omega) R_1(i) R_3(\omega)
+```
+
+```latex
+n = \sqrt{\frac{\mu}{a^3}}
+```
+
+```latex
+M = E - e\sin(E)
+```
