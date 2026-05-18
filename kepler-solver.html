@@ -266,6 +266,15 @@
   </div>
 
 </div>
+
+<div class="content-wrapper">
+  <p>
+    Based on the 3D trajectory plot, the numerical integration using ODE45 with a loose tolerance of 
+    <strong>10<sup>-2</sup></strong> (red dashed trajectory) physically drifts and shrinks inward relative to the analytical Keplerian orbit (blue solid trajectory). The periapsis, or point closest to Earth, is located near the bottom-right portion of the ellipse where the trajectory approaches approximately 
+    <em>Z = -0.5 × 10<sup>4</sup> km</em> and <em>X = 0.5 × 10<sup>4</sup> km</em>, while the apoapsis, or furthest point from Earth, occurs near the upper-left region where the orbit reaches approximately 
+    <em>Z = 2 × 10<sup>4</sup> km</em> and <em>X = -2 × 10<sup>4</sup> km</em>. The structural error becomes most visually apparent at the apoapsis because global truncation errors accumulate throughout the propagation. As the satellite passes through the high-velocity periapsis region, the loose solver tolerance permits excessively large adaptive time steps, causing ODE45 to inaccurately resolve the steep gravitational gradients and artificially lose orbital energy. This accumulated numerical error compounds over time, so by the time the spacecraft reaches apoapsis, the propagated trajectory significantly undershoots the true analytical orbit, producing the large geometric separation visible in the upper-left section of the plot.
+  </p>
+</div>
   
 </body>
 </html>
