@@ -108,7 +108,7 @@
 
 
 <h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center; font-family: sans-serif;">
-  Kepler’s Problem Solver & Orbital Propagation
+  Pitch Autopilot Controller Model
 </h3>
 
 <div class="project-container">
