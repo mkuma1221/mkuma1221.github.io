@@ -95,3 +95,49 @@
 </div>
 
 <div class="project-divider"></div>
+
+
+
+
+
+
+
+
+
+<div class="project-divider"></div>
+
+<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center; font-family: sans-serif;">
+  Kepler’s Problem Solver & Orbital Propagation
+</h3>
+
+<div class="project-container">
+
+  <div class="project-text">
+
+    <p style="color: #444; line-height: 1.6; margin-bottom: 8px; font-family: sans-serif;">
+      Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
+    </p>
+
+<a href="kepler-solver.html"
+   style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
+  View More Details
+</a>
+
+  </div>
+
+  <div class="project-media">
+
+    <img src="SAT.png"
+         alt="Satellite Trajectory"
+         style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
+
+    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
+      Comparison of Newton–Raphson to ODE45
+    </p>
+
+  </div>
+
+</div>
+
+<div class="project-divider"></div>
+
