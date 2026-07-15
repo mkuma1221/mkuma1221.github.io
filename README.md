@@ -23,14 +23,6 @@
     margin-bottom: 6px;
   }
 
-  
-
-  .page-header {
-    background-image: url('GAX.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-  }
-
   /* PROJECT LAYOUT */
   .project-container {
     display: flex;
