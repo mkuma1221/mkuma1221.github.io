@@ -45,6 +45,12 @@
   img, div, section {
     border: none !important;
   }
+
+  .main-content {
+  max-width: 1400px !important;
+  width: 92% !important;
+  margin: 0 auto !important;
+}
 </style>
 
 <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
