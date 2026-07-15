@@ -54,7 +54,7 @@
     background-color: #bfbfbf;
     margin: 8px 0;
   }
-
+  
   /* REMOVE EXTRA DEFAULT SPACING */
   h2, h3, p {
     margin-top: 0;
@@ -65,13 +65,47 @@
   }
 </style>
 
-<h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
-  About Me
-</h2>
+<div class="about-container">
 
-<p style="color: #444; line-height: 1.6; font-family: sans-serif; margin-bottom: 18px;">
-  Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with a focus on control systems and orbital mechanics. I have experience in both technical analysis and collaborative engineering projects, with a strong interest in applying aerospace engineering principles to real-world systems. Through my coursework and projects, I have developed a solid foundation in orbital mechanics, dynamics, and control systems, along with practical experience in MATLAB, numerical methods, system modeling, and spacecraft state propagation. These experiences have strengthened my ability to analyze complex engineering problems, develop computational solutions, and validate results through analytical and numerical techniques. This website serves as both a technical portfolio and a professional archive, documenting the methodologies, analysis, and engineering concepts developed throughout my projects while showcasing the technical experience and skills I have gained.
-</p>
+  <div class="about-text">
+
+    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
+      About Me
+    </h2>
+
+    <p style="color: #444; line-height: 1.6; font-family: sans-serif;">
+      Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with a strong interest in guidance, navigation, and control, orbital mechanics, and autonomous systems. Through academic and personal projects, I have developed experience in control system design, numerical methods, MATLAB/Simulink, and aerospace system modeling. This portfolio highlights the engineering projects, technical analyses, and computational tools I have developed throughout my studies.
+    </p>
+
+  </div>
+
+  <div class="about-skills">
+
+    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
+      Technical Skills
+    </h2>
+
+    <p style="margin-bottom:6px;"><strong>Programming</strong></p>
+    <p style="margin-top:0; color:#444;">
+      MATLAB • Python • C++
+    </p>
+
+    <p style="margin-bottom:6px;"><strong>Software</strong></p>
+    <p style="margin-top:0; color:#444;">
+      Simulink • FlightGear • Git • LaTeX
+    </p>
+
+    <p style="margin-bottom:6px;"><strong>Areas of Interest</strong></p>
+    <p style="margin-top:0; color:#444;">
+      Control Systems<br>
+      Orbital Mechanics<br>
+      State Estimation<br>
+      Numerical Methods
+    </p>
+
+  </div>
+
+</div>
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px; font-family: sans-serif;">
   Projects
