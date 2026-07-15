@@ -116,7 +116,7 @@
   <div class="project-text">
 
     <p style="color: #444; line-height: 1.6; margin-bottom: 8px; font-family: sans-serif;">
-      Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
+  Developed a closed-loop pitch autopilot in Simulink and validated its performance through real-time integration with the FlightGear flight simulator. The project implemented a PID controller with anti-windup, actuator dynamics, simulated aerodynamic disturbances, and Kalman filtering for robust state estimation, and evaluated controller performance using step, doublet, and square-wave reference inputs while visualizing the aircraft's 6-Degrees-of-Freedom (6DOF) response in a real-time 3D flight environment.
     </p>
 
 <a href="kepler-solver.html"
