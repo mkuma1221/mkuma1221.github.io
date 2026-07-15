@@ -133,7 +133,7 @@
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
 
     <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
-      Comparison of Newton–Raphson to ODE45
+     Closed-Loop Pitch Controller in Action   
     </p>
 
   </div>
