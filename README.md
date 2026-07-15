@@ -128,7 +128,7 @@
 
   <div class="project-media">
 
-    <img src="SAT.png"
+    <img src="cessna.png"
          alt="Satellite Trajectory"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
 
