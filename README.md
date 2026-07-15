@@ -5,6 +5,32 @@
     background-position: center !important;
   }
 
+  /* Make page wider */
+  .main-content {
+    max-width: 1400px !important;
+    width: 92% !important;
+    margin: 0 auto !important;
+  }
+
+  /* PROJECT LAYOUT */
+  .project-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
+    border: none !important;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  
+
+  .page-header {
+    background-image: url('GAX.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+
   /* PROJECT LAYOUT */
   .project-container {
     display: flex;
