@@ -101,14 +101,47 @@
 
 
 
+<div class="about-container">
+
+  <div class="about-text">
+
+    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
+      About Me
+    </h2>
+
+    <p style="color: #444; line-height: 1.6; font-family: sans-serif;">
+      Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with a strong interest in guidance, navigation, and control, orbital mechanics, and autonomous systems. Through academic and personal projects, I have developed experience in control system design, numerical methods, MATLAB/Simulink, and aerospace system modeling. This portfolio showcases the engineering projects, technical analyses, and computational tools I have developed throughout my studies.
+    </p>
+
+  </div>
+
+  <div class="about-skills">
+
+    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
+      Technical Skills
+    </h2>
+
+    <p style="margin-bottom:6px;"><strong>Programming</strong></p>
+    <p style="margin-top:0; color:#444;">MATLAB • Python • C++</p>
+
+    <p style="margin-bottom:6px;"><strong>Software</strong></p>
+    <p style="margin-top:0; color:#444;">Simulink • FlightGear • Git • LaTeX</p>
+
+    <p style="margin-bottom:6px;"><strong>Areas of Interest</strong></p>
+    <p style="margin-top:0; color:#444;">
+      Control Systems<br>
+      Orbital Mechanics<br>
+      State Estimation<br>
+      Numerical Methods
+    </p>
+
+  </div>
+
+</div>
+
+
+
 <div class="project-divider"></div>
-
-
-
-
-
-
-
 
 
 
