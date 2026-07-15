@@ -65,86 +65,41 @@
   }
 </style>
 
-<div class="about-container">
 
-  <div class="about-text">
 
-    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
-      About Me
-    </h2>
 
-    <p style="color: #444; line-height: 1.6; font-family: sans-serif;">
-      Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with a strong interest in guidance, navigation, and control, orbital mechanics, and autonomous systems. Through academic and personal projects, I have developed experience in control system design, numerical methods, MATLAB/Simulink, and aerospace system modeling. This portfolio highlights the engineering projects, technical analyses, and computational tools I have developed throughout my studies.
-    </p>
 
-  </div>
+/* ABOUT SECTION */
+.about-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+}
 
-  <div class="about-skills">
+.about-text {
+  width: 60%;
+}
 
-    <h2 style="color: #000080; font-size: 1.8em; margin-top: 20px; margin-bottom: 10px; font-family: sans-serif;">
-      Technical Skills
-    </h2>
+.about-skills {
+  width: 40%;
+}
 
-    <p style="margin-bottom:6px;"><strong>Programming</strong></p>
-    <p style="margin-top:0; color:#444;">
-      MATLAB • Python • C++
-    </p>
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+  }
 
-    <p style="margin-bottom:6px;"><strong>Software</strong></p>
-    <p style="margin-top:0; color:#444;">
-      Simulink • FlightGear • Git • LaTeX
-    </p>
+  .about-text,
+  .about-skills {
+    width: 100%;
+  }
+}
 
-    <p style="margin-bottom:6px;"><strong>Areas of Interest</strong></p>
-    <p style="margin-top:0; color:#444;">
-      Control Systems<br>
-      Orbital Mechanics<br>
-      State Estimation<br>
-      Numerical Methods
-    </p>
 
-  </div>
 
-</div>
-
-<h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px; font-family: sans-serif;">
-  Projects
-</h2>
-
-<div class="project-divider"></div>
-
-<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center; font-family: sans-serif;">
-  Kepler’s Problem Solver & Orbital Propagation
-</h3>
-
-<div class="project-container">
-
-  <div class="project-text">
-
-    <p style="color: #444; line-height: 1.6; margin-bottom: 8px; font-family: sans-serif;">
-      Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
-    </p>
-
-<a href="kepler-solver.html"
-   style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
-  View More Details
-</a>
-
-  </div>
-
-  <div class="project-media">
-
-    <img src="SAT.png"
-         alt="Satellite Trajectory"
-         style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
-
-    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
-      Comparison of Newton–Raphson to ODE45
-    </p>
-
-  </div>
-
-</div>
 
 <div class="project-divider"></div>
 
