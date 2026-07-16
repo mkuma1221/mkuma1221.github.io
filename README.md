@@ -89,7 +89,7 @@
 
       <p style="margin-bottom:6px;"><strong>Software</strong></p>
       <p style="margin-top:0; color:#444;">
-        Simulink • Solidworks • Ansys • FlightGear • STAR-CCM+ • Altium
+        Simulink • Stateflow • Solidworks • Ansys • FlightGear • STAR-CCM+ • Altium
       </p>
 
      
