@@ -81,13 +81,17 @@
                                 transform 0.2s ease, 
                                 box-shadow 0.2s ease; 
 
-}
-.project-button:hover { 
-  background-color: #007bff; 
-  color: white; 
-  transform: translateY(-2px); 
+
+.project-button:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  text-decoration: none;
 }
+
+
+  
 
 /* PROJECT BULLETS */
 .project-text ul {
