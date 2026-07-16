@@ -105,7 +105,7 @@
 
 
 
-
+<!-- PROJECTS SECTION  -->
 
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px; font-family: sans-serif;">
@@ -182,5 +182,5 @@
 
 </div>
 
-<div class="project-divider"></div>
+
 
