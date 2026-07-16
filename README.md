@@ -4,6 +4,7 @@
     background-size: cover !important;
     background-position: center !important;
   }
+  
 
   /* PROJECT IMAGES (ADDED NEW) */
 .project-media img {
@@ -11,6 +12,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+  
 
   /* PROJECT LAYOUT */
   .project-container {
@@ -23,12 +25,14 @@
     margin-bottom: 6px;
   }
 
+  
   .project-text {
     flex: 1 1 50%;
     min-width: 300px;
     border: none !important;
   }
 
+  
   .project-media {
     flex: 1 1 40%;
     min-width: 300px;
@@ -36,6 +40,7 @@
     border: none !important;
   }
 
+  
   /* DIVIDER (slightly bolder + tight spacing) */
   .project-divider {
     width: 100%;
@@ -44,21 +49,51 @@
     margin: 8px 0;
   }
 
+  
   /* REMOVE EXTRA DEFAULT SPACING */
   h2, h3, p {
     margin-top: 0;
   }
 
+  
   img, div, section {
     border: none !important;
   }
 
+  
   .main-content {
   max-width: 1400px !important;
   width: 92% !important;
   margin: 0 auto !important;
 }
+
+  
+
+/* GHOST BUTTON */
+.project-button {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 18px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  color: #007bff;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: 600;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.project-button:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
 </style>
+
 
 
 
@@ -133,8 +168,7 @@
       Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
     </p>
 
-<a href="kepler-solver.html"
-   style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
+<a href="kepler-solver.html" class="project-button">
   View More Details
 </a>
 
