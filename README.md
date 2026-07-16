@@ -92,13 +92,25 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
+
+
+/* PROJECT BULLETS */
+.project-text ul {
+  list-style-type: square;
+  padding-left: 22px;
+}
+
+.project-text li {
+  margin-bottom: 6px;
+}
+  
 </style>
 
 
 
 
 
-<!-- ABOUT ME SECTION AND SKILLS  -->
+     <!--              ABOUT ME SECTION AND SKILLS             -->
 
 
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
@@ -164,9 +176,12 @@
 
   <div class="project-text">
 
-    <p style="color: #444; line-height: 1.6; margin-bottom: 8px; font-family: sans-serif;">
-      Developed a MATLAB orbital mechanics simulation to solve Kepler’s equation using the Newton–Raphson iterative method. The project computed Classical Orbital Elements from given position, velocity, and gravitational parameter, verified results through conservation of orbital energy and angular momentum, and used Direction Cosine Matrices to transform states between perifocal and ECI reference frames.
-    </p>
+  <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px; font-family:sans-serif;">
+  <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
+  <li>Computed Classical Orbital Elements (COEs).</li>
+  <li>Verified conservation of orbital energy and angular momentum.</li>
+  <li>Transformed states between perifocal and ECI reference frames.</li>
+</ul>
 
 <a href="kepler-solver.html" class="project-button">
   View More Details
