@@ -108,41 +108,50 @@
 
 
 
-/* SKILL PILLS */
+  
+/* SKILL GROUPS */
 .skill-group {
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .skill-group h3 {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #555;
   font-family: sans-serif;
+  font-size: 1.05em;
+  font-weight: 600;
 }
 
+/* SKILL PILL CONTAINER */
 .skill-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
+/* INDIVIDUAL SKILL PILLS */
 .skill-pill {
   display: inline-block;
-  padding: 6px 12px;
-  background: #f8f9fa;
+  padding: 4px 10px;
+  background-color: #f8f9fa;
   border: 1px solid #d9dee3;
-  border-radius: 16px;
+  border-radius: 14px;
   font-family: sans-serif;
-  font-size: 0.9em;
+  font-size: 0.85em;
   color: #444;
-  transition: all 0.2s ease;
+  line-height: 1.2;
+  transition: background-color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
 }
 
 .skill-pill:hover {
   background-color: #e9f2ff;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
-  
+
+
 </style>
 
 
@@ -168,14 +177,15 @@
 
     </td>
 
-   <!-- RIGHT COLUMN (40%) -->
-    <td style="width:40%; vertical-align:top; border:none;">
+  <!-- RIGHT COLUMN (40%) -->
+<td style="width:40%; vertical-align:top; border:none;">
 
-    <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:18px; font-family:sans-serif;">
+  <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:18px; font-family:sans-serif;">
     Technical Skills
-    </h2>
+  </h2>
 
-    <div class="skill-group">
+  <div class="skill-group">
+
     <h3>Programming</h3>
 
     <div class="skill-pills">
@@ -183,9 +193,11 @@
       <span class="skill-pill">Python</span>
       <span class="skill-pill">C++</span>
     </div>
-    </div>
 
-    <div class="skill-group">
+  </div>
+
+  <div class="skill-group">
+
     <h3>Software</h3>
 
     <div class="skill-pills">
@@ -197,12 +209,13 @@
       <span class="skill-pill">STAR-CCM+</span>
       <span class="skill-pill">Altium</span>
     </div>
-    </div>
 
-    </td>
+  </div>
 
-    </tr>
-    </table>
+</td>
+
+</tr>
+</table>
 
 
 
