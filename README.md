@@ -68,25 +68,28 @@
 }
 
   
-/* Sleek Solid Button */
+/* GHOST BUTTON */
 .project-button {
-  background-color: #2b6cb0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 18px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  color: #007bff;
+  text-decoration: none;
   font-family: sans-serif;
   font-weight: 600;
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
 }
 
 .project-button:hover {
-  background-color: #1a365d;
+  background-color: #007bff;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
 /* PROJECT BULLETS */
