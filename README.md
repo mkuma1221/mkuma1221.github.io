@@ -69,23 +69,25 @@
 
   
 /* Sleek Solid Button */
-.btn-primary {
-  background-color: #2b6cb0; /* Deep aerospace blue */
+.project-button {
+  background-color: #2b6cb0;
   color: white;
   padding: 10px 20px;
   border-radius: 6px;
   border: none;
+  font-family: sans-serif;
   font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
-.btn-primary:hover {
+.project-button:hover {
   background-color: #1a365d;
-  transform: translateY(-2px); /* Subtle lift effect */
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
 
 /* PROJECT BULLETS */
 .project-text ul {
