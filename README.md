@@ -4,14 +4,6 @@
     background-size: cover !important;
     background-position: center !important;
   }
-
-
-.hero-banner {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('your-space-image.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
   
 
   /* PROJECT IMAGES (ADDED NEW) */
