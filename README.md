@@ -68,27 +68,30 @@
 }
 
   
-/* GHOST BUTTON */ .project-button { 
-  display: inline-block; 
-  margin-top: 8px; 
-  padding: 10px 18px; 
-  border: 2px solid #007bff; 
-  border-radius: 8px; color: #007bff; 
-  text-decoration: none; 
-  font-family: sans-serif; 
-  font-weight: 600; transition: background-color 0.2s ease, 
-                                color 0.2s ease, 
-                                transform 0.2s ease, 
-                                box-shadow 0.2s ease; 
+/* GHOST BUTTON */
+.project-button {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 18px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  color: #007bff;
+  text-decoration: none !important;
+  font-family: sans-serif;
+  font-weight: 600;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
 }
 
-.project-button:hover { 
-  background-color: #007bff; 
-  color: white; 
-  transform: translateY(-2px); 
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); 
+.project-button:hover {
+  background-color: #007bff;
+  color: white;
+  text-decoration: none !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
-
 
   
 
