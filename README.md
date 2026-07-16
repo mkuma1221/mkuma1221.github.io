@@ -202,11 +202,9 @@
       Developed a closed-loop pitch autopilot in Simulink and validated its performance through real-time integration with the FlightGear flight simulator. The project implemented a PID controller with anti-windup, actuator dynamics, simulated aerodynamic disturbances, and Kalman filtering for robust state estimation, and evaluated controller performance using step, doublet, and square-wave reference inputs while visualizing the aircraft's 6-Degrees-of-Freedom (6DOF) response in a real-time 3D flight environment.
     </p>
 
-<a href="kepler-solver.html"
-   style="font-family: sans-serif; text-decoration: none; color: #007bff; font-weight: bold;">
+<a href="kepler-solver.html" class="project-button">
   View More Details
 </a>
-
   </div>
 
   <div class="project-media">
