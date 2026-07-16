@@ -87,7 +87,6 @@
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-  text-decoration: none;
 }
 
 
