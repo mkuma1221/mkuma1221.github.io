@@ -55,8 +55,10 @@
 
 
 
-<h1>Welcome to My Website</h1>
- 
+
+<!-- ABOUT ME SECTION AND SKILLS  -->
+
+
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
   <tr>
 
