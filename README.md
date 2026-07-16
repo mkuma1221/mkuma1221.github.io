@@ -87,7 +87,7 @@
 
       <p style="margin-bottom:6px;"><strong>Software</strong></p>
       <p style="margin-top:0; color:#444;">
-        Simulink • FlightGear • Git • LaTeX
+        Simulink • Solidworks • Ansys • FlightGear
       </p>
 
       <p style="margin-bottom:6px;"><strong>Areas</strong></p>
