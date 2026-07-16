@@ -145,6 +145,11 @@
     <img src="SAT.png"
      alt="Satellite Trajectory"
      style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
+
+         <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
+      Comparison of Newton-Raphson to ODE45
+    </p>
+    
   </div>
 
 </div>
