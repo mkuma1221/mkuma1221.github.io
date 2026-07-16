@@ -54,8 +54,9 @@
 </style>
 
 
- /* ABOUT ME SECTION */
 
+<h1>Welcome to My Website</h1>
+ 
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
   <tr>
 
