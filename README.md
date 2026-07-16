@@ -54,8 +54,7 @@
 </style>
 
 
-
-
+ /* ABOUT ME SECTION */
 
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
   <tr>
