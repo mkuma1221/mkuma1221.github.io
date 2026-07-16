@@ -176,12 +176,12 @@
 
   <div class="project-text">
 
-  <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px; font-family:sans-serif;">
-  <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
-  <li>Computed Classical Orbital Elements (COEs).</li>
-  <li>Verified conservation of orbital energy and angular momentum.</li>
-  <li>Transformed states between perifocal and ECI reference frames.</li>
-</ul>
+    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px; font-family:sans-serif;">
+    <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
+    <li>Computed Classical Orbital Elements (COEs).</li>
+    <li>Verified conservation of orbital energy and angular momentum.</li>
+    <li>Transformed states between perifocal and ECI reference frames.</li>
+    </ul>
 
 <a href="kepler-solver.html" class="project-button">
   View More Details
@@ -213,9 +213,12 @@
 
   <div class="project-text">
 
-    <p style="color: #444; line-height: 1.6; margin-bottom: 8px; font-family: sans-serif;">
-      Developed a closed-loop pitch autopilot in Simulink and validated its performance through real-time integration with the FlightGear flight simulator. The project implemented a PID controller with anti-windup, actuator dynamics, simulated aerodynamic disturbances, and Kalman filtering for robust state estimation, and evaluated controller performance using step, doublet, and square-wave reference inputs while visualizing the aircraft's 6-Degrees-of-Freedom (6DOF) response in a real-time 3D flight environment.
-    </p>
+    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; font-family:sans-serif;">
+    <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
+    <li>Implemented Kalman filtering for robust state estimation.</li>
+    <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
+    <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
+    </ul>
 
 <a href="kepler-solver.html" class="project-button">
   View More Details
