@@ -127,16 +127,14 @@
 
 .skill-pill {
   display: inline-block;
-  padding: 8px 14px;
-  background-color: #f4f6f8;
+  padding: 6px 12px;
+  background: #f8f9fa;
   border: 1px solid #d9dee3;
-  border-radius: 20px;
+  border-radius: 16px;
   font-family: sans-serif;
-  font-size: 0.95em;
+  font-size: 0.9em;
   color: #444;
-  transition: background-color 0.2s ease,
-              transform 0.2s ease,
-              box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .skill-pill:hover {
