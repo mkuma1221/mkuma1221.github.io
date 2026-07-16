@@ -5,6 +5,13 @@
     background-position: center !important;
   }
 
+  /* PROJECT IMAGES (ADDED NEW) */
+.project-media img {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
   /* PROJECT LAYOUT */
   .project-container {
     display: flex;
@@ -105,7 +112,7 @@
 
 
 
-<!-- PROJECTS SECTION  -->
+<!--     PROJECTS       SECTION  -->
 
 
 <h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px; font-family: sans-serif;">
@@ -136,13 +143,8 @@
   <div class="project-media">
 
     <img src="SAT.png"
-         alt="Satellite Trajectory"
-         style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
-
-    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
-      Comparison of Newton–Raphson to ODE45
-    </p>
-
+     alt="Satellite Trajectory"
+     style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
   </div>
 
 </div>
