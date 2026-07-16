@@ -104,6 +104,46 @@
 .project-text li {
   margin-bottom: 6px;
 }
+
+
+
+
+/* SKILL PILLS */
+.skill-group {
+  margin-bottom: 24px;
+}
+
+.skill-group h3 {
+  margin-bottom: 10px;
+  color: #555;
+  font-family: sans-serif;
+}
+
+.skill-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-pill {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #f4f6f8;
+  border: 1px solid #d9dee3;
+  border-radius: 20px;
+  font-family: sans-serif;
+  font-size: 0.95em;
+  color: #444;
+  transition: background-color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.skill-pill:hover {
+  background-color: #e9f2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
   
 </style>
 
@@ -130,29 +170,41 @@
 
     </td>
 
-    <!-- RIGHT COLUMN (40%) -->
+   <!-- RIGHT COLUMN (40%) -->
     <td style="width:40%; vertical-align:top; border:none;">
 
-      <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:10px; font-family:sans-serif;">
-        Technical Skills
-      </h2>
+    <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:18px; font-family:sans-serif;">
+    Technical Skills
+    </h2>
 
-      <p style="margin-bottom:6px;"><strong>Programming</strong></p>
-      <p style="margin-top:0; color:#444;">
-        MATLAB • Python • C++
-      </p>
+    <div class="skill-group">
+    <h3>Programming</h3>
 
-      <p style="margin-bottom:6px;"><strong>Software</strong></p>
-      <p style="margin-top:0; color:#444;">
-        Simulink • Stateflow • Solidworks • Ansys • FlightGear • STAR-CCM+ • Altium
-      </p>
+    <div class="skill-pills">
+      <span class="skill-pill">MATLAB</span>
+      <span class="skill-pill">Python</span>
+      <span class="skill-pill">C++</span>
+    </div>
+    </div>
 
-     
+    <div class="skill-group">
+    <h3>Software</h3>
+
+    <div class="skill-pills">
+      <span class="skill-pill">Simulink</span>
+      <span class="skill-pill">Stateflow</span>
+      <span class="skill-pill">SolidWorks</span>
+      <span class="skill-pill">Ansys</span>
+      <span class="skill-pill">FlightGear</span>
+      <span class="skill-pill">STAR-CCM+</span>
+      <span class="skill-pill">Altium</span>
+    </div>
+    </div>
 
     </td>
 
-  </tr>
-</table>
+    </tr>
+    </table>
 
 
 
