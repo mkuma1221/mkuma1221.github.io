@@ -89,13 +89,7 @@
         Simulink • Solidworks • Ansys • FlightGear
       </p>
 
-      <p style="margin-bottom:6px;"><strong>Areas</strong></p>
-      <p style="margin-top:0; color:#444;">
-        Control Systems<br>
-        Orbital Mechanics<br>
-        State Estimation<br>
-        Numerical Methods
-      </p>
+     
 
     </td>
 
