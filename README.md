@@ -291,7 +291,7 @@
 
   <div class="project-media">
 
-     <img src="cessna.png"
+     <img src="images/cessna.png"
      alt="Closed-Loop Pitch Controller"
      style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
 
