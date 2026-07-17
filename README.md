@@ -1,6 +1,6 @@
 <style>
   .page-header {
-    background-image: url('GAX.jpg') !important;
+    background-image: url('images/GAX.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
   }
