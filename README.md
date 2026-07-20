@@ -284,7 +284,7 @@
     <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
     </ul>
 
-<a href="kepler-solver.html" class="project-button">
+<a href="pitch-controller.html" class="project-button">
   View More Details
 </a>
   </div>
