@@ -14,16 +14,49 @@
     }
 
     .page-header {
-      /* Added dark overlay gradient and background positioning */
+      position: relative; /* Enables absolute positioning for the home button */
       background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('images/citation550.jpg');
       background-size: cover;
       background-position: center;
-      padding: 80px 20px; /* Gives the header enough height to show the jet properly */
+      padding: 80px 20px;
       text-align: center;
     }
 
+    /* --- Home Button Styling --- */
+    .home-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      backdrop-filter: blur(5px); /* Creates a clean frosted-glass look */
+      transition: all 0.2s ease-in-out;
+    }
+
+    .home-btn:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .home-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+    /* -------------------------- */
+
     .page-header h1 {
-      color: #ffffff; /* Ensures the header text is clear and readable */
+      color: #ffffff;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       margin: 0;
     }
@@ -83,6 +116,13 @@
 <body>
 
   <header class="page-header">
+    <a href="index.html" class="home-btn">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      Home
+    </a>
+
     <div class="content-wrapper">
       <h1>Pitch Controller Model</h1>
     </div>
