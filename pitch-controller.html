@@ -1,13 +1,9 @@
----
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Kepler Solver Project</title>
 
-  <!-- Cayman theme styling -->
   <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
 
   <style>
@@ -18,9 +14,18 @@
     }
 
     .page-header {
-      background-image: url('images/citation550.jpg');
+      /* Added dark overlay gradient and background positioning */
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('images/citation550.jpg');
       background-size: cover;
       background-position: center;
+      padding: 80px 20px; /* Gives the header enough height to show the jet properly */
+      text-align: center;
+    }
+
+    .page-header h1 {
+      color: #ffffff; /* Ensures the header text is clear and readable */
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      margin: 0;
     }
 
     .content-wrapper {
@@ -83,6 +88,5 @@
     </div>
   </header>
 
-    
 </body>
 </html>
