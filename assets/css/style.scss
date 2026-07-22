@@ -5,16 +5,16 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg');
   background-size: cover;
   background-position: center;
-  
+
   /* REDUCED PADDING: Shrunk from 8rem to 3.5rem to show less of the galaxy image */
   padding: 3.5rem 2rem !important; 
-  
+
   /* Sets the main title color */
   color: #F5F5F5 !important; 
-  
+
   /* Strong shadows for maximum readability */
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
-  
+
   text-align: center;
 }
 
@@ -43,6 +43,11 @@
 
 .project-tagline a:hover {
   text-decoration: underline;
+}
+
+/* Align inline SVG icons smoothly with text */
+.project-tagline svg {
+  vertical-align: -0.15em !important;
 }
 
 /* "About Me" and "Project" headers below the banner */
