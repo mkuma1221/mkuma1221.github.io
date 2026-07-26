@@ -35,6 +35,7 @@
   color: #F5F5F5 !important; 
   opacity: 1 !important;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+  border-bottom: none !important; /* Removes horizontal line under tagline */
 }
 
 /* Ensures links in the tagline match */
@@ -53,8 +54,8 @@
   vertical-align: -0.15em !important;
 }
 
-/* "About Me" and "Project" headers below the banner */
-h2 {
+/* "About Me" and "Technical Skills" headers below the banner */
+.main-content h2 {
   color: #1B365D; 
   border-bottom: 1px solid #eeeeee;
   margin-top: 3rem;
