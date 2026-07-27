@@ -54,10 +54,10 @@
   vertical-align: -0.15em !important;
 }
 
-/* "About Me" and "Technical Skills" headers below the banner */
+/* "About Me", "Technical Skills", and "Projects" headers */
 .main-content h2 {
   color: #1B365D; 
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: none !important; /* Removes faint border lines under content headings */
   margin-top: 3rem;
 }
 
