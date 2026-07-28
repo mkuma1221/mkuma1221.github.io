@@ -3,11 +3,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* 1. FORCE GLOBAL FONTS OVER EVERYTHING */
+  /* 1. GLOBAL FONT OVERRIDES */
   body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    color: #334155 !important;
+    color: #334155;
     line-height: 1.65;
+  }
+
+  /* Specific targeting for the About Me paragraph to force Inter */
+  .about-text, .about-text p {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    color: #334155 !important;
+    font-size: 0.98em !important;
+    line-height: 1.65 !important;
   }
 
   /* Modern Headings Style & Color */
@@ -23,22 +31,31 @@
     background-position: center !important;
   }
 
-  /* PROJECT IMAGES */
-  .project-media img {
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* --- SUBTLE CARD STYLE FOR PROJECTS --- */
+  .project-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
-  /* PROJECT LAYOUT */
+  .project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1 !important;
+  }
+
+  /* PROJECT LAYOUT INSIDE CARD */
   .project-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 24px;
     align-items: flex-start;
     border: none !important;
-    margin-top: 12px;
-    margin-bottom: 24px;
   }
 
   .project-text {
@@ -54,16 +71,12 @@
     border: none !important;
   }
 
-  /* --- MODERN DIVIDER OPTION: FADED GRADIENT LINE --- */
-  .project-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(226, 232, 240, 0) 0%, #cbd5e1 50%, rgba(226, 232, 240, 0) 100%);
-    margin: 28px 0;
-    border: none !important;
+  .project-media img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
-  /* SPACING */
+  /* SPACING & CLEANUP */
   h2, h3, p {
     margin-top: 0;
   }
@@ -190,13 +203,13 @@
   .skill-pill.altium     { --glow-color: #cc9900; }
 </style>
 
-<table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
+<table style="width:100%; border-collapse:collapse; border:none; margin-bottom:30px;">
   <tr>
-    <td style="width:60%; vertical-align:top; padding-right:35px; border:none;">
+    <td style="width:60%; vertical-align:top; padding-right:35px; border:none;" class="about-text">
       <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
         About Me
       </h2>
-      <p style="margin-bottom:0; font-size: 0.98em;">
+      <p style="margin-bottom:0;">
         Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
       </p>
     </td>
@@ -231,66 +244,66 @@
   </tr>
 </table>
 
-<h2 style="font-size: 1.8em; margin-bottom: 6px;">
+<h2 style="font-size: 1.8em; margin-bottom: 12px;">
   Projects
 </h2>
 
-<div class="project-divider"></div>
+<div class="project-card">
+  <h3 style="font-size: 1.4em; margin-bottom: 16px; text-align: center;">
+    Kepler’s Problem Solver & Orbital Propagation
+  </h3>
 
-<h3 style="font-size: 1.4em; margin-bottom: 12px; text-align: center;">
-  Kepler’s Problem Solver & Orbital Propagation
-</h3>
+  <div class="project-container">
+    <div class="project-text">
+      <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
+        <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
+        <li>Computed Classical Orbital Elements (COEs).</li>
+        <li>Verified conservation of orbital energy and angular momentum.</li>
+        <li>Transformed states between perifocal and ECI reference frames.</li>
+      </ul>
 
-<div class="project-container">
-  <div class="project-text">
-    <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
-      <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
-      <li>Computed Classical Orbital Elements (COEs).</li>
-      <li>Verified conservation of orbital energy and angular momentum.</li>
-      <li>Transformed states between perifocal and ECI reference frames.</li>
-    </ul>
+      <a href="kepler-solver.html" class="project-button">
+        View More Details
+      </a>
+    </div>
 
-    <a href="kepler-solver.html" class="project-button">
-      View More Details
-    </a>
-  </div>
-
-  <div class="project-media">
-    <img src="images/SAT.png"
-         alt="Satellite Trajectory"
-         style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
-      Comparison of Newton-Raphson to ODE45
-    </p>
+    <div class="project-media">
+      <img src="images/SAT.png"
+           alt="Satellite Trajectory"
+           style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
+      <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
+        Comparison of Newton-Raphson to ODE45
+      </p>
+    </div>
   </div>
 </div>
 
-<div class="project-divider"></div>
+<div class="project-card">
+  <h3 style="font-size: 1.4em; margin-bottom: 16px; text-align: center;">
+    Pitch Autopilot Controller Model
+  </h3>
 
-<h3 style="font-size: 1.4em; margin-bottom: 12px; text-align: center;">
-  Pitch Autopilot Controller Model
-</h3>
+  <div class="project-container">
+    <div class="project-text">
+      <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
+        <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
+        <li>Implemented Kalman filtering for robust state estimation.</li>
+        <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
+        <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
+      </ul>
 
-<div class="project-container">
-  <div class="project-text">
-    <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
-      <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
-      <li>Implemented Kalman filtering for robust state estimation.</li>
-      <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
-      <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
-    </ul>
+      <a href="pitch-controller.html" class="project-button">
+        View More Details
+      </a>
+    </div>
 
-    <a href="pitch-controller.html" class="project-button">
-      View More Details
-    </a>
-  </div>
-
-  <div class="project-media">
-    <img src="images/cessna.png"
-         alt="Closed-Loop Pitch Controller"
-         style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
-      Closed-Loop Pitch Controller in Action
-    </p>
+    <div class="project-media">
+      <img src="images/cessna.png"
+           alt="Closed-Loop Pitch Controller"
+           style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
+      <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
+        Closed-Loop Pitch Controller in Action
+      </p>
+    </div>
   </div>
 </div>
