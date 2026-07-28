@@ -116,7 +116,7 @@
     gap: 8px;
   }
 
-  /* INDIVIDUAL SKILL PILLS & ANIMATIONS */
+  /* INDIVIDUAL SKILL PILLS */
   .skill-pill {
     display: inline-block;
     padding: 4px 10px;
@@ -128,19 +128,16 @@
     color: #444;
     line-height: 1.2;
     transition: all 0.3s ease;
-    animation: pillGlowCycle 10s infinite ease-in-out;
+    cursor: pointer;
   }
 
-  /* Keyframe loop definition */
-  @keyframes pillGlowCycle {
-    0%, 100% {
-      background-color: #f8f9fa;
-      border-color: #d9dee3;
-      box-shadow: none;
-      transform: translateY(0);
-      color: #444;
-    }
-    3%, 10% {
+  /* Hover glow animation (lasts 1.5 seconds then fades away) */
+  .skill-pill:hover {
+    animation: temporaryGlow 1.5s ease-out forwards;
+  }
+
+  @keyframes temporaryGlow {
+    0% {
       background-color: #ffffff;
       border-color: var(--glow-color);
       box-shadow: 0 0 10px var(--glow-color);
@@ -148,73 +145,35 @@
       color: var(--glow-color);
       font-weight: 600;
     }
-    15% {
+    60% {
+      background-color: #ffffff;
+      border-color: var(--glow-color);
+      box-shadow: 0 0 10px var(--glow-color);
+      transform: translateY(-2px);
+      color: var(--glow-color);
+      font-weight: 600;
+    }
+    100% {
       background-color: #f8f9fa;
       border-color: #d9dee3;
       box-shadow: none;
       transform: translateY(0);
       color: #444;
+      font-weight: normal;
     }
   }
 
-  /* Assign Brand-Specific Glow Colors & Staggered Delays (Total 10 items = 1.0s step over 10s loop) */
-  .skill-pill.matlab {
-    --glow-color: #e05206; /* MATLAB Orange */
-    animation-delay: 0.0s;
-  }
-
-  .skill-pill.python {
-    --glow-color: #306998; /* Python Blue */
-    animation-delay: 1.0s;
-  }
-
-  .skill-pill.cpp {
-    --glow-color: #00599c; /* C++ Dark Blue */
-    animation-delay: 2.0s;
-  }
-
-  .skill-pill.simulink {
-    --glow-color: #0076a8; /* Simulink Cyan/Blue */
-    animation-delay: 3.0s;
-  }
-
-  .skill-pill.stateflow {
-    --glow-color: #008080; /* Teal/Green */
-    animation-delay: 4.0s;
-  }
-
-  .skill-pill.solidworks {
-    --glow-color: #d12727; /* SolidWorks Red */
-    animation-delay: 5.0s;
-  }
-
-  .skill-pill.ansys {
-    --glow-color: #e6a100; /* Ansys Gold */
-    animation-delay: 6.0s;
-  }
-
-  .skill-pill.flightgear {
-    --glow-color: #009999; /* FlightGear Teal */
-    animation-delay: 7.0s;
-  }
-
-  .skill-pill.starccm {
-    --glow-color: #00a3a6; /* Siemens Teal */
-    animation-delay: 8.0s;
-  }
-
-  .skill-pill.altium {
-    --glow-color: #cc9900; /* Altium Gold */
-    animation-delay: 9.0s;
-  }
-
-  /* Manual Hover Override */
-  .skill-pill:hover {
-    animation: none;
-    border-color: var(--glow-color, #007bff);
-    box-shadow: 0 0 10px var(--glow-color, rgba(0, 123, 255, 0.5));
-    transform: translateY(-2px);
-  }
+  /* Brand-Specific Glow Colors */
+  .skill-pill.matlab     { --glow-color: #e05206; } /* MATLAB Orange */
+  .skill-pill.python     { --glow-color: #306998; } /* Python Blue */
+  .skill-pill.cpp        { --glow-color: #00599c; } /* C++ Dark Blue */
+  .skill-pill.simulink   { --glow-color: #0076a8; } /* Simulink Blue */
+  .skill-pill.stateflow  { --glow-color: #008080; } /* Stateflow Teal */
+  .skill-pill.solidworks { --glow-color: #d12727; } /* SolidWorks Red */
+  .skill-pill.ansys      { --glow-color: #e6a100; } /* Ansys Gold */
+  .skill-pill.flightgear { --glow-color: #009999; } /* FlightGear Teal */
+  .skill-pill.starccm    { --glow-color: #00a3a6; } /* Siemens Teal */
+  .skill-pill.altium     { --glow-color: #cc9900; } /* Altium Gold */
 </style>
 
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
