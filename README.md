@@ -6,12 +6,15 @@
   /* GLOBAL FONT & HEADER COLOR CONFIGURATION */
   body, p, li, a, span, button {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    color: #334155; /* Refined Slate Gray for smooth reading */
+    line-height: 1.65;
+    letter-spacing: -0.011em;
   }
 
   /* Modern Headings Style & Color */
   h1, h2, h3, h4 {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: #1e293b !important; /* Deep Slate Blue/Charcoal (replaces navy) */
+    color: #1e293b !important; /* Deep Slate Blue/Charcoal */
   }
 
   .page-header {
@@ -23,7 +26,7 @@
   /* PROJECT IMAGES */
   .project-media img {
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -34,8 +37,8 @@
     gap: 30px;
     align-items: flex-start;
     border: none !important;
-    margin-top: 6px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .project-text {
@@ -51,12 +54,13 @@
     border: none !important;
   }
 
-  /* DIVIDER */
+  /* UPGRADED MODERN GRADIENT DIVIDER */
   .project-divider {
     width: 100%;
     height: 2px;
-    background-color: #e2e8f0;
-    margin: 12px 0;
+    background: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 70%, rgba(226, 232, 240, 0) 100%);
+    margin: 16px 0 24px 0;
+    border: none !important;
   }
 
   /* SPACING & TYPOGRAPHY */
@@ -87,7 +91,7 @@
   /* GHOST BUTTON */
   .project-button {
     display: inline-block;
-    margin-top: 8px;
+    margin-top: 10px;
     padding: 10px 18px;
     border: 2px solid #2563eb;
     border-radius: 8px;
@@ -116,7 +120,9 @@
   }
 
   .project-text li {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    color: #475569;
+    font-weight: 450;
   }
 
   /* SKILL GROUPS */
@@ -201,10 +207,10 @@
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
   <tr>
     <td style="width:60%; vertical-align:top; padding-right:35px; border:none;">
-      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:10px;">
+      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
         About Me
       </h2>
-      <p style="color:#475569; line-height:1.6; margin-bottom:0;">
+      <p style="color:#334155; font-size: 0.98em; margin-bottom:0;">
         Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
       </p>
     </td>
@@ -245,13 +251,13 @@
 
 <div class="project-divider"></div>
 
-<h3 style="font-size: 1.4em; margin-bottom: 10px; text-align: center;">
+<h3 style="font-size: 1.4em; margin-bottom: 12px; text-align: center;">
   Kepler’s Problem Solver & Orbital Propagation
 </h3>
 
 <div class="project-container">
   <div class="project-text">
-    <ul style="color:#475569; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px;">
+    <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
       <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
       <li>Computed Classical Orbital Elements (COEs).</li>
       <li>Verified conservation of orbital energy and angular momentum.</li>
@@ -267,7 +273,7 @@
     <img src="images/SAT.png"
          alt="Satellite Trajectory"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #64748b; margin-top: 8px; font-style: italic;">
       Comparison of Newton-Raphson to ODE45
     </p>
   </div>
@@ -275,13 +281,13 @@
 
 <div class="project-divider"></div>
 
-<h3 style="font-size: 1.4em; margin-bottom: 10px; text-align: center;">
+<h3 style="font-size: 1.4em; margin-bottom: 12px; text-align: center;">
   Pitch Autopilot Controller Model
 </h3>
 
 <div class="project-container">
   <div class="project-text">
-    <ul style="color:#475569; line-height:1.6; margin-top:6px; margin-bottom:12px;">
+    <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
       <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
       <li>Implemented Kalman filtering for robust state estimation.</li>
       <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
@@ -297,7 +303,7 @@
     <img src="images/cessna.png"
          alt="Closed-Loop Pitch Controller"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #64748b; margin-top: 8px; font-style: italic;">
       Closed-Loop Pitch Controller in Action
     </p>
   </div>
