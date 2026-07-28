@@ -3,18 +3,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* GLOBAL FONT & HEADER COLOR CONFIGURATION */
-  body, p, li, a, span, button {
+  /* 1. FORCE GLOBAL FONTS OVER EVERYTHING */
+  body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    color: #334155; /* Refined Slate Gray for smooth reading */
+    color: #334155 !important;
     line-height: 1.65;
-    letter-spacing: -0.011em;
   }
 
   /* Modern Headings Style & Color */
   h1, h2, h3, h4 {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: #1e293b !important; /* Deep Slate Blue/Charcoal */
+    color: #1e293b !important;
+    font-weight: 700 !important;
   }
 
   .page-header {
@@ -37,8 +37,8 @@
     gap: 30px;
     align-items: flex-start;
     border: none !important;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 12px;
+    margin-bottom: 24px;
   }
 
   .project-text {
@@ -54,28 +54,18 @@
     border: none !important;
   }
 
-  /* UPGRADED MODERN GRADIENT DIVIDER */
+  /* --- MODERN DIVIDER OPTION: FADED GRADIENT LINE --- */
   .project-divider {
     width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 70%, rgba(226, 232, 240, 0) 100%);
-    margin: 16px 0 24px 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(226, 232, 240, 0) 0%, #cbd5e1 50%, rgba(226, 232, 240, 0) 100%);
+    margin: 28px 0;
     border: none !important;
   }
 
-  /* SPACING & TYPOGRAPHY */
+  /* SPACING */
   h2, h3, p {
     margin-top: 0;
-  }
-
-  h2 {
-    font-weight: 700;
-    letter-spacing: -0.025em;
-  }
-
-  h3 {
-    font-weight: 600;
-    letter-spacing: -0.015em;
   }
 
   img, div, section {
@@ -95,19 +85,16 @@
     padding: 10px 18px;
     border: 2px solid #2563eb;
     border-radius: 8px;
-    color: #2563eb;
+    color: #2563eb !important;
     text-decoration: none !important;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 0.9em;
-    transition: background-color 0.2s ease,
-                color 0.2s ease,
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   .project-button:hover {
     background-color: #2563eb;
-    color: white;
+    color: #ffffff !important;
     text-decoration: none !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
@@ -121,8 +108,7 @@
 
   .project-text li {
     margin-bottom: 8px;
-    color: #475569;
-    font-weight: 450;
+    color: #475569 !important;
   }
 
   /* SKILL GROUPS */
@@ -132,9 +118,9 @@
 
   .skill-group h3 {
     margin-bottom: 8px;
-    color: #475569;
+    color: #475569 !important;
     font-size: 1.05em;
-    font-weight: 600;
+    font-weight: 600 !important;
   }
 
   /* SKILL PILL CONTAINER */
@@ -152,8 +138,8 @@
     border: 1px solid #cbd5e1;
     border-radius: 14px;
     font-size: 0.85em;
-    font-weight: 500;
-    color: #334155;
+    font-weight: 500 !important;
+    color: #334155 !important;
     line-height: 1.2;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -170,38 +156,38 @@
       border-color: var(--glow-color);
       box-shadow: 0 0 10px var(--glow-color);
       transform: translateY(-2px);
-      color: var(--glow-color);
-      font-weight: 600;
+      color: var(--glow-color) !important;
+      font-weight: 600 !important;
     }
     60% {
       background-color: #ffffff;
       border-color: var(--glow-color);
       box-shadow: 0 0 10px var(--glow-color);
       transform: translateY(-2px);
-      color: var(--glow-color);
-      font-weight: 600;
+      color: var(--glow-color) !important;
+      font-weight: 600 !important;
     }
     100% {
       background-color: #f8fafc;
       border-color: #cbd5e1;
       box-shadow: none;
       transform: translateY(0);
-      color: #334155;
-      font-weight: 500;
+      color: #334155 !important;
+      font-weight: 500 !important;
     }
   }
 
   /* Brand-Specific Glow Colors */
-  .skill-pill.matlab     { --glow-color: #e05206; } /* MATLAB Orange */
-  .skill-pill.python     { --glow-color: #306998; } /* Python Blue */
-  .skill-pill.cpp        { --glow-color: #00599c; } /* C++ Dark Blue */
-  .skill-pill.simulink   { --glow-color: #0076a8; } /* Simulink Blue */
-  .skill-pill.stateflow  { --glow-color: #008080; } /* Stateflow Teal */
-  .skill-pill.solidworks { --glow-color: #d12727; } /* SolidWorks Red */
-  .skill-pill.ansys      { --glow-color: #e6a100; } /* Ansys Gold */
-  .skill-pill.flightgear { --glow-color: #009999; } /* FlightGear Teal */
-  .skill-pill.starccm    { --glow-color: #00a3a6; } /* Siemens Teal */
-  .skill-pill.altium     { --glow-color: #cc9900; } /* Altium Gold */
+  .skill-pill.matlab     { --glow-color: #e05206; }
+  .skill-pill.python     { --glow-color: #306998; }
+  .skill-pill.cpp        { --glow-color: #00599c; }
+  .skill-pill.simulink   { --glow-color: #0076a8; }
+  .skill-pill.stateflow  { --glow-color: #008080; }
+  .skill-pill.solidworks { --glow-color: #d12727; }
+  .skill-pill.ansys      { --glow-color: #e6a100; }
+  .skill-pill.flightgear { --glow-color: #009999; }
+  .skill-pill.starccm    { --glow-color: #00a3a6; }
+  .skill-pill.altium     { --glow-color: #cc9900; }
 </style>
 
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
@@ -210,7 +196,7 @@
       <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
         About Me
       </h2>
-      <p style="color:#334155; font-size: 0.98em; margin-bottom:0;">
+      <p style="margin-bottom:0; font-size: 0.98em;">
         Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
       </p>
     </td>
@@ -273,7 +259,7 @@
     <img src="images/SAT.png"
          alt="Satellite Trajectory"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b; margin-top: 8px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
       Comparison of Newton-Raphson to ODE45
     </p>
   </div>
@@ -303,7 +289,7 @@
     <img src="images/cessna.png"
          alt="Closed-Loop Pitch Controller"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748b; margin-top: 8px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
       Closed-Loop Pitch Controller in Action
     </p>
   </div>
