@@ -3,18 +3,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* 1. GLOBAL FONT OVERRIDES */
+  /* GLOBAL FONT OVERRIDES */
   body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     color: #334155;
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
-  /* Specific targeting for the About Me paragraph to force Inter */
+  /* Specific targeting for About Me text */
   .about-text, .about-text p {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     color: #334155 !important;
-    font-size: 0.98em !important;
+    font-size: 0.95em !important;
     line-height: 1.65 !important;
   }
 
@@ -31,49 +31,62 @@
     background-position: center !important;
   }
 
-  /* --- SUBTLE CARD STYLE FOR PROJECTS --- */
+  /* --- SIDE-BY-SIDE GRID LAYOUT FOR PROJECTS --- */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+    margin-bottom: 30px;
+  }
+
+  /* COMPACT PROJECT CARDS */
   .project-card {
     background-color: #ffffff;
     border: 1px solid #e2e8f0 !important;
     border-radius: 12px;
-    padding: 24px;
-    margin-top: 16px;
-    margin-bottom: 24px;
+    padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .project-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     border-color: #cbd5e1 !important;
   }
 
-  /* PROJECT LAYOUT INSIDE CARD */
-  .project-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: flex-start;
-    border: none !important;
-  }
-
-  .project-text {
-    flex: 1 1 50%;
-    min-width: 300px;
-    border: none !important;
-  }
-
+  /* VERTICAL STACK INSIDE CARDS */
   .project-media {
-    flex: 1 1 40%;
-    min-width: 300px;
     text-align: center;
     border: none !important;
+    margin-bottom: 14px;
   }
 
   .project-media img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .project-text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: none !important;
+  }
+
+  .project-card h3 {
+    font-size: 1.15em !important;
+    margin-bottom: 10px;
+    line-height: 1.35;
+    text-align: left;
   }
 
   /* SPACING & CLEANUP */
@@ -94,14 +107,15 @@
   /* GHOST BUTTON */
   .project-button {
     display: inline-block;
-    margin-top: 10px;
-    padding: 10px 18px;
+    align-self: flex-start;
+    margin-top: 12px;
+    padding: 8px 16px;
     border: 2px solid #2563eb;
     border-radius: 8px;
     color: #2563eb !important;
     text-decoration: none !important;
     font-weight: 600 !important;
-    font-size: 0.9em;
+    font-size: 0.85em;
     transition: all 0.2s ease;
   }
 
@@ -116,11 +130,14 @@
   /* PROJECT BULLETS */
   .project-text ul {
     list-style-type: square;
-    padding-left: 22px;
+    padding-left: 18px;
+    margin-top: 4px;
+    margin-bottom: 12px;
   }
 
   .project-text li {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    font-size: 0.88em;
     color: #475569 !important;
   }
 
@@ -248,62 +265,56 @@
   Projects
 </h2>
 
-<div class="project-card">
-  <h3 style="font-size: 1.4em; margin-bottom: 16px; text-align: center;">
-    Kepler’s Problem Solver & Orbital Propagation
-  </h3>
+<div class="projects-grid">
 
-  <div class="project-container">
+  <div class="project-card">
+    <div class="project-media">
+      <img src="images/SAT.png" alt="Satellite Trajectory">
+      <p style="font-size: 0.8em; color: #64748b !important; margin-top: 6px; font-style: italic;">
+        Comparison of Newton-Raphson to ODE45
+      </p>
+    </div>
+
     <div class="project-text">
-      <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
-        <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
-        <li>Computed Classical Orbital Elements (COEs).</li>
-        <li>Verified conservation of orbital energy and angular momentum.</li>
-        <li>Transformed states between perifocal and ECI reference frames.</li>
-      </ul>
+      <div>
+        <h3>Kepler’s Problem Solver & Orbital Propagation</h3>
+        <ul>
+          <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
+          <li>Computed Classical Orbital Elements (COEs).</li>
+          <li>Verified conservation of orbital energy and angular momentum.</li>
+          <li>Transformed states between perifocal and ECI reference frames.</li>
+        </ul>
+      </div>
 
       <a href="kepler-solver.html" class="project-button">
         View More Details
       </a>
     </div>
+  </div>
 
+  <div class="project-card">
     <div class="project-media">
-      <img src="images/SAT.png"
-           alt="Satellite Trajectory"
-           style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-      <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
-        Comparison of Newton-Raphson to ODE45
+      <img src="images/cessna.png" alt="Closed-Loop Pitch Controller">
+      <p style="font-size: 0.8em; color: #64748b !important; margin-top: 6px; font-style: italic;">
+        Closed-Loop Pitch Controller in Action
       </p>
     </div>
-  </div>
-</div>
 
-<div class="project-card">
-  <h3 style="font-size: 1.4em; margin-bottom: 16px; text-align: center;">
-    Pitch Autopilot Controller Model
-  </h3>
-
-  <div class="project-container">
     <div class="project-text">
-      <ul style="margin-top:6px; margin-bottom:12px; padding-left:20px;">
-        <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
-        <li>Implemented Kalman filtering for robust state estimation.</li>
-        <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
-        <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
-      </ul>
+      <div>
+        <h3>Pitch Autopilot Controller Model</h3>
+        <ul>
+          <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
+          <li>Implemented Kalman filtering for robust state estimation.</li>
+          <li>Evaluated controller performance using step, doublet, and square-wave inputs.</li>
+          <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
+        </ul>
+      </div>
 
       <a href="pitch-controller.html" class="project-button">
         View More Details
       </a>
     </div>
-
-    <div class="project-media">
-      <img src="images/cessna.png"
-           alt="Closed-Loop Pitch Controller"
-           style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-      <p style="font-size: 0.85em; color: #64748b !important; margin-top: 8px; font-style: italic;">
-        Closed-Loop Pitch Controller in Action
-      </p>
-    </div>
   </div>
+
 </div>
