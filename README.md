@@ -7,7 +7,7 @@
   body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     color: #334155;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   /* Specific targeting for About Me text */
@@ -15,7 +15,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     color: #334155 !important;
     font-size: 0.95em !important;
-    line-height: 1.6 !important;
+    line-height: 1.65 !important;
   }
 
   /* Modern Headings Style & Color */
@@ -31,22 +31,22 @@
     background-position: center !important;
   }
 
-  /* --- COMPACT GRID LAYOUT FOR PROJECTS --- */
+  /* --- SIDE-BY-SIDE GRID LAYOUT FOR PROJECTS --- */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 480px)); /* Reduced max width for smaller cards */
-    gap: 16px;
-    margin-top: 12px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+    margin-bottom: 30px;
   }
 
   /* COMPACT PROJECT CARDS */
   .project-card {
     background-color: #ffffff;
     border: 1px solid #e2e8f0 !important;
-    border-radius: 10px;
-    padding: 14px; /* Reduced padding from 20px to 14px */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     display: flex;
     flex-direction: column;
@@ -54,28 +54,24 @@
   }
 
   .project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     border-color: #cbd5e1 !important;
   }
 
-  /* FULL IMAGE SHOWCASE (NO CUTOFF) */
+  /* VERTICAL STACK INSIDE CARDS */
   .project-media {
     text-align: center;
     border: none !important;
-    margin-bottom: 10px;
-    background-color: #f8fafc;
-    border-radius: 6px;
-    padding: 6px;
+    margin-bottom: 14px;
   }
 
   .project-media img {
     width: 100%;
-    height: 150px; /* Reduced fixed height */
-    object-fit: contain; /* FIXES CUTOFF: Displays full image proportionally */
-    border-radius: 4px;
-    display: block;
-    margin: 0 auto;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
   .project-text {
@@ -87,9 +83,9 @@
   }
 
   .project-card h3 {
-    font-size: 1.05em !important; /* Slightly smaller title */
-    margin-bottom: 8px;
-    line-height: 1.3;
+    font-size: 1.15em !important;
+    margin-bottom: 10px;
+    line-height: 1.35;
     text-align: left;
   }
 
@@ -108,18 +104,18 @@
     margin: 0 auto !important;
   }
 
-  /* COMPACT GHOST BUTTON */
+  /* GHOST BUTTON */
   .project-button {
     display: inline-block;
     align-self: flex-start;
-    margin-top: 8px;
-    padding: 6px 14px;
-    border: 1.5px solid #2563eb;
-    border-radius: 6px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border: 2px solid #2563eb;
+    border-radius: 8px;
     color: #2563eb !important;
     text-decoration: none !important;
     font-weight: 600 !important;
-    font-size: 0.8em;
+    font-size: 0.85em;
     transition: all 0.2s ease;
   }
 
@@ -127,23 +123,22 @@
     background-color: #2563eb;
     color: #ffffff !important;
     text-decoration: none !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
   }
 
-  /* COMPACT PROJECT BULLETS */
+  /* PROJECT BULLETS */
   .project-text ul {
     list-style-type: square;
-    padding-left: 16px;
-    margin-top: 2px;
-    margin-bottom: 8px;
+    padding-left: 18px;
+    margin-top: 4px;
+    margin-bottom: 12px;
   }
 
   .project-text li {
-    margin-bottom: 4px;
-    font-size: 0.82em; /* Scaled down bullet text */
+    margin-bottom: 6px;
+    font-size: 0.88em;
     color: #475569 !important;
-    line-height: 1.4;
   }
 
   /* SKILL GROUPS */
@@ -275,7 +270,7 @@
   <div class="project-card">
     <div class="project-media">
       <img src="images/SAT.png" alt="Satellite Trajectory">
-      <p style="font-size: 0.75em; color: #64748b !important; margin-top: 4px; font-style: italic; margin-bottom: 0;">
+      <p style="font-size: 0.8em; color: #64748b !important; margin-top: 6px; font-style: italic;">
         Comparison of Newton-Raphson to ODE45
       </p>
     </div>
@@ -284,10 +279,10 @@
       <div>
         <h3>Kepler’s Problem Solver & Orbital Propagation</h3>
         <ul>
-          <li>Solved Kepler's equation using Newton–Raphson iteration.</li>
+          <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
           <li>Computed Classical Orbital Elements (COEs).</li>
-          <li>Verified conservation of orbital energy & angular momentum.</li>
-          <li>Transformed states between perifocal & ECI reference frames.</li>
+          <li>Verified conservation of orbital energy and angular momentum.</li>
+          <li>Transformed states between perifocal and ECI reference frames.</li>
         </ul>
       </div>
 
@@ -300,7 +295,7 @@
   <div class="project-card">
     <div class="project-media">
       <img src="images/cessna.png" alt="Closed-Loop Pitch Controller">
-      <p style="font-size: 0.75em; color: #64748b !important; margin-top: 4px; font-style: italic; margin-bottom: 0;">
+      <p style="font-size: 0.8em; color: #64748b !important; margin-top: 6px; font-style: italic;">
         Closed-Loop Pitch Controller in Action
       </p>
     </div>
@@ -309,10 +304,10 @@
       <div>
         <h3>Pitch Autopilot Controller Model</h3>
         <ul>
-          <li>Designed PID controller with anti-windup & actuator dynamics.</li>
+          <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
           <li>Implemented Kalman filtering for robust state estimation.</li>
-          <li>Evaluated performance using step, doublet, & square-wave inputs.</li>
-          <li>Visualized response through real-time FlightGear 6DOF simulation.</li>
+          <li>Evaluated controller performance using step, doublet, and square-wave inputs.</li>
+          <li>Visualized aircraft response through real-time FlightGear 6DOF simulation.</li>
         </ul>
       </div>
 
