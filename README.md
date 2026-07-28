@@ -66,24 +66,24 @@
     margin: 0 auto !important;
   }
 
-  /* SECTION HEADINGS */
+  /* SECTION HEADINGS (About Me, Technical Skills, Projects) */
   .section-title {
-    color: #1B365D;
-    font-size: 1.75rem;
+    color: #1E3A8A !important; /* Bold Deep Navy Blue */
+    font-family: sans-serif !important; /* Reverted to classic sans-serif */
+    font-size: 1.8em;
     font-weight: 700;
-    letter-spacing: -0.02em;
     margin-top: 20px;
     margin-bottom: 12px;
   }
 
-  /* PROJECT TITLE */
+  /* PROJECT TITLE HEADINGS */
   .project-title {
-    color: #1B365D;
-    font-size: 1.35rem;
+    color: #1E3A8A !important; /* Bold Deep Navy Blue (No Green) */
+    font-family: sans-serif !important; /* Reverted to classic sans-serif */
+    font-size: 1.4em;
     font-weight: 600;
     margin-bottom: 12px;
     text-align: center;
-    letter-spacing: -0.01em;
   }
 
   /* GHOST BUTTON */
@@ -95,6 +95,7 @@
     border-radius: 8px;
     color: #007bff;
     text-decoration: none !important;
+    font-family: sans-serif;
     font-weight: 600;
     font-size: 0.95rem;
     transition: background-color 0.2s ease,
@@ -115,7 +116,8 @@
   .project-text ul {
     list-style-type: square;
     padding-left: 22px;
-    color: #475569;
+    color: #444;
+    font-family: sans-serif;
   }
 
   .project-text li {
@@ -129,8 +131,9 @@
 
   .skill-group h3 {
     margin-bottom: 8px;
-    color: #475569;
-    font-size: 1rem;
+    color: #555;
+    font-family: sans-serif;
+    font-size: 1.05em;
     font-weight: 600;
   }
 
@@ -144,24 +147,23 @@
   /* INDIVIDUAL SKILL PILLS */
   .skill-pill {
     display: inline-block;
-    padding: 4px 12px;
-    background-color: #F8FAFC;
-    border: 1px solid #E2E8F0;
+    padding: 4px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #d9dee3;
     border-radius: 14px;
+    font-family: sans-serif;
     font-size: 0.85em;
-    font-weight: 500;
-    color: #334155;
-    line-height: 1.3;
+    color: #444;
+    line-height: 1.2;
     transition: background-color 0.2s ease,
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
   }
 
   .skill-pill:hover {
-    background-color: #E0F2FE;
-    border-color: #BAE6FD;
+    background-color: #e9f2ff;
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   }
 </style>
 
@@ -169,7 +171,7 @@
   <tr>
     <td style="width:60%; vertical-align:top; padding-right:35px; border:none;">
       <h2 class="section-title">About Me</h2>
-      <p style="color:#334155; margin-bottom:0;">
+      <p style="color:#444; line-height:1.6; font-family:sans-serif; margin-bottom:0;">
         Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
       </p>
     </td>
@@ -223,7 +225,7 @@
 
   <div class="project-media">
     <img src="images/SAT.png" alt="Satellite Trajectory" style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748B; margin-top: 6px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
       Comparison of Newton-Raphson to ODE45
     </p>
   </div>
@@ -249,7 +251,7 @@
 
   <div class="project-media">
     <img src="images/cessna.png" alt="Closed-Loop Pitch Controller" style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #64748B; margin-top: 6px; font-style: italic;">
+    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
       Closed-Loop Pitch Controller in Action
     </p>
   </div>
