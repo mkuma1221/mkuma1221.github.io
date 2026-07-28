@@ -1,10 +1,18 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+  /* GLOBAL FONT CONFIGURATION */
+  body, p, h1, h2, h3, h4, li, a, span, button {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+
   .page-header {
     background-image: url('images/GAX.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
   }
-  
 
   /* PROJECT IMAGES */
   .project-media img {
@@ -12,7 +20,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  
 
   /* PROJECT LAYOUT */
   .project-container {
@@ -46,9 +53,19 @@
     margin: 8px 0;
   }
 
-  /* REMOVE EXTRA DEFAULT SPACING */
+  /* SPACING & TYPOGRAPHY */
   h2, h3, p {
     margin-top: 0;
+  }
+
+  h2 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   img, div, section {
@@ -70,8 +87,8 @@
     border-radius: 8px;
     color: #007bff;
     text-decoration: none !important;
-    font-family: sans-serif;
     font-weight: 600;
+    font-size: 0.9em;
     transition: background-color 0.2s ease,
                 color 0.2s ease,
                 transform 0.2s ease,
@@ -104,7 +121,6 @@
   .skill-group h3 {
     margin-bottom: 8px;
     color: #555;
-    font-family: sans-serif;
     font-size: 1.05em;
     font-weight: 600;
   }
@@ -119,12 +135,12 @@
   /* INDIVIDUAL SKILL PILLS */
   .skill-pill {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 5px 12px;
     background-color: #f8f9fa;
     border: 1px solid #d9dee3;
     border-radius: 14px;
-    font-family: sans-serif;
     font-size: 0.85em;
+    font-weight: 500;
     color: #444;
     line-height: 1.2;
     transition: all 0.3s ease;
@@ -159,7 +175,7 @@
       box-shadow: none;
       transform: translateY(0);
       color: #444;
-      font-weight: normal;
+      font-weight: 500;
     }
   }
 
@@ -179,16 +195,16 @@
 <table style="width:100%; border-collapse:collapse; border:none; margin-bottom:20px;">
   <tr>
     <td style="width:60%; vertical-align:top; padding-right:35px; border:none;">
-      <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:10px; font-family:sans-serif;">
+      <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:10px;">
         About Me
       </h2>
-      <p style="color:#444; line-height:1.6; font-family:sans-serif; margin-bottom:0;">
+      <p style="color:#444; line-height:1.6; margin-bottom:0;">
         Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
       </p>
     </td>
 
     <td style="width:40%; vertical-align:top; border:none;">
-      <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:18px; font-family:sans-serif;">
+      <h2 style="color:#000080; font-size:1.8em; margin-top:20px; margin-bottom:18px;">
         Technical Skills
       </h2>
 
@@ -217,19 +233,19 @@
   </tr>
 </table>
 
-<h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px; font-family: sans-serif;">
+<h2 style="color: #000080; font-size: 1.8em; margin-bottom: 6px;">
   Projects
 </h2>
 
 <div class="project-divider"></div>
 
-<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center; font-family: sans-serif;">
+<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center;">
   Kepler’s Problem Solver & Orbital Propagation
 </h3>
 
 <div class="project-container">
   <div class="project-text">
-    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px; font-family:sans-serif;">
+    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; padding-left:20px;">
       <li>Solved Kepler's equation using the Newton–Raphson iterative method.</li>
       <li>Computed Classical Orbital Elements (COEs).</li>
       <li>Verified conservation of orbital energy and angular momentum.</li>
@@ -245,7 +261,7 @@
     <img src="images/SAT.png"
          alt="Satellite Trajectory"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
+    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-style: italic;">
       Comparison of Newton-Raphson to ODE45
     </p>
   </div>
@@ -253,13 +269,13 @@
 
 <div class="project-divider"></div>
 
-<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center; font-family: sans-serif;">
+<h3 style="color: #000080; font-size: 1.4em; margin-bottom: 10px; text-align: center;">
   Pitch Autopilot Controller Model
 </h3>
 
 <div class="project-container">
   <div class="project-text">
-    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px; font-family:sans-serif;">
+    <ul style="color:#444; line-height:1.6; margin-top:6px; margin-bottom:12px;">
       <li>Designed a PID controller with anti-windup and actuator dynamics.</li>
       <li>Implemented Kalman filtering for robust state estimation.</li>
       <li>Evaluated controller performance using step, doublet, and square-wave reference inputs.</li>
@@ -275,7 +291,7 @@
     <img src="images/cessna.png"
          alt="Closed-Loop Pitch Controller"
          style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
-    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-family: sans-serif; font-style: italic;">
+    <p style="font-size: 0.85em; color: #666; margin-top: 6px; font-style: italic;">
       Closed-Loop Pitch Controller in Action
     </p>
   </div>
