@@ -222,7 +222,7 @@
         About Me
       </h2>
       <p style="margin-bottom:0;">
-        Hi, my name is Mohana Kumanan, and I am an aerospace engineering student with an interest in control systems and orbital mechanics. I have experience in technical analysis, collaborative engineering projects, MATLAB, Simulink, numerical methods, and spacecraft dynamics. This website serves as a technical portfolio documenting the engineering methodologies, analyses, and computational tools developed throughout my projects.
+       Hi, I'm Mohana Kumanan, an aerospace engineering student with a primary focus on Guidance, Navigation, and Control (GNC), orbital mechanics, and aerospace structures. My experience centers on technical analysis, spacecraft dynamics, and computational modeling. I regularly use MATLAB, Simulink, and numerical methods to model, analyze, and validate complex aerospace systems. This portfolio showcases the computational tools, engineering methodologies, and technical projects I have developed throughout my academic and personal work. This portfolio will continue to grow as I complete new projects. If you have any feedback or would like to connect, please feel free to reach out.
       </p>
     </td>
 
