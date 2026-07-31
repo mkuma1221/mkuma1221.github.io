@@ -105,14 +105,22 @@ hr {
     font-size: 1rem !important;
   }
 
-  /* Force side-by-side flexbox and CSS grids to stack vertically */
-  .main-content div[style*="display: flex"],
-  .main-content div[style*="display: grid"],
-  .main-content div[style*="flex"] {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-template-columns: 1fr !important;
+  /* Target all inline flex/grid containers and force them to stack vertically */
+  .main-content *[style*="display: flex"],
+  .main-content *[style*="display:grid"],
+  .main-content *[style*="display: flex"],
+  .main-content *[style*="grid-template-columns"] {
+    display: block !important;
     width: 100% !important;
+    float: none !important;
+  }
+
+  /* Force grid child cards to span full width */
+  .main-content *[style*="display: flex"] > *,
+  .main-content *[style*="display:grid"] > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 1.5rem !important;
   }
 
   /* Adjust padding inside the main body container for narrow displays */
