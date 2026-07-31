@@ -79,3 +79,44 @@ hr {
 .site-footer {
   display: none !important;
 }
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE FIXES
+   ========================================================================== */
+
+/* Prevents images/plots from breaking container bounds */
+.main-content img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Media query for screens smaller than 768px (Tablets & Phones) */
+@media screen and (max-width: 768px) {
+  /* Adjust header padding and text sizes so title fits nicely on small screens */
+  .page-header {
+    padding: 2.5rem 1rem !important;
+  }
+
+  .project-name {
+    font-size: 2.2rem !important;
+  }
+
+  .project-tagline {
+    font-size: 1rem !important;
+  }
+
+  /* Force side-by-side flexbox and CSS grids to stack vertically */
+  .main-content div[style*="display: flex"],
+  .main-content div[style*="display: grid"],
+  .main-content div[style*="flex"] {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  /* Adjust padding inside the main body container for narrow displays */
+  .main-content {
+    padding: 1.5rem 1rem !important;
+  }
+}
