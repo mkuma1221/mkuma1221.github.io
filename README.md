@@ -31,26 +31,10 @@
     background-position: center !important;
   }
 
-  /* --- FLEX LAYOUT FOR ABOUT ME & SKILLS (Replaces <table>) --- */
-  .about-skills-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 35px;
-    margin-bottom: 30px;
-  }
-
-  .about-column {
-    flex: 1 1 55%; /* Takes ~60% on desktop */
-  }
-
-  .skills-column {
-    flex: 1 1 35%; /* Takes ~40% on desktop */
-  }
-
   /* --- SLIGHTLY LARGER GRID LAYOUT FOR PROJECTS --- */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 460px)); /* Expanded width for slightly bigger cards */
     gap: 20px;
     margin-top: 14px;
     margin-bottom: 28px;
@@ -58,10 +42,10 @@
 
   /* SHADED CARDS (STATIONARY - NO HOVER MOVEMENT) */
   .project-card {
-    background-color: #f8fafc;
+    background-color: #f8fafc; /* Subtle shading */
     border: 1px solid #e2e8f0 !important;
     border-radius: 12px;
-    padding: 16px;
+    padding: 16px; /* Comfortably sized padding */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
@@ -77,8 +61,8 @@
 
   .project-media img {
     width: 100%;
-    height: auto;
-    max-height: 200px;
+    height: auto; /* Maintains natural aspect ratio so nothing cuts off */
+    max-height: 200px; /* Slightly taller image container */
     object-fit: contain;
     border-radius: 8px;
     display: block;
@@ -186,6 +170,7 @@
     cursor: pointer;
   }
 
+  /* Hover glow animation for skill pills */
   .skill-pill:hover {
     animation: temporaryGlow 1.5s ease-out forwards;
   }
@@ -228,68 +213,48 @@
   .skill-pill.flightgear { --glow-color: #009999; }
   .skill-pill.starccm    { --glow-color: #00a3a6; }
   .skill-pill.altium     { --glow-color: #cc9900; }
-
-  /* --- MOBILE SPECIFIC STYLES --- */
-  @media screen and (max-width: 768px) {
-    .about-skills-container {
-      flex-direction: column; /* Stacks About Me on top of Skills on phones */
-      gap: 10px;
-    }
-
-    .about-column, .skills-column {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-
-    .projects-grid {
-      grid-template-columns: 1fr; /* Stacks project cards into 1 column */
-    }
-
-    .main-content {
-      width: 95% !important;
-      padding: 10px !important;
-    }
-  }
 </style>
 
-<div class="about-skills-container">
-  <div class="about-column about-text">
-    <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
-      About Me
-    </h2>
-    <p style="margin-bottom:0;">
-      Hi, I'm Mohana Kumanan, an aerospace engineering student with a primary focus on Guidance, Navigation, and Control (GNC), orbital mechanics, and aerospace structures. My experience centers on technical analysis, spacecraft dynamics, and computational modeling. I regularly use MATLAB, Simulink, and numerical methods to model, analyze, and validate complex aerospace systems. This portfolio showcases the computational tools, engineering methodologies, and technical projects I have developed throughout my academic and personal work. This portfolio will continue to grow as I complete new projects. If you have any feedback or would like to connect, please feel free to reach out.
-    </p>
-  </div>
+<table style="width:100%; border-collapse:collapse; border:none; margin-bottom:30px;">
+  <tr>
+    <td style="width:60%; vertical-align:top; padding-right:35px; border:none;" class="about-text">
+      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
+        About Me
+      </h2>
+      <p style="margin-bottom:0;">
+       Hi, I'm Mohana Kumanan, an aerospace engineering student with a primary focus on Guidance, Navigation, and Control (GNC), orbital mechanics, and aerospace structures. My experience centers on technical analysis, spacecraft dynamics, and computational modeling. I regularly use MATLAB, Simulink, and numerical methods to model, analyze, and validate complex aerospace systems. This portfolio showcases the computational tools, engineering methodologies, and technical projects I have developed throughout my academic and personal work. This portfolio will continue to grow as I complete new projects. If you have any feedback or would like to connect, please feel free to reach out.
+      </p>
+    </td>
 
-  <div class="skills-column">
-    <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:18px;">
-      Technical Skills
-    </h2>
+    <td style="width:40%; vertical-align:top; border:none;">
+      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:18px;">
+        Technical Skills
+      </h2>
 
-    <div class="skill-group">
-      <h3>Programming</h3>
-      <div class="skill-pills">
-        <span class="skill-pill matlab">MATLAB</span>
-        <span class="skill-pill python">Python</span>
-        <span class="skill-pill cpp">C++</span>
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <div class="skill-pills">
+          <span class="skill-pill matlab">MATLAB</span>
+          <span class="skill-pill python">Python</span>
+          <span class="skill-pill cpp">C++</span>
+        </div>
       </div>
-    </div>
 
-    <div class="skill-group">
-      <h3>Software</h3>
-      <div class="skill-pills">
-        <span class="skill-pill simulink">Simulink</span>
-        <span class="skill-pill stateflow">Stateflow</span>
-        <span class="skill-pill solidworks">SolidWorks</span>
-        <span class="skill-pill ansys">Ansys</span>
-        <span class="skill-pill flightgear">FlightGear</span>
-        <span class="skill-pill starccm">STAR-CCM+</span>
-        <span class="skill-pill altium">Altium</span>
+      <div class="skill-group">
+        <h3>Software</h3>
+        <div class="skill-pills">
+          <span class="skill-pill simulink">Simulink</span>
+          <span class="skill-pill stateflow">Stateflow</span>
+          <span class="skill-pill solidworks">SolidWorks</span>
+          <span class="skill-pill ansys">Ansys</span>
+          <span class="skill-pill flightgear">FlightGear</span>
+          <span class="skill-pill starccm">STAR-CCM+</span>
+          <span class="skill-pill altium">Altium</span>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+    </td>
+  </tr>
+</table>
 
 <h2 style="font-size: 1.8em; margin-bottom: 12px;">
   Projects
