@@ -139,34 +139,34 @@
       <li></li>
     </ul>
 
+    
+
 <h2 class="section-title">Simulink Models</h2>
     <div class="divider"></div>
 
-    <div class="image-box">
+    <div class="image-box" style="text-align: left;">
       <h3>Version 1: Initial Baseline Model</h3>
-      <img src="v1.png" alt="Simulink Model Version 1">
+      <img src="images/v1.png" alt="Simulink Model Version 1">
       <p>
         The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics. It evaluates basic pitch command tracking performance under standard step inputs.
       </p>
     </div>
 
-    <div class="image-box">
+    <div class="image-box" style="text-align: left;">
       <h3>Version 2: Actuator Saturation & Anti-Windup</h3>
-      <img src="v2.png" alt="Simulink Model Version 2">
+      <img src="images/v2.png" alt="Simulink Model Version 2">
       <p>
         This iteration incorporates actuator saturation limits alongside an anti-windup mechanism within the PID controller. The anti-windup prevents excessive integral term accumulation during saturated states, improving transient performance.
       </p>
     </div>
 
-    <div class="image-box">
+    <div class="image-box" style="text-align: left;">
       <h3>Version 3: Final Integrated Controller</h3>
-      <img src="v3.png" alt="Simulink Model Version 3">
+      <img src="images/v3.png" alt="Simulink Model Version 3">
       <p>
         The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), organized Goto/From signal blocks, and an integrated FlightGear visualization interface to drive real-time flight instruments and 3D flight paths.
       </p>
     </div>
-    
-
 
     
 
