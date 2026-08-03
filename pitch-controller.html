@@ -220,28 +220,16 @@
 
   <h3>Project Overview</h3>
 
-<p>
-Designed, implemented, and validated a closed-loop pitch autopilot for a linearized longitudinal aircraft model in MATLAB and Simulink. The project focused on improving pitch attitude regulation, command tracking, and robustness through controller design, actuator modeling, state estimation, and realistic flight simulation.
-</p>
-
-<h3>Key Features</h3>
-
 <ul>
-  <li><strong>Aircraft Dynamics Modeling:</strong> Developed a fourth-order linear state-space model describing longitudinal aircraft motion using true airspeed (<em>V<sub>T</sub></em>), angle of attack (<em>&alpha;</em>), pitch angle (<em>&theta;</em>), and pitch rate (<em>q</em>) with elevator deflection (<em>&delta;<sub>e</sub></em>) as the control input.</li>
+  <li>Developed a closed-loop pitch autopilot for a fourth-order longitudinal aircraft state-space model in MATLAB and Simulink using true airspeed, angle of attack, pitch angle, and pitch rate.</li>
 
-  <li><strong>System Analysis:</strong> Verified open-loop stability through eigenvalue analysis and confirmed full controllability and observability using MATLAB rank tests prior to controller implementation.</li>
+  <li>Verified open-loop stability, controllability, and observability through eigenvalue analysis and MATLAB rank tests.</li>
 
-  <li><strong>Actuator Dynamics:</strong> Modeled realistic flight-control hardware by incorporating elevator position limits (&plusmn;25&deg;), rate limits (&plusmn;30&deg;/s), and a first-order actuator response <em>1/(0.1s + 1)</em>.</li>
+  <li>Implemented a PID controller with an interactive Simulink tuning dashboard and realistic actuator dynamics, including elevator saturation (&plusmn;25&deg;), rate limits (&plusmn;30&deg;/s), and first-order actuator lag.</li>
 
-  <li><strong>PID Controller Design:</strong> Developed an interactive Simulink tuning dashboard to iteratively adjust <em>K<sub>p</sub></em>, <em>K<sub>i</sub></em>, and <em>K<sub>d</sub></em> while monitoring transient response, overshoot, and steady-state error.</li>
+  <li>Improved robustness by integrating a Kalman filter with Gaussian sensor and aerodynamic disturbance noise, and added anti-windup compensation to reduce saturation-induced overshoot.</li>
 
-  <li><strong>State Estimation &amp; Noise Rejection:</strong> Improved controller robustness by integrating a Kalman filter with simulated Gaussian sensor measurement noise and aerodynamic disturbance noise.</li>
-
-  <li><strong>Anti-Windup Compensation:</strong> Implemented anti-windup logic to reduce overshoot and performance degradation caused by actuator saturation during large pitch commands.</li>
-
-  <li><strong>Performance Validation:</strong> Evaluated controller performance using multiple reference commands, including 10&deg; step, 10&deg; doublet, and 15&deg; square-wave inputs.</li>
-
-  <li><strong>Real-Time Flight Visualization:</strong> Connected the Simulink model to FlightGear and an artificial horizon display to visualize aircraft response in a real-time 3D flight environment.</li>
+  <li>Validated performance using 10&deg; step, 10&deg; doublet, and 15&deg; square-wave commands, with real-time visualization through FlightGear and an artificial horizon display.</li>
 </ul>
     
     <h2 class="section-title">Simulink Models</h2>
