@@ -20,7 +20,7 @@
       background-position: center;
     }
 
-    /* --- Home Button Styling --- */
+  /* --- Home Button Styling --- */
     .home-btn {
       position: absolute;
       top: 20px;
@@ -29,7 +29,7 @@
       align-items: center;
       gap: 8px;
       color: #ffffff;
-      text-decoration: none;
+      text-decoration: none; /* Removes underline in default state */
       background-color: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.3);
       padding: 8px 16px;
@@ -41,16 +41,23 @@
       z-index: 10;
     }
 
-    .home-btn:hover {
+    /* Prevents Cayman theme from adding an underline on hover/focus/active */
+    .home-btn:hover,
+    .home-btn:focus,
+    .home-btn:active {
+      text-decoration: none !important;
       background-color: rgba(0, 0, 0, 0.7);
       color: #ffffff;
+    }
+
+    .home-btn:hover {
       transform: translateY(-2px);
     }
 
     .home-btn svg {
       width: 16px;
       height: 16px;
-      fill: currentColor;
+      fill: currentColor; /* Keeps the SVG icon styled with the button text color */
     }
     /* -------------------------- */
 
