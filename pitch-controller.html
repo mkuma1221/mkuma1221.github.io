@@ -146,25 +146,31 @@
 
     <div class="image-box" style="text-align: left;">
       <h3 style="text-align: center;">Version 1: Initial Baseline Model</h3>
-      <img src="images/v1.png" alt="Simulink Model Version 1">
+      <div style="text-align: center;">
+        <img src="images/v1.png" alt="Simulink Model Version 1" style="max-width: 80%; height: auto;">
+      </div>
       <p>
-        The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics[cite: 27]. It evaluates basic pitch command tracking performance under standard step inputs[cite: 28, 98].
+        The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics[cite: 293]. It evaluates basic pitch command tracking performance under standard step inputs[cite: 294, 364].
       </p>
     </div>
 
     <div class="image-box" style="text-align: left;">
       <h3 style="text-align: center;">Version 2: Kalman Filter & Noise Integration</h3>
-      <img src="images/v2.png" alt="Simulink Model Version 2">
+      <div style="text-align: center;">
+        <img src="images/v2.png" alt="Simulink Model Version 2" style="max-width: 80%; height: auto;">
+      </div>
       <p>
-        This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise. Radians-to-degrees conversions were also added for intuitive controller tuning[cite: 216].
+        This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise[cite: 481]. Radians-to-degrees conversions were also added for intuitive controller tuning[cite: 482].
       </p>
     </div>
 
     <div class="image-box" style="text-align: left;">
       <h3 style="text-align: center;">Version 3: Final Integrated Controller</h3>
-      <img src="images/v3.png" alt="Simulink Model Version 3">
+      <div style="text-align: center;">
+        <img src="images/v3.png" alt="Simulink Model Version 3" style="max-width: 80%; height: auto;">
+      </div>
       <p>
-        The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave) [cite: 262], anti-windup integration [cite: 257], organized Goto/From signal blocks [cite: 265], and a FlightGear visualization interface driving real-time flight instruments[cite: 263, 264].
+        The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave) [cite: 528], anti-windup integration [cite: 524], organized Goto/From signal blocks [cite: 531], and a FlightGear visualization interface driving real-time flight instruments[cite: 529, 530].
       </p>
     </div>
 
