@@ -111,6 +111,90 @@
     .sub-list {
       margin-top: 10px;
     }
+
+    /* --- Interactive Model Viewer Styles --- */
+    .instructions {
+      text-align: center;
+      font-style: italic;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .pipeline-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .model-thumb {
+      flex: 1;
+      min-width: 180px;
+      max-width: 240px;
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s ease-in-out;
+    }
+
+    .model-thumb:hover {
+      border-color: #000080;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .model-thumb.active {
+      border-color: #000080;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 0, 128, 0.2);
+    }
+
+    .model-thumb img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .model-thumb h4 {
+      margin: 8px 0 0 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .pipeline-arrow {
+      color: #000080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pipeline-arrow svg {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+    }
+
+    .model-display-box {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 25px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-top: 20px;
+    }
+
+    .model-display-box h3 {
+      text-align: center;
+      color: #000080;
+      margin-top: 0;
+    }
   </style>
 </head>
 
@@ -140,40 +224,51 @@
     </ul>
 
     
-<h2 class="section-title">Simulink Models</h2>
+    <h2 class="section-title">Simulink Models</h2>
     <div class="divider"></div>
 
-    <div class="image-box" style="text-align: left;">
-      <h3 style="text-align: center;">Version 1: Initial Baseline Model</h3>
-      <div style="text-align: center;">
-        <img src="images/v1.png" alt="Simulink Model Version 1" style="max-width: 80%; height: auto;">
+    <p class="instructions">Click on any iteration thumbnail below to inspect the model architecture and details.</p>
+
+    <div class="pipeline-container">
+      
+      <div class="model-thumb" onclick="selectModel(1)" id="thumb-1">
+        <img src="images/v1.png" alt="Version 1 Thumbnail">
+        <h4>Version 1</h4>
       </div>
-      <p>
-        The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics. It evaluates basic pitch command tracking performance under standard step inputs.
-      </p>
+
+      <div class="pipeline-arrow">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+        </svg>
+      </div>
+
+      <div class="model-thumb" onclick="selectModel(2)" id="thumb-2">
+        <img src="images/v2.png" alt="Version 2 Thumbnail">
+        <h4>Version 2</h4>
+      </div>
+
+      <div class="pipeline-arrow">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+        </svg>
+      </div>
+
+      <div class="model-thumb active" onclick="selectModel(3)" id="thumb-3">
+        <img src="images/v3.png" alt="Version 3 Thumbnail">
+        <h4>Version 3</h4>
+      </div>
+
     </div>
 
-    <div class="image-box" style="text-align: left;">
-      <h3 style="text-align: center;">Version 2: Kalman Filter & Noise Integration</h3>
+    <div class="model-display-box image-box" style="text-align: left;">
+      <h3 id="display-title">Version 3: Final Integrated Controller</h3>
       <div style="text-align: center;">
-        <img src="images/v2.png" alt="Simulink Model Version 2" style="max-width: 80%; height: auto;">
+        <img id="display-img" src="images/v3.png" alt="Simulink Model Version 3" style="max-width: 90%; height: auto;">
       </div>
-      <p>
-        This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise. Radians-to-degrees conversions were also added for intuitive controller tuning.
-      </p>
-    </div>
-
-    <div class="image-box" style="text-align: left;">
-      <h3 style="text-align: center;">Version 3: Final Integrated Controller</h3>
-      <div style="text-align: center;">
-        <img src="images/v3.png" alt="Simulink Model Version 3" style="max-width: 80%; height: auto;">
-      </div>
-      <p>
+      <p id="display-desc">
         The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments.
       </p>
     </div>
-
-    
 
     <h2 class="section-title">Results</h2>
     <div class="divider"></div>
@@ -181,6 +276,48 @@
     <p></p>
 
   </div>
+
+  <script>
+    // Model dataset
+    const modelData = {
+      1: {
+        title: "Version 1: Initial Baseline Model",
+        img: "images/v1.png",
+        alt: "Simulink Model Version 1",
+        desc: "The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics. It evaluates basic pitch command tracking performance under standard step inputs."
+      },
+      2: {
+        title: "Version 2: Kalman Filter & Noise Integration",
+        img: "images/v2.png",
+        alt: "Simulink Model Version 2",
+        desc: "This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise. Radians-to-degrees conversions were also added for intuitive controller tuning."
+      },
+      3: {
+        title: "Version 3: Final Integrated Controller",
+        img: "images/v3.png",
+        alt: "Simulink Model Version 3",
+        desc: "The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments."
+      }
+    };
+
+    function selectModel(version) {
+      // Update displayed content
+      document.getElementById('display-title').innerText = modelData[version].title;
+      document.getElementById('display-img').src = modelData[version].img;
+      document.getElementById('display-img').alt = modelData[version].alt;
+      document.getElementById('display-desc').innerText = modelData[version].desc;
+
+      // Update active states for thumbnails
+      for (let i = 1; i <= 3; i++) {
+        const thumb = document.getElementById(`thumb-${i}`);
+        if (i === version) {
+          thumb.classList.add('active');
+        } else {
+          thumb.classList.remove('active');
+        }
+      }
+    }
+  </script>
 
 </body>
 </html>
