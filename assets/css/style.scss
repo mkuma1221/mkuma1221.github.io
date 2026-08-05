@@ -1,10 +1,20 @@
 ---
 ---
+
+/* 1. OVERRIDE CAYMAN VARIABLES FIRST (Prevents green flash) */
+$header-bg-color: #1a1a1a;
+$header-bg-color-secondary: #000000;
+
+/* 2. IMPORT THE THEME AFTER VARIABLES ARE SET */
 @import "jekyll-theme-cayman";
 
+/* 3. YOUR CUSTOM STYLES */
 .page-header {
+  /* Fallback dark background while image loads */
+  background-color: #1a1a1a !important; 
+
   /* Darker overlay for better contrast */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg') !important;
   background-size: cover;
   background-position: center;
 
