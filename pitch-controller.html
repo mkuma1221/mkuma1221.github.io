@@ -286,28 +286,52 @@
     <div class="divider"></div>
     
 
- <div class="video-container" style="max-width: 500px; margin: 20px auto; text-align: center;">
-  <h3>Step</h3>
-  <video width="100%" controls style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-    <source src="images/10degstep.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+    
+ <style>
+  .video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    max-width: 900px;
+    margin: 30px auto;
+  }
+  .video-card {
+    flex: 1 1 380px;
+    max-width: 420px;
+    text-align: center;
+  }
+  .video-card video {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+</style>
 
-<div class="video-container" style="max-width: 500px; margin: 20px auto; text-align: center;">
-  <h3>Square Wave</h3>
-  <video width="100%" controls style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-    <source src="images/square.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+<div class="video-grid">
+  <div class="video-card">
+    <h3>10° Step</h3>
+    <video controls>
+      <source src="images/10degstep.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
-<div class="video-container" style="max-width: 500px; margin: 20px auto; text-align: center;">
-  <h3>Doublet</h3>
-  <video width="100%" controls style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-    <source src="images/doublet.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="video-card">
+    <h3>10° Doublet (5s)</h3>
+    <video controls>
+      <source src="images/doublet.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="video-card">
+    <h3>15° Square (8s)</h3>
+    <video controls>
+      <source src="images/square.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 </div>
 
 
