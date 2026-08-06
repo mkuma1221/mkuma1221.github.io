@@ -1,24 +1,24 @@
 ---
 ---
 
-/* 1. OVERRIDE CAYMAN VARIABLES FIRST (Sets initial banner fallback to white) */
+/* 1. OVERRIDE CAYMAN VARIABLES FIRST (Sets theme defaults to white) */
 $header-bg-color: #ffffff;
 $header-bg-color-secondary: #ffffff;
-  
+
 /* 2. IMPORT THE THEME AFTER VARIABLES ARE SET */
 @import "jekyll-theme-cayman";
 
 /* 3. YOUR CUSTOM STYLES */
 .page-header {
-  /* Fallback dark background while image loads */
-  background-color: #1a1a1a !important; 
+  /* White fallback background while image loads */
+  background-color: #ffffff !important; 
 
   /* Darker overlay for better contrast */
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg') !important;
   background-size: cover;
   background-position: center;
 
-  /* adjust for banner */
+  /* Adjust for banner height */
   padding: 2.5rem 1.5rem !important; 
 
   /* Sets the main title color */
