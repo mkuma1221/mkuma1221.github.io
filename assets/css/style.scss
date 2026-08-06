@@ -3,7 +3,7 @@
 
 /* 1. OVERRIDE CAYMAN VARIABLES FIRST (Sets initial banner fallback to white) */
 $header-bg-color: #ffffff;
-$header-bg-color-secondary: #ffffff
+$header-bg-color-secondary: #ffffff;
   
 /* 2. IMPORT THE THEME AFTER VARIABLES ARE SET */
 @import "jekyll-theme-cayman";
