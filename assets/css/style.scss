@@ -1,10 +1,10 @@
 ---
 ---
 
-/* 1. OVERRIDE CAYMAN VARIABLES FIRST (Prevents green flash) */
-$header-bg-color: #1a1a1a;
-$header-bg-color-secondary: #000000;
-
+/* 1. OVERRIDE CAYMAN VARIABLES FIRST (Sets initial banner fallback to white) */
+$header-bg-color: #ffffff;
+$header-bg-color-secondary: #ffffff
+  
 /* 2. IMPORT THE THEME AFTER VARIABLES ARE SET */
 @import "jekyll-theme-cayman";
 
