@@ -13,35 +13,62 @@
       color: #333;
     }
 
+    /* --- EXACT MATCH HEADER STYLING --- */
     .page-header {
-      position: relative; /* Enables absolute positioning for the home button */
-      background-image: url('images/HOR.jpg');
+      position: relative; /* Keeps the home button anchored inside the header */
+      background-color: #ffffff !important;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/HOR.jpg') !important;
       background-size: cover;
       background-position: center;
+      
+      /* Forces exact header height matching index.html banner */
+      height: 210px !important; 
+      padding: 0 !important;
+      
+      /* Vertically and horizontally center content */
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
     }
 
-  /* --- Home Button Styling --- */
+    .page-header .content-wrapper {
+      margin: 0 auto !important;
+      padding: 0 !important;
+      width: 100%;
+    }
+
+    .page-header h1 {
+      color: #F5F5F5 !important;
+      font-size: 2.5rem !important; /* Matches main heading scale */
+      font-weight: 800;
+      margin: 0 !important; 
+      line-height: 1.2 !important;
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* --- Home Button Styling --- */
     .home-btn {
       position: absolute;
-      top: 20px;
+      top: 18px;
       left: 20px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       color: #ffffff;
-      text-decoration: none; /* Removes underline in default state */
+      text-decoration: none;
       background-color: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 14px;
       font-weight: 600;
-      backdrop-filter: blur(5px); /* Frosted glass effect */
+      backdrop-filter: blur(5px);
       transition: all 0.2s ease-in-out;
       z-index: 10;
     }
 
-    /* Prevents Cayman theme from adding an underline on hover/focus/active */
     .home-btn:hover,
     .home-btn:focus,
     .home-btn:active {
@@ -57,9 +84,8 @@
     .home-btn svg {
       width: 16px;
       height: 16px;
-      fill: currentColor; /* Keeps the SVG icon styled with the button text color */
+      fill: currentColor;
     }
-    /* -------------------------- */
 
     .content-wrapper {
       max-width: 950px;
@@ -159,7 +185,7 @@
           <li>Eccentricity (e): describes the orbit shape</li>
           <li>Inclination (i): defines the tilt of the orbital plane</li>
           <li>Right Ascension of the Ascending Node (RAAN): specifies orbital plane orientation about Earth’s equator</li>
-          <li>Argument of Periapsis (ω): defines orientation of orbit within the orbital plane</li>
+          <li>Argument of Periapsis (&omega;): defines orientation of orbit within the orbital plane</li>
           <li>True Anomaly (f): spacecraft position along the orbit</li>
         </ul>
       </li>
@@ -233,25 +259,21 @@
       <img src="images/state.jpg" alt="State Vector Comparison">
     </div>
 
-    <div class="content-wrapper">
-
-  <p>
-    The numerical integration using ODE45 with a loose tolerance of 
-    <strong>10<sup>-2</sup></strong> (red dashed solution) begins to noticeably diverge from the analytical
-    Newton–Raphson Kepler solution as time progresses. This deviation grows gradually at first, but
-    becomes increasingly pronounced, resulting in significant error accumulation toward the end of the simulation.
-    This behavior is caused by the nature of adaptive numerical integration methods such as ODE45,
-    which approximate the solution by truncating higher-order terms at each time step. When a relatively
-    large tolerance is specified, these local truncation errors are permitted to be larger, which reduces
-    computational cost but decreases long-term accuracy. Because orbital motion is a strongly nonlinear dynamical system, 
-    these small local errors do not cancel out. Instead, they compound over time, leading to exponential growth 
-    in the global error rather than a linear drift. By approximately <strong>2.5 × 10<sup>4</sup> seconds</strong>, 
-    the accumulated numerical error becomes dominant,causing a pronounced and unphysical divergence in both the position 
-    and velocity state vectors relative to the analytical solution. This highlights the sensitivity of long-term orbital 
-    propagation to solver tolerance and numerical stability.
-  </p>
-
-</div>
+    <p>
+      The numerical integration using ODE45 with a loose tolerance of 
+      <strong>10<sup>-2</sup></strong> (red dashed solution) begins to noticeably diverge from the analytical
+      Newton–Raphson Kepler solution as time progresses. This deviation grows gradually at first, but
+      becomes increasingly pronounced, resulting in significant error accumulation toward the end of the simulation.
+      This behavior is caused by the nature of adaptive numerical integration methods such as ODE45,
+      which approximate the solution by truncating higher-order terms at each time step. When a relatively
+      large tolerance is specified, these local truncation errors are permitted to be larger, which reduces
+      computational cost but decreases long-term accuracy. Because orbital motion is a strongly nonlinear dynamical system, 
+      these small local errors do not cancel out. Instead, they compound over time, leading to exponential growth 
+      in the global error rather than a linear drift. By approximately <strong>2.5 &times; 10<sup>4</sup> seconds</strong>, 
+      the accumulated numerical error becomes dominant, causing a pronounced and unphysical divergence in both the position 
+      and velocity state vectors relative to the analytical solution. This highlights the sensitivity of long-term orbital 
+      propagation to solver tolerance and numerical stability.
+    </p>
 
     <div class="image-box">
       <img src="images/SE.jpg" alt="Specific Energy Plot">
@@ -261,55 +283,45 @@
       <img src="images/SA.jpg" alt="Specific Angular Momentum Plot">
     </div>
 
+    <p>
+      The variations observed in the <em>Specific Energy vs. Time</em> and 
+      <em>Specific Angular Momentum vs. Time</em> plots are primarily caused by the accumulation 
+      of numerical error inherent to the <code>ode45</code> variable-step integrator. When a loose 
+      tolerance of <strong>10<sup>-2</sup></strong> is used, the integrator permits larger truncation 
+      errors at each time step, producing noticeable numerical drift and sharp oscillations in both 
+      conserved quantities. As the tolerance is tightened to 
+      <strong>10<sup>-6</sup></strong> and further to 
+      <strong>10<sup>-10</sup></strong>, these variations decrease dramatically, and the quantities 
+      remain nearly constant throughout the propagation. Although the plots corresponding to the tighter 
+      tolerances may still appear slightly jagged, the y-axis scales reveal that these fluctuations are 
+      confined to extremely small ranges on the order of <strong>10<sup style="white-space: nowrap;">-5</sup></strong> and 
+      <strong>10<sup style="white-space: nowrap;">-9</sup></strong>, respectively. This demonstrates 
+      that the remaining deviations are negligible and primarily the result of finite numerical precision 
+      rather than physical inaccuracies in the orbital model itself. Monitoring specific energy and specific 
+      angular momentum provides an effective validation and health-checking method for orbital simulations 
+      because both are fundamental conserved quantities in the ideal two-body problem governed by Newtonian 
+      gravity. In an analytical solution, these values should remain perfectly constant over time, which 
+      would appear as perfectly flat horizontal lines on the plots. However, numerical integrators such as 
+      <code>ode45</code> approximate the solution step-by-step rather than solving the governing equations 
+      analytically, meaning small numerical deviations are unavoidable. Because the underlying physics 
+      requires exact conservation, any departure from the ideal constant value acts as a direct and 
+      quantifiable measure of numerical error. The fact that these deviations systematically decrease and 
+      converge toward a nearly flat baseline as the solver tolerance is reduced confirms that the simulation 
+      is mathematically consistent and converging toward the true physical solution.
+    </p>
+
+    <div class="image-box" style="text-align: center;">
+      <img src="images/SAT.png" alt="Satellite Trajectory" style="max-width: 70%; height: auto; border-radius: 8px;">
+    </div>
+
+    <p>
+      Based on the 3D trajectory plot, the numerical integration performed with ODE45 using a loose tolerance of 
+      <strong>10<sup>-2</sup></strong> (red dashed trajectory) gradually drifts inward relative to the analytical Keplerian solution (blue solid trajectory), indicating a progressive loss of orbital accuracy over time. The periapsis, or point of closest approach to Earth, is located near the bottom-right region of the ellipse where the trajectory approaches approximately 
+      <em>Z = -0.5 &times; 10<sup>4</sup> km</em> and <em>X = 0.5 &times; 10<sup>4</sup> km</em>. In contrast, the apoapsis, or furthest point from Earth, occurs near the upper-left portion of the orbit where the spacecraft reaches approximately 
+      <em>Z = 2 &times; 10<sup>4</sup> km</em> and <em>X = -2 &times; 10<sup>4</sup> km</em>. The numerical error becomes most pronounced near apoapsis because global truncation errors accumulate continuously throughout the propagation process. As the spacecraft passes through the high-velocity periapsis region, the loose solver tolerance allows ODE45 to take excessively large adaptive time steps, reducing its ability to accurately capture the steep gravitational gradients present in that portion of the orbit. This introduces an artificial loss of orbital energy, and the resulting error compounds over time. Consequently, by the time the spacecraft reaches apoapsis, the propagated numerical trajectory significantly undershoots the true analytical orbit, producing the large geometric separation visible in the upper-left region of the plot.
+    </p>
+
   </div>
-
-<div class="content-wrapper">
-
-<p>
-    The variations observed in the <em>Specific Energy vs. Time</em> and 
-    <em>Specific Angular Momentum vs. Time</em> plots are primarily caused by the accumulation 
-    of numerical error inherent to the <code>ode45</code> variable-step integrator. When a loose 
-    tolerance of <strong>10<sup>-2</sup></strong> is used, the integrator permits larger truncation 
-    errors at each time step, producing noticeable numerical drift and sharp oscillations in both 
-    conserved quantities. As the tolerance is tightened to 
-    <strong>10<sup>-6</sup></strong> and further to 
-    <strong>10<sup>-10</sup></strong>, these variations decrease dramatically, and the quantities 
-    remain nearly constant throughout the propagation. Although the plots corresponding to the tighter 
-    tolerances may still appear slightly jagged, the y-axis scales reveal that these fluctuations are 
-    confined to extremely small ranges on the order of <strong>10<sup style="white-space: nowrap;">-5</sup></strong> and 
-    <strong>10<sup style="white-space: nowrap;">-9</sup></strong>, respectively. This demonstrates 
-    that the remaining deviations are negligible and primarily the result of finite numerical precision 
-    rather than physical inaccuracies in the orbital model itself. Monitoring specific energy and specific 
-    angular momentum provides an effective validation and health-checking method for orbital simulations 
-    because both are fundamental conserved quantities in the ideal two-body problem governed by Newtonian 
-    gravity. In an analytical solution, these values should remain perfectly constant over time, which 
-    would appear as perfectly flat horizontal lines on the plots. However, numerical integrators such as 
-    <code>ode45</code> approximate the solution step-by-step rather than solving the governing equations 
-    analytically, meaning small numerical deviations are unavoidable. Because the underlying physics 
-    requires exact conservation, any departure from the ideal constant value acts as a direct and 
-    quantifiable measure of numerical error. The fact that these deviations systematically decrease and 
-    converge toward a nearly flat baseline as the solver tolerance is reduced confirms that the simulation 
-    is mathematically consistent and converging toward the true physical solution.
-</p>
-
-</div>
-
-<div class="content-wrapper">
-
-  <div class="image-box" style="text-align: center;">
-    <img src="images/SAT.png" alt="Satellite Trajectory" style="max-width: 70%; height: auto; border-radius: 8px;">
-  </div>
-
-</div>
-
-<div class="content-wrapper">
-  <p>
-    Based on the 3D trajectory plot, the numerical integration performed with ODE45 using a loose tolerance of 
-    <strong>10<sup>-2</sup></strong> (red dashed trajectory) gradually drifts inward relative to the analytical Keplerian solution (blue solid trajectory), indicating a progressive loss of orbital accuracy over time. The periapsis, or point of closest approach to Earth, is located near the bottom-right region of the ellipse where the trajectory approaches approximately 
-    <em>Z = -0.5 × 10<sup>4</sup> km</em> and <em>X = 0.5 × 10<sup>4</sup> km</em>. In contrast, the apoapsis, or furthest point from Earth, occurs near the upper-left portion of the orbit where the spacecraft reaches approximately 
-    <em>Z = 2 × 10<sup>4</sup> km</em> and <em>X = -2 × 10<sup>4</sup> km</em>. The numerical error becomes most pronounced near apoapsis because global truncation errors accumulate continuously throughout the propagation process. As the spacecraft passes through the high-velocity periapsis region, the loose solver tolerance allows ODE45 to take excessively large adaptive time steps, reducing its ability to accurately capture the steep gravitational gradients present in that portion of the orbit. This introduces an artificial loss of orbital energy, and the resulting error compounds over time. Consequently, by the time the spacecraft reaches apoapsis, the propagated numerical trajectory significantly undershoots the true analytical orbit, producing the large geometric separation visible in the upper-left region of the plot.
-  </p>
-</div>
 
 </body>
 </html>
