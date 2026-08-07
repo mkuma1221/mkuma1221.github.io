@@ -13,7 +13,7 @@
       color: #333;
     }
 
-    /* --- ADJUSTED BANNER & TITLE STYLES --- */
+    /* --- EXACT MATCH HEADER STYLING --- */
     .page-header {
       position: relative; /* Keeps the home button anchored inside the header */
       background-color: #ffffff !important;
@@ -21,34 +21,39 @@
       background-size: cover;
       background-position: center;
       
-      /* Increased padding & added min-height to make the banner larger */
-      padding: 4.5rem 1.5rem !important; 
-      min-height: 240px;
+      /* Forces exact header height matching index.html banner 
+         (Adjust 210px slightly up/down if your main banner grows/shrinks)
+      */
+      height: 210px !important; 
+      padding: 0 !important;
       
-      /* Centering content inside the taller banner */
+      /* Vertically and horizontally center content */
       display: flex !important;
       flex-direction: column !important;
       justify-content: center !important;
       align-items: center !important;
+      box-sizing: border-box !important;
     }
 
     .page-header .content-wrapper {
       margin: 0 auto !important;
       padding: 0 !important;
+      width: 100%;
     }
 
     .page-header h1 {
       color: #F5F5F5 !important;
-      font-size: 2.2rem !important; /* Decreased font size for title */
+      font-size: 2.5rem !important; /* Matches main heading scale */
       font-weight: 800;
-      margin: 0 !important; /* Prevents extra height from default margins */
+      margin: 0 !important; 
+      line-height: 1.2 !important;
       text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
     }
 
    /* --- Home Button Styling --- */
     .home-btn {
       position: absolute;
-      top: 20px;
+      top: 18px;
       left: 20px;
       display: inline-flex;
       align-items: center;
@@ -61,7 +66,7 @@
       border-radius: 20px;
       font-size: 14px;
       font-weight: 600;
-      backdrop-filter: blur(5px); /* Frosted glass effect */
+      backdrop-filter: blur(5px);
       transition: all 0.2s ease-in-out;
       z-index: 10;
     }
@@ -119,19 +124,6 @@
 
     li {
       margin-bottom: 18px;
-    }
-
-    .equation {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    .equation img {
-      max-width: 400px;
-    }
-
-    .sub-list {
-      margin-top: 10px;
     }
 
     /* --- Interactive Model Viewer Styles --- */
@@ -283,111 +275,4 @@
       </div>
 
       <div class="pipeline-arrow">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-        </svg>
-      </div>
-
-      <div class="model-thumb" onclick="selectModel(2)" id="thumb-2">
-        <img src="images/v2.png" alt="Version 2 Thumbnail">
-        <h4>Version 2</h4>
-      </div>
-
-      <div class="pipeline-arrow">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-        </svg>
-      </div>
-
-      <div class="model-thumb active" onclick="selectModel(3)" id="thumb-3">
-        <img src="images/v3.png" alt="Version 3 Thumbnail">
-        <h4>Version 3</h4>
-      </div>
-
-    </div>
-
-    <div class="model-display-box image-box" style="text-align: left;">
-      <h3 id="display-title">Version 3: Final Integrated Controller</h3>
-      <div style="text-align: center;">
-        <img id="display-img" src="images/v3.png" alt="Simulink Model Version 3" style="max-width: 90%; height: auto;">
-      </div>
-      <p id="display-desc">
-        The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments.
-      </p>
-    </div>
-
-    <h2 class="section-title">Results</h2>
-    <div class="divider"></div>
-
-    <div class="video-grid">
-      <div class="video-card">
-        <h3>10° Step</h3>
-        <video controls>
-          <source src="images/10degstep.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      <div class="video-card">
-        <h3>10° Doublet (5s)</h3>
-        <video controls>
-          <source src="images/doublet.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      <div class="video-card">
-        <h3>15° Square (8s)</h3>
-        <video controls>
-          <source src="images/square.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    // Model dataset
-    const modelData = {
-      1: {
-        title: "Version 1: Initial Baseline Model",
-        img: "images/v1.png",
-        alt: "Simulink Model Version 1",
-        desc: "The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics. It evaluates basic pitch command tracking performance under standard step inputs."
-      },
-      2: {
-        title: "Version 2: Kalman Filter & Noise Integration",
-        img: "images/v2.png",
-        alt: "Simulink Model Version 2",
-        desc: "This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise. Radians-to-degrees conversions were also added for intuitive controller tuning."
-      },
-      3: {
-        title: "Version 3: Final Integrated Controller",
-        img: "images/v3.png",
-        alt: "Simulink Model Version 3",
-        desc: "The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments."
-      }
-    };
-
-    function selectModel(version) {
-      // Update displayed content
-      document.getElementById('display-title').innerText = modelData[version].title;
-      document.getElementById('display-img').src = modelData[version].img;
-      document.getElementById('display-img').alt = modelData[version].alt;
-      document.getElementById('display-desc').innerText = modelData[version].desc;
-
-      // Update active states for thumbnails
-      for (let i = 1; i <= 3; i++) {
-        const thumb = document.getElementById(`thumb-${i}`);
-        if (i === version) {
-          thumb.classList.add('active');
-        } else {
-          thumb.classList.remove('active');
-        }
-      }
-    }
-  </script>
-
-</body>
-</html>
+        <svg viewBox="0 0 24
