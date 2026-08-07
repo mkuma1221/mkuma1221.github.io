@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Kepler Solver Project</title>
+  <title>Pitch Controller Model</title>
 
-<link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
+  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
   
   <style>
     body {
@@ -13,34 +13,43 @@
       color: #333;
     }
 
+    /* --- MATCHED TO INDEX BANNER STYLING --- */
     .page-header {
       position: relative; /* Enables absolute positioning for the home button */
-      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('images/citation550.jpg');
+      background-color: #ffffff !important;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/citation550.jpg') !important;
       background-size: cover;
       background-position: center;
-      padding: 80px 20px;
+      padding: 2.5rem 1.5rem !important; /* Exact match to style.css */
       text-align: center;
     }
 
+    .page-header .content-wrapper {
+      margin: 0 auto !important;
+      padding: 0 !important;
+    }
+
     .page-header h1 {
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-      margin: 0;
+      color: #F5F5F5 !important;
+      font-size: 2.8rem !important; /* Exact match to style.css */
+      font-weight: 800;
+      margin: 0 !important; /* Prevents extra height from default margins */
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
     }
 
    /* --- Home Button Styling --- */
     .home-btn {
       position: absolute;
-      top: 20px;
+      top: 15px;
       left: 20px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       color: #ffffff;
-      text-decoration: none; /* Removes underline in default state */
+      text-decoration: none;
       background-color: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 14px;
       font-weight: 600;
@@ -49,7 +58,6 @@
       z-index: 10;
     }
 
-    /* Prevents Cayman theme from adding an underline on hover/focus/active */
     .home-btn:hover,
     .home-btn:focus,
     .home-btn:active {
@@ -65,7 +73,7 @@
     .home-btn svg {
       width: 16px;
       height: 16px;
-      fill: currentColor; /* Keeps the SVG icon styled with the button text color */
+      fill: currentColor;
     }
 
     .content-wrapper {
@@ -201,6 +209,28 @@
       color: #000080;
       margin-top: 0;
     }
+
+    /* Video section styling */
+    .video-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    .video-card {
+      flex: 1 1 380px;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .video-card video {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
   </style>
 </head>
 
@@ -224,17 +254,13 @@
     <h2 class="section-title">Project Overview and Goals</h2>
     <div class="divider"></div>
     
-<ul>
-  <li>Developed a closed-loop pitch autopilot for a fourth-order longitudinal aircraft state-space model in MATLAB and Simulink using true airspeed, angle of attack, pitch angle, and pitch rate.</li>
-
-  <li>Verified open-loop stability, controllability, and observability through eigenvalue analysis and MATLAB rank tests.</li>
-
-  <li>Implemented a PID controller with an interactive Simulink tuning dashboard and realistic actuator dynamics, including elevator saturation (&plusmn;25&deg;), rate limits (&plusmn;30&deg;/s), and first-order actuator lag.</li>
-
-  <li>Improved robustness by integrating a Kalman filter with Gaussian sensor and aerodynamic disturbance noise, and added anti-windup compensation to reduce saturation-induced overshoot.</li>
-
-  <li>Validated performance using 10&deg; step, 10&deg; doublet, and 15&deg; square-wave commands, with real-time visualization through FlightGear and an artificial horizon display.</li>
-</ul>
+    <ul>
+      <li>Developed a closed-loop pitch autopilot for a fourth-order longitudinal aircraft state-space model in MATLAB and Simulink using true airspeed, angle of attack, pitch angle, and pitch rate.</li>
+      <li>Verified open-loop stability, controllability, and observability through eigenvalue analysis and MATLAB rank tests.</li>
+      <li>Implemented a PID controller with an interactive Simulink tuning dashboard and realistic actuator dynamics, including elevator saturation (&plusmn;25&deg;), rate limits (&plusmn;30&deg;/s), and first-order actuator lag.</li>
+      <li>Improved robustness by integrating a Kalman filter with Gaussian sensor and aerodynamic disturbance noise, and added anti-windup compensation to reduce saturation-induced overshoot.</li>
+      <li>Validated performance using 10&deg; step, 10&deg; doublet, and 15&deg; square-wave commands, with real-time visualization through FlightGear and an artificial horizon display.</li>
+    </ul>
     
     <h2 class="section-title">Simulink Models</h2>
     <div class="divider"></div>
@@ -284,56 +310,32 @@
 
     <h2 class="section-title">Results</h2>
     <div class="divider"></div>
-    
 
-    
- <style>
-  .video-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 24px;
-    max-width: 900px;
-    margin: 30px auto;
-  }
-  .video-card {
-    flex: 1 1 380px;
-    max-width: 420px;
-    text-align: center;
-  }
-  .video-card video {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-</style>
+    <div class="video-grid">
+      <div class="video-card">
+        <h3>10° Step</h3>
+        <video controls>
+          <source src="images/10degstep.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
-<div class="video-grid">
-  <div class="video-card">
-    <h3>10° Step</h3>
-    <video controls>
-      <source src="images/10degstep.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
+      <div class="video-card">
+        <h3>10° Doublet (5s)</h3>
+        <video controls>
+          <source src="images/doublet.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
-  <div class="video-card">
-    <h3>10° Doublet (5s)</h3>
-    <video controls>
-      <source src="images/doublet.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <div class="video-card">
-    <h3>15° Square (8s)</h3>
-    <video controls>
-      <source src="images/square.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
-
+      <div class="video-card">
+        <h3>15° Square (8s)</h3>
+        <video controls>
+          <source src="images/square.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
 
   </div>
 
