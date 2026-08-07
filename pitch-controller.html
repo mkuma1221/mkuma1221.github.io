@@ -13,15 +13,23 @@
       color: #333;
     }
 
-    /* --- MATCHED TO INDEX BANNER STYLING --- */
+    /* --- ADJUSTED BANNER & TITLE STYLES --- */
     .page-header {
-      position: relative; /* Enables absolute positioning for the home button */
+      position: relative; /* Keeps the home button anchored inside the header */
       background-color: #ffffff !important;
       background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/citation550.jpg') !important;
       background-size: cover;
       background-position: center;
-      padding: 2.5rem 1.5rem !important; /* Exact match to style.css */
-      text-align: center;
+      
+      /* Increased padding & added min-height to make the banner larger */
+      padding: 4.5rem 1.5rem !important; 
+      min-height: 240px;
+      
+      /* Centering content inside the taller banner */
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
     }
 
     .page-header .content-wrapper {
@@ -31,7 +39,7 @@
 
     .page-header h1 {
       color: #F5F5F5 !important;
-      font-size: 2.8rem !important; /* Exact match to style.css */
+      font-size: 2.2rem !important; /* Decreased font size for title */
       font-weight: 800;
       margin: 0 !important; /* Prevents extra height from default margins */
       text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
@@ -40,7 +48,7 @@
    /* --- Home Button Styling --- */
     .home-btn {
       position: absolute;
-      top: 15px;
+      top: 20px;
       left: 20px;
       display: inline-flex;
       align-items: center;
