@@ -230,7 +230,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* --- Documentation Button Styling (Option 3) --- */
+    /* --- Electric Blue Ghost Button Styling --- */
     .doc-button-wrapper {
       text-align: center;
       margin: 45px 0 20px 0;
@@ -240,29 +240,43 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 12px 26px;
+      padding: 12px 28px;
       background-color: transparent;
-      color: #000080;
-      border: 2px solid #000080;
+      color: #0077cc;
+      border: 2px solid #00a8ff;
       border-radius: 6px;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
       transition: all 0.25s ease-in-out;
+      outline: none;
     }
 
     .btn-outlined-doc svg {
       width: 18px;
       height: 18px;
       fill: currentColor;
+      transition: fill 0.25s ease-in-out;
     }
 
-    .btn-outlined-doc:hover,
-    .btn-outlined-doc:focus {
-      background-color: #000080;
-      color: #ffffff;
+    /* Restores default transparent look on focus/visited to prevent staying lit */
+    .btn-outlined-doc:focus,
+    .btn-outlined-doc:visited,
+    .btn-outlined-doc:active {
+      background-color: transparent;
+      color: #0077cc;
+      box-shadow: none;
+      transform: none;
       text-decoration: none !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 128, 0.2);
+    }
+
+    /* Lights up purely on hover */
+    .btn-outlined-doc:hover {
+      background-color: #00a8ff;
+      color: #ffffff !important;
+      border-color: #00a8ff;
+      text-decoration: none !important;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.4);
       transform: translateY(-2px);
     }
   </style>
@@ -372,7 +386,7 @@
     </div>
 
     <div class="doc-button-wrapper">
-      <a href="documentation.pdf" target="_blank" class="btn-outlined-doc">
+      <a href="Pitch_Autopilot_Controller.pdf" target="_blank" class="btn-outlined-doc">
         <svg viewBox="0 0 24 24">
           <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
         </svg>
