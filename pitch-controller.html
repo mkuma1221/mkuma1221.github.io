@@ -229,6 +229,42 @@
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+    /* --- Documentation Button Styling (Option 3) --- */
+    .doc-button-wrapper {
+      text-align: center;
+      margin: 45px 0 20px 0;
+    }
+
+    .btn-outlined-doc {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 26px;
+      background-color: transparent;
+      color: #000080;
+      border: 2px solid #000080;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease-in-out;
+    }
+
+    .btn-outlined-doc svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .btn-outlined-doc:hover,
+    .btn-outlined-doc:focus {
+      background-color: #000080;
+      color: #ffffff;
+      text-decoration: none !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 128, 0.2);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 
@@ -333,6 +369,15 @@
           Your browser does not support the video tag.
         </video>
       </div>
+    </div>
+
+    <div class="doc-button-wrapper">
+      <a href="documentation.pdf" target="_blank" class="btn-outlined-doc">
+        <svg viewBox="0 0 24 24">
+          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+        </svg>
+        View Technical Documentation
+      </a>
     </div>
 
   </div>
