@@ -65,10 +65,17 @@ $header-bg-color-secondary: #ffffff;
   opacity: 0.85; /* Soft opacity pulse */
 }
 
-/* Align inline SVG icons smoothly with text */
+/* Align inline SVG icons smoothly with text and force color inheritance */
 .project-tagline svg {
   vertical-align: -0.15em !important;
+  fill: currentColor !important;
   transition: transform 0.2s ease-in-out;
+}
+
+/* Forces the vertical pipe separator to match text color and removes fade */
+.project-tagline span {
+  color: #F5F5F5 !important;
+  opacity: 1 !important;
 }
 
 /* "About Me", "Technical Skills", and "Projects" headers */
