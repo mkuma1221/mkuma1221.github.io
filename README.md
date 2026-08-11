@@ -34,25 +34,34 @@
   /* --- SLIGHTLY LARGER GRID LAYOUT FOR PROJECTS --- */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 460px)); /* Expanded width for slightly bigger cards */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 460px));
     gap: 20px;
     margin-top: 14px;
     margin-bottom: 28px;
   }
 
-  /* SHADED CARDS (STATIONARY - NO HOVER MOVEMENT) */
+  /* --- GLASSMORPHISM PROJECT CARDS --- */
   .project-card {
-    background-color: #f8fafc; /* Subtle shading */
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 12px;
-    padding: 16px; /* Comfortably sized padding */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.65) !important; /* Semi-transparent white */
+    backdrop-filter: blur(12px) saturate(160%); /* Blurs background behind the card */
+    -webkit-backdrop-filter: blur(12px) saturate(160%); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.8) !important; /* Translucent border sheen */
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); /* Soft ambient glass shadow */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  /* FULL IMAGE SHOWCASE (NO CUTOFF / FULL SIZE) */
+  /* Subtle lift effect on hover for glass cards */
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+  }
+
+  /* FULL IMAGE SHOWCASE */
   .project-media {
     text-align: center;
     border: none !important;
@@ -61,13 +70,13 @@
 
   .project-media img {
     width: 100%;
-    height: auto; /* Maintains natural aspect ratio so nothing cuts off */
-    max-height: 200px; /* Slightly taller image container */
+    height: auto;
+    max-height: 200px;
     object-fit: contain;
     border-radius: 8px;
     display: block;
     margin: 0 auto;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   .project-text {
@@ -112,6 +121,8 @@
     text-decoration: none !important;
     font-weight: 600 !important;
     font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
@@ -155,12 +166,14 @@
     gap: 8px;
   }
 
-  /* INDIVIDUAL SKILL PILLS */
+  /* --- GLASSMORPHISM SKILL PILLS --- */
   .skill-pill {
     display: inline-block;
     padding: 5px 12px;
-    background-color: #f8fafc;
-    border: 1px solid #cbd5e1;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(203, 213, 225, 0.8);
     border-radius: 14px;
     font-size: 0.85em;
     font-weight: 500 !important;
@@ -177,24 +190,24 @@
 
   @keyframes temporaryGlow {
     0% {
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.95);
       border-color: var(--glow-color);
-      box-shadow: 0 0 10px var(--glow-color);
+      box-shadow: 0 0 12px var(--glow-color);
       transform: translateY(-2px);
       color: var(--glow-color) !important;
       font-weight: 600 !important;
     }
     60% {
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.95);
       border-color: var(--glow-color);
-      box-shadow: 0 0 10px var(--glow-color);
+      box-shadow: 0 0 12px var(--glow-color);
       transform: translateY(-2px);
       color: var(--glow-color) !important;
       font-weight: 600 !important;
     }
     100% {
-      background-color: #f8fafc;
-      border-color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.55);
+      border-color: rgba(203, 213, 225, 0.8);
       box-shadow: none;
       transform: translateY(0);
       color: #334155 !important;
