@@ -7,10 +7,6 @@ $header-bg-color-secondary: #ffffff;
 
 /* 3. YOUR CUSTOM STYLES */
 .page-header {
-  /* Positioning container for tsparticles overlay */
-  position: relative !important;
-  overflow: hidden !important;
-
   /* White fallback background while image loads */
   background-color: #ffffff !important; 
 
@@ -31,13 +27,6 @@ $header-bg-color-secondary: #ffffff;
   text-align: center;
 }
 
-/* Ensure text & links float ABOVE the particles layer */
-.project-name,
-.project-tagline {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
 .project-name {
   font-size: 2.8rem !important; 
   font-weight: 800;
@@ -56,39 +45,31 @@ $header-bg-color-secondary: #ffffff;
   border-bottom: none !important;
 }
 
-/* Style for the tsparticles container inside page-header */
-#tsparticles {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1 !important; /* Under text (z-index 2), above background */
-  pointer-events: auto; /* Enables mouse interaction */
-}
-
 /* Base style for Email and LinkedIn links */
 .project-tagline a {
   color: #F5F5F5 !important;
   text-decoration: none !important;
   font-family: inherit !important;
   display: inline-block;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
 }
 
+/* Professional hover effect: brightens and lifts slightly instead of underlining */
 .project-tagline a:hover {
-  text-decoration: none !important;
+  text-decoration: none !important; /* Removes underline completely */
   color: #FFFFFF !important;
-  transform: translateY(-1px);
-  opacity: 0.85;
+  transform: translateY(-1px); /* Slight hover lift */
+  opacity: 0.85; /* Soft opacity pulse */
 }
 
+/* Align inline SVG icons smoothly with text and force color inheritance */
 .project-tagline svg {
   vertical-align: -0.15em !important;
   fill: currentColor !important;
   transition: transform 0.2s ease-in-out;
 }
 
+/* Forces the vertical pipe separator to match text color and removes fade */
 .project-tagline span {
   color: #F5F5F5 !important;
   opacity: 1 !important;
