@@ -1,4 +1,17 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
 <style>
+  /* --- PAGE BACKGROUND FOR GLASS REFRACTION --- */
+  body {
+    background-color: #f1f5f9 !important;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(224, 231, 255, 0.6) 0px, transparent 50%) !important;
+    background-attachment: fixed !important;
+  }
+
   /* GLOBAL FONT OVERRIDES */
   body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
@@ -6,6 +19,7 @@
     line-height: 1.55;
   }
 
+  /* Specific targeting for About Me text */
   .about-text, .about-text p {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     color: #334155 !important;
@@ -13,6 +27,7 @@
     line-height: 1.6 !important;
   }
 
+  /* Modern Headings Style & Color */
   h1, h2, h3, h4 {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
     color: #1e293b !important;
@@ -25,7 +40,7 @@
     background-position: center !important;
   }
 
-  /* --- GRID LAYOUT --- */
+  /* --- GRID LAYOUT FOR PROJECTS --- */
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 460px));
@@ -37,7 +52,7 @@
   /* --- TRUE GLASSMORPHISM CARDS --- */
   .project-card {
     /* Frost tint & high blur */
-    background: rgba(255, 255, 255, 0.45) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
     backdrop-filter: blur(16px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
     
@@ -59,13 +74,13 @@
 
   .project-card:hover {
     transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.6) !important;
+    background: rgba(255, 255, 255, 0.7) !important;
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 
                 inset 0 1px 0 0 rgba(255, 255, 255, 1) !important;
     border-color: rgba(37, 99, 235, 0.3) !important;
   }
 
-  /* IMAGE CONTAINMENT */
+  /* FULL IMAGE SHOWCASE */
   .project-media {
     text-align: center;
     border: none !important;
@@ -100,8 +115,14 @@
     text-align: left;
   }
 
-  h2, h3, p { margin-top: 0; }
-  img, div, section { border: none !important; }
+  /* SPACING & CLEANUP */
+  h2, h3, p {
+    margin-top: 0;
+  }
+
+  img, div, section {
+    border: none !important;
+  }
 
   .main-content {
     max-width: 1400px !important;
@@ -132,7 +153,7 @@
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   }
 
-  /* BULLETS */
+  /* PROJECT BULLETS */
   .project-text ul {
     list-style-type: square;
     padding-left: 18px;
@@ -147,8 +168,11 @@
     line-height: 1.4;
   }
 
-  /* SKILLS */
-  .skill-group { margin-bottom: 18px; }
+  /* SKILL GROUPS */
+  .skill-group {
+    margin-bottom: 18px;
+  }
+
   .skill-group h3 {
     margin-bottom: 8px;
     color: #475569 !important;
@@ -156,6 +180,7 @@
     font-weight: 600 !important;
   }
 
+  /* SKILL PILL CONTAINER */
   .skill-pills {
     display: flex;
     flex-wrap: wrap;
@@ -180,6 +205,7 @@
     cursor: pointer;
   }
 
+  /* Hover glow animation for skill pills */
   .skill-pill:hover {
     animation: temporaryGlow 1.5s ease-out forwards;
   }
@@ -203,6 +229,7 @@
     }
   }
 
+  /* Brand-Specific Glow Colors */
   .skill-pill.matlab     { --glow-color: #e05206; }
   .skill-pill.python     { --glow-color: #306998; }
   .skill-pill.cpp        { --glow-color: #00599c; }
@@ -214,3 +241,102 @@
   .skill-pill.starccm    { --glow-color: #00a3a6; }
   .skill-pill.altium     { --glow-color: #cc9900; }
 </style>
+
+<table style="width:100%; border-collapse:collapse; border:none; margin-bottom:30px;">
+  <tr>
+    <td style="width:60%; vertical-align:top; padding-right:35px; border:none;" class="about-text">
+      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:12px;">
+        About Me
+      </h2>
+      <p style="margin-bottom:0;">
+       Hi, I'm Mohana Kumanan, an aerospace engineering student with a primary focus on Guidance, Navigation, and Control (GNC), orbital mechanics, and aerospace structures. My experience centers on technical analysis, spacecraft dynamics, and computational modeling. I regularly use MATLAB, Simulink, and numerical methods to model, analyze, and validate complex aerospace systems. This portfolio showcases the computational tools, engineering methodologies, and technical projects I have developed throughout my academic and personal work. This portfolio will continue to grow as I complete new projects. If you have any feedback or would like to connect, please feel free to reach out.
+      </p>
+    </td>
+
+    <td style="width:40%; vertical-align:top; border:none;">
+      <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:18px;">
+        Technical Skills
+      </h2>
+
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <div class="skill-pills">
+          <span class="skill-pill matlab">MATLAB</span>
+          <span class="skill-pill python">Python</span>
+          <span class="skill-pill cpp">C++</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <h3>Software</h3>
+        <div class="skill-pills">
+          <span class="skill-pill simulink">Simulink</span>
+          <span class="skill-pill stateflow">Stateflow</span>
+          <span class="skill-pill solidworks">SolidWorks</span>
+          <span class="skill-pill ansys">Ansys</span>
+          <span class="skill-pill flightgear">FlightGear</span>
+          <span class="skill-pill starccm">STAR-CCM+</span>
+          <span class="skill-pill altium">Altium</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<h2 style="font-size: 1.8em; margin-bottom: 12px;">
+  Projects
+</h2>
+
+<div class="projects-grid">
+
+  <div class="project-card">
+    <div class="project-media">
+      <img src="images/SAT.png" alt="Satellite Trajectory">
+      <p style="font-size: 0.78em; color: #64748b !important; margin-top: 5px; font-style: italic; margin-bottom: 0;">
+        Comparison of Newton-Raphson to ODE45
+      </p>
+    </div>
+
+    <div class="project-text">
+      <div>
+        <h3>Kepler’s Problem Solver & Orbital Propagation</h3>
+        <ul>
+          <li>Solved Kepler's equation using Newton–Raphson iteration.</li>
+          <li>Computed Classical Orbital Elements (COEs).</li>
+          <li>Verified conservation of orbital energy & angular momentum.</li>
+          <li>Transformed states between perifocal & ECI reference frames.</li>
+        </ul>
+      </div>
+
+      <a href="kepler-solver.html" class="project-button">
+        View More Details
+      </a>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-media">
+      <img src="images/cessna.png" alt="Closed-Loop Pitch Controller">
+      <p style="font-size: 0.78em; color: #64748b !important; margin-top: 5px; font-style: italic; margin-bottom: 0;">
+        Closed-Loop Pitch Controller in Action
+      </p>
+    </div>
+
+    <div class="project-text">
+      <div>
+        <h3>Pitch Autopilot Controller Model</h3>
+        <ul>
+          <li>Designed PID controller with anti-windup & actuator dynamics.</li>
+          <li>Implemented Kalman filtering for robust state estimation.</li>
+          <li>Evaluated performance using step, doublet, & square-wave inputs.</li>
+          <li>Visualized response through real-time FlightGear 6DOF simulation.</li>
+        </ul>
+      </div>
+
+      <a href="pitch-controller.html" class="project-button">
+        View More Details
+      </a>
+    </div>
+  </div>
+
+</div>
