@@ -52,22 +52,23 @@
     justify-content: space-between;
   }
 
-  /* FULL IMAGE SHOWCASE (NO CUTOFF / FULL SIZE) */
+  /* FIXED FULL-WIDTH IMAGE CONTAINER (NO SIDE WHITE SPACE) */
   .project-media {
     text-align: center;
     border: none !important;
     margin-bottom: 10px;
+    width: 100%;
+    height: 200px; /* Fixed height container for consistent card sizing */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 
   .project-media img {
     width: 100%;
-    height: auto; /* Maintains natural aspect ratio so nothing cuts off */
-    max-height: 200px; /* Slightly taller image container */
-    object-fit: contain;
-    border-radius: 8px;
+    height: 100%;
+    object-fit: cover; /* Fills the entire container area and eliminates left/right white margins */
     display: block;
-    margin: 0 auto;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 
   .project-text {
@@ -265,10 +266,10 @@
   <div class="project-card">
     <div class="project-media">
       <img src="images/SAT.png" alt="Satellite Trajectory">
-      <p style="font-size: 0.78em; color: #64748b !important; margin-top: 5px; font-style: italic; margin-bottom: 0;">
-        Comparison of Newton-Raphson to ODE45
-      </p>
     </div>
+    <p style="font-size: 0.78em; color: #64748b !important; margin-top: 6px; font-style: italic; margin-bottom: 10px; text-align: center;">
+      Comparison of Newton-Raphson to ODE45
+    </p>
 
     <div class="project-text">
       <div>
@@ -290,10 +291,10 @@
   <div class="project-card">
     <div class="project-media">
       <img src="images/cessna.png" alt="Closed-Loop Pitch Controller">
-      <p style="font-size: 0.78em; color: #64748b !important; margin-top: 5px; font-style: italic; margin-bottom: 0;">
-        Closed-Loop Pitch Controller in Action
-      </p>
     </div>
+    <p style="font-size: 0.78em; color: #64748b !important; margin-top: 6px; font-style: italic; margin-bottom: 10px; text-align: center;">
+      Closed-Loop Pitch Controller in Action
+    </p>
 
     <div class="project-text">
       <div>
