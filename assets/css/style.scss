@@ -7,31 +7,32 @@ $header-bg-color-secondary: #ffffff;
 
 /* 3. YOUR CUSTOM STYLES */
 .page-header {
+  /* Positioning & container properties */
+  position: relative !important;
+  overflow: hidden !important;
+
   /* White fallback background while image loads */
   background-color: #ffffff !important; 
 
-  /* Darker overlay for better contrast */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('GAX.jpg') !important;
-  background-size: cover;
-  background-position: center;
+  /* Darker overlay for strong background contrast */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/GAX.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
 
   /* Adjust for banner height */
   padding: 2.5rem 1.5rem !important; 
 
-  /* Sets the main title color */
-  color: #F5F5F5 !important; 
-
-  /* Strong shadows for maximum readability */
-  text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
-
+  /* Sets default text alignment */
   text-align: center;
 }
 
+/* Fixes title color and shadow to prevent dark grey rendering */
 .project-name {
   font-size: 2.8rem !important; 
-  font-weight: 800;
+  font-weight: 800 !important;
   margin-bottom: 0.5rem;
-  color: #F5F5F5 !important;
+  color: #FFFFFF !important;
+  text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Subtitle / Tagline styles */
@@ -39,15 +40,15 @@ $header-bg-color-secondary: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   font-size: 1.2rem !important;
   font-weight: 600 !important;
-  color: #F5F5F5 !important; 
+  color: #FFFFFF !important; 
   opacity: 1 !important;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 1) !important;
   border-bottom: none !important;
 }
 
 /* Base style for Email and LinkedIn links */
 .project-tagline a {
-  color: #F5F5F5 !important;
+  color: #FFFFFF !important;
   text-decoration: none !important;
   font-family: inherit !important;
   display: inline-block;
@@ -71,7 +72,7 @@ $header-bg-color-secondary: #ffffff;
 
 /* Forces the vertical pipe separator to match text color and removes fade */
 .project-tagline span {
-  color: #F5F5F5 !important;
+  color: #FFFFFF !important;
   opacity: 1 !important;
 }
 
