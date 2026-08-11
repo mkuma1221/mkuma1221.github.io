@@ -3,15 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* --- PAGE BACKGROUND FOR GLASS REFRACTION --- */
-  body {
-    background-color: #f1f5f9 !important;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(224, 231, 255, 0.6) 0px, transparent 50%) !important;
-    background-attachment: fixed !important;
-  }
-
   /* GLOBAL FONT OVERRIDES */
   body, p, li, a, span, button, td, div {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
@@ -40,64 +31,43 @@
     background-position: center !important;
   }
 
-  /* --- GRID LAYOUT FOR PROJECTS --- */
+  /* --- SLIGHTLY LARGER GRID LAYOUT FOR PROJECTS --- */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 460px));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 460px)); /* Expanded width for slightly bigger cards */
+    gap: 20px;
     margin-top: 14px;
     margin-bottom: 28px;
   }
 
-  /* --- TRUE GLASSMORPHISM CARDS --- */
+  /* SHADED CARDS (STATIONARY - NO HOVER MOVEMENT) */
   .project-card {
-    /* Frost tint & high blur */
-    background: rgba(255, 255, 255, 0.5) !important;
-    backdrop-filter: blur(16px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-    
-    /* Crisp glass borders & drop shadow */
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-bottom: 1px solid rgba(222, 226, 230, 0.6) !important;
-    border-radius: 16px;
-    padding: 20px;
-    
-    /* Multi-layered glass shadow for depth */
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.9) !important;
-    
+    background-color: #f8fafc; /* Subtle shading */
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px;
+    padding: 16px; /* Comfortably sized padding */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .project-card:hover {
-    transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.7) !important;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 
-                inset 0 1px 0 0 rgba(255, 255, 255, 1) !important;
-    border-color: rgba(37, 99, 235, 0.3) !important;
-  }
-
-  /* FULL IMAGE SHOWCASE */
+  /* FULL IMAGE SHOWCASE (NO CUTOFF / FULL SIZE) */
   .project-media {
     text-align: center;
     border: none !important;
-    margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    padding: 8px;
+    margin-bottom: 10px;
   }
 
   .project-media img {
     width: 100%;
-    height: auto;
-    max-height: 200px;
+    height: auto; /* Maintains natural aspect ratio so nothing cuts off */
+    max-height: 200px; /* Slightly taller image container */
     object-fit: contain;
-    border-radius: 6px;
+    border-radius: 8px;
     display: block;
     margin: 0 auto;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 
   .project-text {
@@ -134,23 +104,21 @@
   .project-button {
     display: inline-block;
     align-self: flex-start;
-    margin-top: 12px;
-    padding: 8px 16px;
-    border: 1px solid rgba(37, 99, 235, 0.4);
-    border-radius: 8px;
+    margin-top: 10px;
+    padding: 7px 14px;
+    border: 1.5px solid #2563eb;
+    border-radius: 6px;
     color: #2563eb !important;
     text-decoration: none !important;
     font-weight: 600 !important;
     font-size: 0.85em;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(4px);
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   .project-button:hover {
     background-color: #2563eb;
     color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    text-decoration: none !important;
   }
 
   /* PROJECT BULLETS */
@@ -187,16 +155,13 @@
     gap: 8px;
   }
 
-  /* --- GLASS SKILL PILLS --- */
+  /* INDIVIDUAL SKILL PILLS */
   .skill-pill {
     display: inline-block;
-    padding: 6px 14px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.8);
-    border-radius: 20px;
+    padding: 5px 12px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
     font-size: 0.85em;
     font-weight: 500 !important;
     color: #334155 !important;
@@ -211,18 +176,26 @@
   }
 
   @keyframes temporaryGlow {
-    0%, 60% {
-      background-color: rgba(255, 255, 255, 0.95);
+    0% {
+      background-color: #ffffff;
       border-color: var(--glow-color);
-      box-shadow: 0 0 12px var(--glow-color);
+      box-shadow: 0 0 10px var(--glow-color);
+      transform: translateY(-2px);
+      color: var(--glow-color) !important;
+      font-weight: 600 !important;
+    }
+    60% {
+      background-color: #ffffff;
+      border-color: var(--glow-color);
+      box-shadow: 0 0 10px var(--glow-color);
       transform: translateY(-2px);
       color: var(--glow-color) !important;
       font-weight: 600 !important;
     }
     100% {
-      background: rgba(255, 255, 255, 0.6);
-      border-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+      box-shadow: none;
       transform: translateY(0);
       color: #334155 !important;
       font-weight: 500 !important;
