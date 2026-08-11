@@ -52,7 +52,7 @@
     justify-content: space-between;
   }
 
-  /* FIXED FULL-WIDTH IMAGE CONTAINER (NO SIDE WHITE SPACE) */
+  /* FIXED IMAGE CONTAINER */
   .project-media {
     text-align: center;
     border: none !important;
@@ -62,13 +62,21 @@
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff; /* Clean white background behind contained images */
   }
 
   .project-media img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Fills the entire container area and eliminates left/right white margins */
+    object-fit: cover;
     display: block;
+  }
+
+  /* SPECIFIC FIT FOR LEFT GRAPH (Prevents cropping axis & legend) */
+  .project-media img.sat-img {
+    object-fit: contain !important;
+    padding: 6px; /* Padding ensures plot labels/legend are fully visible */
+    box-sizing: border-box;
   }
 
   .project-text {
@@ -265,7 +273,7 @@
 
   <div class="project-card">
     <div class="project-media">
-      <img src="images/SAT.png" alt="Satellite Trajectory">
+      <img src="images/SAT.png" alt="Satellite Trajectory" class="sat-img">
     </div>
     <p style="font-size: 0.78em; color: #64748b !important; margin-top: 6px; font-style: italic; margin-bottom: 10px; text-align: center;">
       Comparison of Newton-Raphson to ODE45
