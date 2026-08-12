@@ -238,3 +238,87 @@
     <td style="width:40%; vertical-align:top; border:none;">
       <h2 style="font-size:1.8em; margin-top:20px; margin-bottom:18px;">
         Technical Skills
+      </h2>
+
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <div class="skill-pills">
+          <span class="skill-pill matlab">MATLAB</span>
+          <span class="skill-pill python">Python</span>
+          <span class="skill-pill cpp">C++</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <h3>Software</h3>
+        <div class="skill-pills">
+          <span class="skill-pill simulink">Simulink</span>
+          <span class="skill-pill stateflow">Stateflow</span>
+          <span class="skill-pill solidworks">SolidWorks</span>
+          <span class="skill-pill ansys">Ansys</span>
+          <span class="skill-pill flightgear">FlightGear</span>
+          <span class="skill-pill starccm">STAR-CCM+</span>
+          <span class="skill-pill altium">Altium</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<h2 style="font-size: 1.8em; margin-bottom: 12px;">
+  Projects
+</h2>
+
+<div class="projects-grid">
+
+  <div class="project-card">
+    <div class="project-media">
+      <img src="images/SAT.png" alt="Satellite Trajectory" class="sat-img">
+    </div>
+    <p style="font-size: 0.78em; color: #64748b !important; margin-top: 6px; font-style: italic; margin-bottom: 10px; text-align: center;">
+      Comparison of Newton-Raphson to ODE45
+    </p>
+
+    <div class="project-text">
+      <div>
+        <h3>Kepler’s Problem Solver & Orbital Propagation</h3>
+        <ul>
+          <li>Solved Kepler's equation using Newton–Raphson iteration.</li>
+          <li>Computed Classical Orbital Elements (COEs).</li>
+          <li>Verified conservation of orbital energy & angular momentum.</li>
+          <li>Transformed states between perifocal & ECI reference frames.</li>
+        </ul>
+      </div>
+
+      <a href="kepler-solver.html" class="project-button">
+        View More Details
+      </a>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-media">
+      <img src="images/cessna.png" alt="Closed-Loop Pitch Controller">
+    </div>
+    <p style="font-size: 0.78em; color: #64748b !important; margin-top: 6px; font-style: italic; margin-bottom: 10px; text-align: center;">
+      Closed-Loop Pitch Controller in Action
+    </p>
+
+    <div class="project-text">
+      <div>
+        <h3>Pitch Autopilot Controller Model</h3>
+        <ul>
+          <li>Designed PID controller with anti-windup & actuator dynamics.</li>
+          <li>Implemented Kalman filtering for robust state estimation.</li>
+          <li>Evaluated performance using step, doublet, & square-wave inputs.</li>
+          <li>Visualized response through real-time FlightGear 6DOF simulation.</li>
+        </ul>
+      </div>
+
+      <a href="pitch-controller.html" class="project-button">
+        View More Details
+      </a>
+    </div>
+  </div>
+
+</div>
