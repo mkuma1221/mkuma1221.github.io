@@ -3,7 +3,10 @@
 
 @import "jekyll-theme-cayman";
 
-/* GLOBAL FONT OVERRIDES */
+/* ==========================================================================
+   GLOBAL FONT & TYPOGRAPHY OVERRIDES
+   ========================================================================== */
+
 body, p, li, a, span, button, td, div {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   color: #334155;
@@ -25,44 +28,64 @@ h1, h2, h3, h4 {
   font-weight: 700 !important;
 }
 
+/* Header Background Image Fix (Points out of css/ into root images/ folder) */
 .page-header {
-  background-image: url('images/GAX.jpg') !important;
+  background-image: url('../images/GAX.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
 }
 
-/* --- SLIGHTLY LARGER GRID LAYOUT FOR PROJECTS --- */
+/* Reset headings and general block margins */
+h2, h3, p {
+  margin-top: 0;
+}
+
+img, div, section {
+  border: none !important;
+}
+
+.main-content {
+  max-width: 1400px !important;
+  width: 92% !important;
+  margin: 0 auto !important;
+}
+
+
+/* ==========================================================================
+   PROJECTS GRID LAYOUT
+   ========================================================================== */
+
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 460px)); /* Expanded width for slightly bigger cards */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 460px));
   gap: 20px;
   margin-top: 14px;
   margin-bottom: 28px;
 }
 
-/* SHADED CARDS (STATIONARY - NO HOVER MOVEMENT) */
+/* Shaded Cards */
 .project-card {
-  background-color: #f8fafc; /* Subtle shading */
+  background-color: #f8fafc;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px;
-  padding: 16px; /* Comfortably sized padding */
+  padding: 16px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* FIXED IMAGE CONTAINER */
+/* Fixed Image Container */
 .project-media {
   text-align: center;
   border: none !important;
   margin-bottom: 10px;
   width: 100%;
-  height: 200px; /* Fixed height container for consistent card sizing */
+  height: 200px;
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff; /* Clean white background behind contained images */
+  background-color: #ffffff;
 }
 
 .project-media img {
@@ -72,10 +95,10 @@ h1, h2, h3, h4 {
   display: block;
 }
 
-/* SPECIFIC FIT FOR LEFT GRAPH (Prevents cropping axis & legend) */
+/* Specific Fit for Left Plot Image */
 .project-media img.sat-img {
   object-fit: contain !important;
-  padding: 6px; /* Padding ensures plot labels/legend are fully visible */
+  padding: 6px;
   box-sizing: border-box;
 }
 
@@ -94,22 +117,22 @@ h1, h2, h3, h4 {
   text-align: left;
 }
 
-/* SPACING & CLEANUP */
-h2, h3, p {
-  margin-top: 0;
+/* Project Bullets */
+.project-text ul {
+  list-style-type: square;
+  padding-left: 18px;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
-img, div, section {
-  border: none !important;
+.project-text li {
+  margin-bottom: 5px;
+  font-size: 0.85em;
+  color: #475569 !important;
+  line-height: 1.4;
 }
 
-.main-content {
-  max-width: 1400px !important;
-  width: 92% !important;
-  margin: 0 auto !important;
-}
-
-/* BUTTON STYLING */
+/* Button Styling */
 .project-button {
   display: inline-block;
   align-self: flex-start;
@@ -130,22 +153,11 @@ img, div, section {
   text-decoration: none !important;
 }
 
-/* PROJECT BULLETS */
-.project-text ul {
-  list-style-type: square;
-  padding-left: 18px;
-  margin-top: 4px;
-  margin-bottom: 8px;
-}
 
-.project-text li {
-  margin-bottom: 5px;
-  font-size: 0.85em;
-  color: #475569 !important;
-  line-height: 1.4;
-}
+/* ==========================================================================
+   TECHNICAL SKILLS & PILL ANIMATIONS
+   ========================================================================== */
 
-/* SKILL GROUPS */
 .skill-group {
   margin-bottom: 18px;
 }
@@ -157,14 +169,12 @@ img, div, section {
   font-weight: 600 !important;
 }
 
-/* SKILL PILL CONTAINER */
 .skill-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-/* INDIVIDUAL SKILL PILLS */
 .skill-pill {
   display: inline-block;
   padding: 5px 12px;
@@ -179,7 +189,7 @@ img, div, section {
   cursor: pointer;
 }
 
-/* Hover glow animation for skill pills */
+/* Hover Glow Keyframe Animation */
 .skill-pill:hover {
   animation: temporaryGlow 1.5s ease-out forwards;
 }
