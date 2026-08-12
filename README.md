@@ -4,6 +4,7 @@ layout: default
 
 <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.1.0/tsparticles.slim.bundle.min.js"></script>
 
+{% raw %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   // 1. Locate the Cayman banner header
@@ -80,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+{% endraw %}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
