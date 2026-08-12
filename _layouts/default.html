@@ -78,40 +78,47 @@
 
       // --- COLORFUL AMBIENT BACKGROUND STARS ---
       const starColors = [
-        "rgba(255, 255, 255, ",  // Crisp White
+        "rgba(255, 255, 255, ",  // White
         "rgba(136, 204, 255, ",  // Soft Ice Blue
-        "rgba(100, 170, 255, ",  // Deep Cosmic Blue
-        "rgba(255, 150, 150, ",  // Warm Soft Red/Coral
-        "rgba(255, 190, 170, "   // Orange-Red Star Tone
+        "rgba(100, 170, 255, ",  // Deep Blue
+        "rgba(255, 150, 150, ",  // Warm Red/Coral
+        "rgba(255, 190, 170, "   // Orange-Red
       ];
 
-      const numAmbientStars = 35; // Reduced star count
+      const numAmbientStars = 35;
       const ambientStars = [];
       for (let i = 0; i < numAmbientStars; i++) {
         ambientStars.push({
           x: Math.random(),
           y: Math.random(),
           size: Math.random() * 1.6 + 0.5,
-          baseAlpha: Math.random() * 0.5 + 0.2,
+          alpha: Math.random() * 0.8 + 0.1,
           colorPrefix: starColors[Math.floor(Math.random() * starColors.length)],
-          speed: Math.random() * 0.008 + 0.002 // Significantly slowed pulse speed
+          speed: Math.random() * 0.002 + 0.001, // Extremely slow fade rate
+          fadeDir: Math.random() > 0.5 ? 1 : -1
         });
       }
 
-      // --- BRIGHTER FLOATING CONSTELLATIONS ---
+      // --- 3 GRID COLUMNS FOR NON-OVERLAPPING CONSTELLATIONS ---
       const activeCount = 3; 
       const activeConstellations = [];
 
-      function spawnConstellation() {
+      function spawnConstellation(zoneIndex) {
         const template = CONSTELLATION_DATA[Math.floor(Math.random() * CONSTELLATION_DATA.length)];
-        const scale = Math.random() * 0.5 + 0.5;
+        const scale = Math.random() * 0.45 + 0.45;
         
+        // Divide canvas width into 3 columns (0: Left, 1: Center, 2: Right)
+        const colWidth = canvas.width / 3;
+        const minX = (zoneIndex * colWidth) + 10;
+        const maxX = (zoneIndex + 1) * colWidth - 120;
+
         return {
           template: template,
-          x: Math.random() * (canvas.width - 160) + 20,
-          y: Math.random() * (canvas.height - 100) + 10,
-          vx: (Math.random() - 0.5) * 0.12, // Gentle drift
-          vy: (Math.random() - 0.5) * 0.06,
+          zoneIndex: zoneIndex,
+          x: Math.random() * Math.max(10, maxX - minX) + minX,
+          y: Math.random() * (canvas.height - 90) + 10,
+          vx: (Math.random() - 0.5) * 0.08, // Very subtle drift bounded inside its grid column
+          vy: (Math.random() - 0.5) * 0.04,
           scale: scale,
           alpha: 0,
           fadeState: "in",
@@ -120,7 +127,7 @@
       }
 
       for (let i = 0; i < activeCount; i++) {
-        const c = spawnConstellation();
+        const c = spawnConstellation(i);
         c.alpha = Math.random() * 0.4;
         activeConstellations.push(c);
       }
@@ -129,24 +136,35 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Draw Slow-twinkling Ambient Stars
+        // 1. Draw Slow-fading Stars (Fade out completely -> Jump location -> Fade in)
         ambientStars.forEach(star => {
-          const currentAlpha = star.baseAlpha + Math.sin(Date.now() * star.speed) * 0.25;
-          const a = Math.max(0.1, Math.min(0.85, currentAlpha));
-          ctx.fillStyle = star.colorPrefix + a + ")";
+          star.alpha += star.speed * star.fadeDir;
+
+          if (star.alpha >= 0.85) {
+            star.alpha = 0.85;
+            star.fadeDir = -1; // Start fading out
+          } else if (star.alpha <= 0.02) {
+            star.alpha = 0.02;
+            star.fadeDir = 1; // Start fading in
+            // Relocate star randomly across canvas when invisible
+            star.x = Math.random();
+            star.y = Math.random();
+          }
+
+          ctx.fillStyle = star.colorPrefix + star.alpha + ")";
           ctx.beginPath();
           ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
           ctx.fill();
         });
 
-        // 2. Draw Brighter Constellations
+        // 2. Draw Grid-Bounded Constellations
         activeConstellations.forEach((c, index) => {
           c.x += c.vx;
           c.y += c.vy;
 
           if (c.fadeState === "in") {
-            c.alpha += 0.004;
-            if (c.alpha >= 0.65) { // Increased brightness limit (0.65)
+            c.alpha += 0.003;
+            if (c.alpha >= 0.65) {
               c.alpha = 0.65;
               c.fadeState = "hold";
             }
@@ -156,9 +174,9 @@
               c.fadeState = "out";
             }
           } else if (c.fadeState === "out") {
-            c.alpha -= 0.004;
+            c.alpha -= 0.003;
             if (c.alpha <= 0) {
-              activeConstellations[index] = spawnConstellation();
+              activeConstellations[index] = spawnConstellation(c.zoneIndex);
             }
           }
 
@@ -167,7 +185,7 @@
             y: c.y + (s[1] * c.scale)
           }));
 
-          // Draw Brighter Connecting Lines
+          // Draw Connecting Lines
           ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.65})`; 
           ctx.lineWidth = 1;
           c.template.lines.forEach(line => {
@@ -181,7 +199,7 @@
             }
           });
 
-          // Draw Brighter Star Nodes
+          // Draw Star Nodes
           points.forEach(p => {
             ctx.fillStyle = `rgba(255, 255, 255, ${c.alpha * 1.3})`;
             ctx.shadowBlur = 6;
@@ -189,7 +207,7 @@
             ctx.beginPath();
             ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
             ctx.fill();
-            ctx.shadowBlur = 0; // Reset glow
+            ctx.shadowBlur = 0;
           });
         });
 
