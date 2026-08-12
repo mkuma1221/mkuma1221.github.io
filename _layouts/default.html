@@ -59,21 +59,22 @@
       resize();
       window.addEventListener("resize", resize);
 
-      // --- CONSTELLATION DATASETS (Normalized Coordinates 0-100) ---
+      // --- NEW CONSTELLATION DATASETS (Normalized Coordinates 0-100) ---
       const CONSTELLATION_DATA = [
-        { name: "Aries", stars: [[0, 20], [30, 10], [60, 30], [100, 60]], lines: [[0,1], [1,2], [2,3]] },
-        { name: "Taurus", stars: [[0, 50], [30, 30], [50, 40], [70, 0], [90, 80], [35, 60]], lines: [[0,1], [1,2], [2,3], [2,4], [1,5]] },
-        { name: "Gemini", stars: [[10, 0], [20, 20], [30, 50], [40, 90], [70, 10], [75, 40], [80, 80]], lines: [[0,1], [1,2], [2,3], [4,5], [5,6], [1,4]] },
-        { name: "Cancer", stars: [[50, 50], [20, 20], [80, 30], [50, 90]], lines: [[0,1], [0,2], [0,3]] },
-        { name: "Leo", stars: [[80, 20], [60, 0], [40, 10], [45, 35], [70, 45], [90, 80], [40, 85], [10, 60], [45, 35]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[4,5],[5,6],[6,7],[7,3]] },
-        { name: "Virgo", stars: [[50,0],[30,30],[10,60],[40,65],[80,70],[90,40],[60,35]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],[3,6]] },
-        { name: "Libra", stars: [[20,20],[80,10],[90,60],[50,90],[10,50]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[0,2]] },
+        { name: "Orion", stars: [[10,0],[90,5],[30,45],[50,47],[70,49],[20,95],[80,100]], lines: [[0,2],[1,4],[2,3],[3,4],[2,5],[4,6],[0,1],[5,6]] },
         { name: "Scorpius", stars: [[10,10],[30,20],[40,35],[45,55],[40,75],[25,90],[10,80],[15,65],[70,25],[85,10],[85,40]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[2,8],[8,9],[8,10]] },
-        { name: "Sagittarius", stars: [[30,20],[50,15],[70,30],[50,50],[30,45],[10,70],[50,85],[80,75]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[3,5],[3,6],[2,7]] },
-        { name: "Capricornus", stars: [[10,20],[40,10],[80,30],[90,60],[60,85],[30,70],[10,40]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0],[1,5]] },
-        { name: "Aquarius", stars: [[50,10],[30,30],[10,40],[40,55],[70,40],[80,70],[60,90],[30,80]], lines: [[0,1],[1,2],[1,3],[3,4],[4,5],[5,6],[6,7],[3,7]] },
-        { name: "Pisces", stars: [[10,10],[30,35],[50,50],[70,60],[85,80],[95,65],[75,95],[20,20]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[4,6],[5,6],[0,7]] },
-        { name: "Ophiuchus", stars: [[50,10],[20,40],[80,40],[25,80],[75,80],[50,95]], lines: [[0,1],[0,2],[1,3],[2,4],[3,5],[4,5],[1,2]] }
+        { name: "Cygnus", stars: [[50,0],[50,35],[50,65],[50,100],[0,35],[100,35]], lines: [[0,1],[1,2],[2,3],[4,1],[1,5]] },
+        { name: "Cassiopeia", stars: [[0,100],[25,20],[50,60],[75,0],[100,40]], lines: [[0,1],[1,2],[2,3],[3,4]] },
+        { name: "Crux", stars: [[50,0],[50,100],[0,45],[100,55]], lines: [[0,1],[2,3]] },
+        { name: "Taurus", stars: [[0,50],[30,30],[50,40],[70,0],[90,80],[35,60]], lines: [[0,1],[1,2],[2,3],[2,4],[1,5]] },
+        { name: "Pegasus", stars: [[10,10],[80,10],[90,80],[20,70],[0,95],[100,0]], lines: [[0,1],[1,2],[2,3],[3,0],[3,4],[1,5]] },
+        { name: "Ursa Major", stars: [[0,0],[20,25],[35,45],[50,55],[55,90],[95,95],[90,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]] },
+        { name: "Leo", stars: [[80,20],[60,0],[40,10],[45,35],[70,45],[90,80],[40,85],[10,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[4,5],[5,6],[6,7],[7,3]] },
+        { name: "Lyra", stars: [[50,0],[30,35],[70,35],[30,85],[70,85]], lines: [[0,1],[0,2],[1,2],[1,3],[2,4],[3,4]] },
+        { name: "Gemini", stars: [[10,0],[20,20],[30,50],[40,90],[70,10],[75,40],[80,80]], lines: [[0,1],[1,2],[2,3],[4,5],[5,6],[1,4]] },
+        { name: "Aquila", stars: [[50,0],[20,40],[80,40],[50,65],[50,100]], lines: [[0,1],[0,2],[1,3],[2,3],[3,4]] },
+        { name: "Andromeda", stars: [[0,50],[30,40],[60,30],[90,10],[35,75],[65,85]], lines: [[0,1],[1,2],[2,3],[1,4],[2,5]] },
+        { name: "Canis Major", stars: [[30,0],[10,35],[60,30],[80,65],[40,80],[95,90]], lines: [[0,1],[0,2],[2,3],[3,4],[3,5],[1,4]] }
       ];
 
       // --- COLORFUL AMBIENT BACKGROUND STARS ---
@@ -91,10 +92,10 @@
         ambientStars.push({
           x: Math.random(),
           y: Math.random(),
-          size: Math.random() * 1.6 + 0.5,
+          size: Math.random() * 0.8 + 0.2, // Smaller starting ambient star size
           alpha: Math.random() * 0.8 + 0.1,
           colorPrefix: starColors[Math.floor(Math.random() * starColors.length)],
-          speed: Math.random() * 0.002 + 0.001, // Extremely slow fade rate
+          speed: Math.random() * 0.002 + 0.001, // Ultra slow fade rate
           fadeDir: Math.random() > 0.5 ? 1 : -1
         });
       }
@@ -107,7 +108,6 @@
         const template = CONSTELLATION_DATA[Math.floor(Math.random() * CONSTELLATION_DATA.length)];
         const scale = Math.random() * 0.45 + 0.45;
         
-        // Divide canvas width into 3 columns (0: Left, 1: Center, 2: Right)
         const colWidth = canvas.width / 3;
         const minX = (zoneIndex * colWidth) + 10;
         const maxX = (zoneIndex + 1) * colWidth - 120;
@@ -117,7 +117,7 @@
           zoneIndex: zoneIndex,
           x: Math.random() * Math.max(10, maxX - minX) + minX,
           y: Math.random() * (canvas.height - 90) + 10,
-          vx: (Math.random() - 0.5) * 0.08, // Very subtle drift bounded inside its grid column
+          vx: (Math.random() - 0.5) * 0.08,
           vy: (Math.random() - 0.5) * 0.04,
           scale: scale,
           alpha: 0,
@@ -136,16 +136,16 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Draw Slow-fading Stars (Fade out completely -> Jump location -> Fade in)
+        // 1. Draw Slow-fading Ambient Stars
         ambientStars.forEach(star => {
           star.alpha += star.speed * star.fadeDir;
 
           if (star.alpha >= 0.85) {
             star.alpha = 0.85;
-            star.fadeDir = -1; // Start fading out
+            star.fadeDir = -1;
           } else if (star.alpha <= 0.02) {
             star.alpha = 0.02;
-            star.fadeDir = 1; // Start fading in
+            star.fadeDir = 1;
             // Relocate star randomly across canvas when invisible
             star.x = Math.random();
             star.y = Math.random();
@@ -199,13 +199,13 @@
             }
           });
 
-          // Draw Star Nodes
+          // Draw Star Nodes (Smaller starting size)
           points.forEach(p => {
             ctx.fillStyle = `rgba(255, 255, 255, ${c.alpha * 1.3})`;
-            ctx.shadowBlur = 6;
+            ctx.shadowBlur = 4;
             ctx.shadowColor = "#88ccff";
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2); // Reduced from 1.8 to 1.2
             ctx.fill();
             ctx.shadowBlur = 0;
           });
