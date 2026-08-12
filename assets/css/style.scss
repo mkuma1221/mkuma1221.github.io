@@ -1,5 +1,4 @@
 ---
-
 ---
 
 /* 1. OVERRIDE CAYMAN VARIABLES FIRST (Sets theme defaults to white) */
@@ -16,10 +15,10 @@ $header-bg-color-secondary: #ffffff;
   overflow: hidden !important;
 
   /* White fallback background while image loads */
-  background-color: #ffffff !important; 
+  background-color: #0b0e14 !important; /* Dark fallback matches space vibe better */
 
   /* Darker overlay for strong background contrast */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/GAX.jpg') !important;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/GAX.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
 
@@ -28,6 +27,24 @@ $header-bg-color-secondary: #ffffff;
 
   /* Sets default text alignment */
   text-align: center;
+}
+
+/* tsParticles Container Positioning */
+#tsparticles {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Sits directly above background image */
+  pointer-events: auto; /* Allows mouse interactions like hover/particles trail */
+}
+
+/* Ensure banner text/content sits on TOP of the particles layer */
+.page-header .project-name,
+.page-header .project-tagline {
+  position: relative !important;
+  z-index: 2; /* Ensures text & links are clickable above particles */
 }
 
 /* Fixes title color and shadow to prevent dark grey rendering */
