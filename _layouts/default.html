@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
+<html lang="{{ site.lang | default: 'en-US' }}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,28 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
   <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.1.0/tsparticles.slim.bundle.min.js"></script>
+  
+  <style>
+    /* Styling to ensure the header holds the interactive particles correctly */
+    .page-header {
+      position: relative;
+      overflow: hidden;
+    }
+    #tsparticles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .page-header .project-name,
+    .page-header .project-tagline,
+    .page-header .btn {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
 </head>
 
 <body>
@@ -31,36 +53,38 @@
         fpsLimit: 60,
         particles: {
           number: {
-            value: 120,
+            value: 80,
             density: { enable: true, value_area: 800 }
           },
-          color: { value: "#ffffff" },
+          color: { value: ["#ffffff", "#88ccff"] }, // White and light blue stars
           shape: { type: "circle" },
           opacity: {
-            value: { min: 0.15, max: 0.9 },
+            value: { min: 0.2, max: 0.8 },
             animation: {
               enable: true,
-              speed: 1.2,
-              minimumValue: 0.1,
+              speed: 1,
+              minimumValue: 0.2,
               sync: false
             }
           },
           size: {
-            value: { min: 0.8, max: 2.2 },
-            animation: {
-              enable: true,
-              speed: 1,
-              minimumValue: 0.4,
-              sync: false
-            }
+            value: { min: 1, max: 2.5 }
+          },
+          // Constellation lines connecting nearby stars
+          links: {
+            enable: true,
+            distance: 120,
+            color: "#66b3ff",
+            opacity: 0.25,
+            width: 1
           },
           move: {
             enable: true,
-            speed: 0.35,
+            speed: 0.6,
             direction: "none",
             random: true,
             straight: false,
-            outModes: { default: "out" }
+            outModes: { default: "bounce" }
           }
         },
         interactivity: {
@@ -68,20 +92,20 @@
           events: {
             onHover: {
               enable: true,
-              mode: "grab"
+              mode: "grab" // Connects stars to cursor on hover
             },
             onClick: {
               enable: true,
-              mode: "push"
+              mode: "push" // Adds stars on click
             },
             resize: true
           },
           modes: {
             grab: {
-              distance: 140,
-              links: { opacity: 0.35, color: "#ffffff" }
+              distance: 160,
+              links: { opacity: 0.6, color: "#ffffff" }
             },
-            push: { quantity: 4 }
+            push: { quantity: 3 }
           }
         },
         detectRetina: true
