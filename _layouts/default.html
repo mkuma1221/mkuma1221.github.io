@@ -13,7 +13,9 @@
     .page-header {
       position: relative;
       overflow: hidden;
-      background: #0b0e14; /* Fallback dark space color */
+      background: #0b0e14; /* Dark space background */
+      padding: 3rem 1rem;
+      text-align: center;
     }
 
     /* Full-bleed overlay canvas for constellations */
@@ -24,7 +26,7 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      pointer-events: none; /* Disables interaction */
+      pointer-events: none; /* Disables mouse interaction */
     }
 
     /* Ensure text and links stay clickable above the canvas */
@@ -36,6 +38,20 @@
       position: relative;
       z-index: 2;
     }
+
+    .header-links {
+      margin-top: 0.8rem;
+    }
+
+    .header-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    .header-links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -44,7 +60,11 @@
     <canvas id="constellation-canvas"></canvas>
 
     <h1 class="project-name">{{ site.title }}</h1>
-    <h2 class="project-tagline">{{ site.description }}</h2>
+    
+    <div class="header-links">
+      <a href="mailto:your-email@example.com">✉ Email</a> | 
+      <a href="https://linkedin.com" target="_blank">in LinkedIn</a>
+    </div>
   </section>
 
   <section class="main-content">
@@ -64,7 +84,7 @@
       resize();
       window.addEventListener("resize", resize);
 
-      // --- CONSTELLATION DATA DATASETS (Normalized Coordinates 0-100) ---
+      // --- CONSTELLATION DATASETS (Normalized Coordinates 0-100) ---
       const CONSTELLATION_DATA = [
         { name: "Aries", stars: [[0, 20], [30, 10], [60, 30], [100, 60]], lines: [[0,1], [1,2], [2,3]] },
         { name: "Taurus", stars: [[0, 50], [30, 30], [50, 40], [70, 0], [90, 80], [35, 60]], lines: [[0,1], [1,2], [2,3], [2,4], [1,5]] },
@@ -95,29 +115,29 @@
       }
 
       // --- ACTIVE FLOATING CONSTELLATIONS ---
-      const activeCount = 3; // Max visible constellations (2-3)
+      const activeCount = 3; // Max 3 visible constellations
       const activeConstellations = [];
 
       function spawnConstellation() {
-        const template = CONSTELLATIONS_DATA[Math.floor(Math.random() * CONSTELLATION_DATA.length)];
-        const scale = Math.random() * 0.8 + 0.8; // Scale factor (80% to 160%)
+        const template = CONSTELLATION_DATA[Math.floor(Math.random() * CONSTELLATION_DATA.length)];
+        const scale = Math.random() * 0.6 + 0.6; // Scale down to fit banner neatly
         
         return {
           template: template,
-          x: Math.random() * (canvas.width - 200) + 50,
-          y: Math.random() * (canvas.height - 150) + 20,
-          vx: (Math.random() - 0.5) * 0.3, // Drift velocity X
-          vy: (Math.random() - 0.5) * 0.2, // Drift velocity Y
+          x: Math.random() * (canvas.width - 150) + 20,
+          y: Math.random() * (canvas.height - 100) + 10,
+          vx: (Math.random() - 0.5) * 0.2, // Slow horizontal drift
+          vy: (Math.random() - 0.5) * 0.1, // Slow vertical drift
           scale: scale,
           alpha: 0,
-          fadeState: "in", // "in", "hold", "out"
-          holdTime: Math.random() * 300 + 200
+          fadeState: "in",
+          holdTime: Math.random() * 250 + 150
         };
       }
 
       for (let i = 0; i < activeCount; i++) {
         const c = spawnConstellation();
-        c.alpha = Math.random() * 0.6; // Start at random opacity
+        c.alpha = Math.random() * 0.5;
         activeConstellations.push(c);
       }
 
@@ -127,7 +147,7 @@
 
         // 1. Draw Ambient Background Stars
         ambientStars.forEach(star => {
-          star.alpha += Math.sin(Date.now() * star.speed) * 0.01;
+          star.alpha += Math.sin(Date.now() * star.speed) * 0.008;
           const a = Math.max(0.1, Math.min(0.8, star.alpha));
           ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
           ctx.beginPath();
@@ -135,15 +155,13 @@
           ctx.fill();
         });
 
-        // 2. Update & Draw Constellations
+        // 2. Draw Constellations
         activeConstellations.forEach((c, index) => {
-          // Update position
           c.x += c.vx;
           c.y += c.vy;
 
-          // Fade logic
           if (c.fadeState === "in") {
-            c.alpha += 0.005;
+            c.alpha += 0.006;
             if (c.alpha >= 0.7) {
               c.alpha = 0.7;
               c.fadeState = "hold";
@@ -154,9 +172,8 @@
               c.fadeState = "out";
             }
           } else if (c.fadeState === "out") {
-            c.alpha -= 0.005;
+            c.alpha -= 0.006;
             if (c.alpha <= 0) {
-              // Replace with a new random constellation
               activeConstellations[index] = spawnConstellation();
             }
           }
@@ -166,8 +183,8 @@
             y: c.y + (s[1] * c.scale)
           }));
 
-          // Draw Constellation Lines
-          ctx.strokeStyle = `rgba(136, 204, 255, ${c.alpha * 0.4})`;
+          // Draw Lines
+          ctx.strokeStyle = `rgba(136, 204, 255, ${c.alpha * 0.45})`;
           ctx.lineWidth = 1;
           c.template.lines.forEach(line => {
             const p1 = points[line[0]];
@@ -180,15 +197,15 @@
             }
           });
 
-          // Draw Constellation Star Nodes
+          // Draw Star Nodes
           points.forEach(p => {
             ctx.fillStyle = `rgba(255, 255, 255, ${c.alpha})`;
-            ctx.shadowBlur = 6;
+            ctx.shadowBlur = 5;
             ctx.shadowColor = "#88ccff";
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
             ctx.fill();
-            ctx.shadowBlur = 0; // Reset blur
+            ctx.shadowBlur = 0;
           });
         });
 
