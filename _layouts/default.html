@@ -8,14 +8,17 @@
   {% seo %}
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
-  <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.1.0/tsparticles.slim.bundle.min.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.1.0/tsparticles.slim.bundle.min.js"></script> 
+
   <style>
-    /* Styling to ensure the header holds the interactive particles correctly */
+    /* Header layout & dark background fallback */
     .page-header {
       position: relative;
       overflow: hidden;
+      background-color: #0b0e14; /* Deep space fallback */
     }
+
+    /* Particles container absolute overlay */
     #tsparticles {
       position: absolute;
       top: 0;
@@ -24,9 +27,12 @@
       height: 100%;
       z-index: 1;
     }
+
+    /* Ensure text, tags, and links stay above the particles canvas */
     .page-header .project-name,
     .page-header .project-tagline,
-    .page-header .btn {
+    .page-header .btn,
+    .page-header a {
       position: relative;
       z-index: 2;
     }
@@ -47,68 +53,77 @@
 
   {% raw %}
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      tsParticles.load("tsparticles", {
-        fullScreen: { enable: false },
-        fpsLimit: 60,
-        particles: {
-          number: {
-            value: 80,
-            density: { enable: true, value_area: 800 }
-          },
-          color: { value: ["#ffffff", "#88ccff"] }, // White and light blue stars
-          shape: { type: "circle" },
-          opacity: {
-            value: { min: 0.2, max: 0.8 },
-            animation: {
+    document.addEventListener("DOMContentLoaded", async function () {
+      // Initialize slim engine for v3 compatibility
+      if (typeof loadSlim !== "undefined") {
+        await loadSlim(tsParticles);
+      }
+
+      // Load particle setup
+      await tsParticles.load({
+        id: "tsparticles",
+        options: {
+          fullScreen: { enable: false },
+          fpsLimit: 60,
+          particles: {
+            number: {
+              value: 75,
+              density: { enable: true, area: 800 }
+            },
+            color: { value: ["#ffffff", "#88ccff", "#cce6ff"] }, // Star tones
+            shape: { type: "circle" },
+            opacity: {
+              value: { min: 0.2, max: 0.8 },
+              animation: {
+                enable: true,
+                speed: 1.2,
+                minimumValue: 0.2,
+                sync: false
+              }
+            },
+            size: {
+              value: { min: 1, max: 2.5 }
+            },
+            // Constellation line connections
+            links: {
               enable: true,
-              speed: 1,
-              minimumValue: 0.2,
-              sync: false
+              distance: 130,
+              color: "#66b3ff",
+              opacity: 0.25,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 0.7,
+              direction: "none",
+              random: true,
+              straight: false,
+              outModes: { default: "out" }
             }
           },
-          size: {
-            value: { min: 1, max: 2.5 }
-          },
-          // Constellation lines connecting nearby stars
-          links: {
-            enable: true,
-            distance: 120,
-            color: "#66b3ff",
-            opacity: 0.25,
-            width: 1
-          },
-          move: {
-            enable: true,
-            speed: 0.6,
-            direction: "none",
-            random: true,
-            straight: false,
-            outModes: { default: "bounce" }
-          }
-        },
-        interactivity: {
-          detectsOn: "canvas",
-          events: {
-            onHover: {
-              enable: true,
-              mode: "grab" // Connects stars to cursor on hover
+          interactivity: {
+            detectsOn: "canvas",
+            events: {
+              onHover: {
+                enable: true,
+                mode: "grab" // Connects stars to cursor on hover
+              },
+              onClick: {
+                enable: true,
+                mode: "push" // Adds extra stars on click
+              },
+              resize: { enable: true }
             },
-            onClick: {
-              enable: true,
-              mode: "push" // Adds stars on click
-            },
-            resize: true
+            modes: {
+              grab: {
+                distance: 160,
+                links: { opacity: 0.6, color: "#ffffff" }
+              },
+              push: { quantity: 3 }
+            }
           },
-          modes: {
-            grab: {
-              distance: 160,
-              links: { opacity: 0.6, color: "#ffffff" }
-            },
-            push: { quantity: 3 }
-          }
-        },
-        detectRetina: true
+          detectRetina: true
+        }
       });
     });
   </script>
