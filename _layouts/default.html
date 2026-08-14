@@ -71,7 +71,7 @@
         { name: "Pegasus", stars: [[10,10],[80,10],[90,80],[20,70],[0,95],[100,0]], lines: [[0,1],[1,2],[2,3],[3,0],[3,4],[1,5]] },
         { name: "Ursa Major", stars: [[0,0],[20,25],[35,45],[50,55],[55,90],[95,95],[90,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]] },
         { name: "Leo", stars: [[80,20],[60,0],[40,10],[45,35],[70,45],[90,80],[40,85],[10,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[4,5],[5,6],[6,7],[7,3]] },
-        { name: "Lyra", stars: [[50,0],[30,35],[70,35],[30,85],[70,85]], lines: [[0,1],[0,2],[1,2],[1,3],[2,4],[3,4]] },
+        { name: "Lyra", stars: [[30,0],[70,10],[10,50],[50,60],[90,70]], lines: [[0,1],[0,2],[1,3],[2,3],[3,4]] }, // Updated to parallelogram/lyre shape
         { name: "Gemini", stars: [[10,0],[20,20],[30,50],[40,90],[70,10],[75,40],[80,80]], lines: [[0,1],[1,2],[2,3],[4,5],[5,6],[1,4]] },
         { name: "Aquila", stars: [[50,0],[20,40],[80,40],[50,65],[50,100]], lines: [[0,1],[0,2],[1,3],[2,3],[3,4]] },
         { name: "Andromeda", stars: [[0,50],[30,40],[60,30],[90,10],[35,75],[65,85]], lines: [[0,1],[1,2],[2,3],[1,4],[2,5]] },
@@ -106,16 +106,14 @@
       const activeConstellations = [];
 
       function spawnConstellation(zoneIndex) {
-        // Find names of constellations currently active on screen
+        // Prevent duplicate constellations from appearing concurrently
         const activeNames = activeConstellations
           .filter(c => c !== undefined && c.template)
           .map(c => c.template.name);
 
-        // Filter dataset so duplicates cannot be chosen
         const availableTemplates = CONSTELLATION_DATA.filter(c => !activeNames.includes(c.name));
-        
-        // Pick from available non-duplicate templates
         const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)] || CONSTELLATION_DATA[0];
+        
         const scale = Math.random() * 0.45 + 0.45;
         
         const colWidth = canvas.width / 3;
@@ -166,7 +164,7 @@
           ctx.fill();
         });
 
-        // 2. Draw Grid-Bounded Constellations (Guaranteed Unique)
+        // 2. Draw Grid-Bounded Constellations
         activeConstellations.forEach((c, index) => {
           c.x += c.vx;
           c.y += c.vy;
@@ -194,7 +192,7 @@
             y: c.y + (s[1] * c.scale)
           }));
 
-          // Draw Connecting Lines
+          // Draw Fainter Connecting Lines
           ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
           ctx.lineWidth = 0.8;
           c.template.lines.forEach(line => {
@@ -208,7 +206,7 @@
             }
           });
 
-          // Draw Star Nodes
+          // Draw Brighter Star Nodes
           points.forEach(p => {
             ctx.fillStyle = `rgba(255, 255, 255, ${c.alpha * 1.8})`;
             ctx.shadowBlur = 8;
