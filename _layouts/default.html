@@ -139,46 +139,62 @@
         activeConstellations.push(c);
       }
 
-      // --- 2D PARTICLE SATELLITE SYSTEM ---
-      // Structural nodes defining satellite shape (Body, Solar Panels, Dish Antenna)
-      const SATELLITE_NODES = [
-        // Main Body Box
-        { x: -12, y: -8, color: "#88ccff" }, { x: 12, y: -8, color: "#88ccff" },
-        { x: 12, y: 8, color: "#88ccff" },   { x: -12, y: 8, color: "#88ccff" },
-        { x: 0, y: 0, color: "#ffffff" },
+      // --- DENSE MULTI-COLOR PARTICLE SATELLITE SYSTEM ---
+      const SATELLITE_NODES = [];
 
-        // Left Solar Wing Grid
-        { x: -22, y: -6, color: "#44aaff" }, { x: -34, y: -6, color: "#44aaff" }, { x: -46, y: -6, color: "#44aaff" },
-        { x: -22, y: 6, color: "#44aaff" },  { x: -34, y: 6, color: "#44aaff" },  { x: -46, y: 6, color: "#44aaff" },
+      // Helper function to fill rectangular regions with dense particles
+      function addParticleGrid(minX, maxX, minY, maxY, spacing, colors) {
+        for (let x = minX; x <= maxX; x += spacing) {
+          for (let y = minY; y <= maxY; y += spacing) {
+            const jx = (Math.random() - 0.5) * (spacing * 0.4);
+            const jy = (Math.random() - 0.5) * (spacing * 0.4);
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.random() * 0.8 + 0.8;
+            SATELLITE_NODES.push({ x: x + jx, y: y + jy, color, size });
+          }
+        }
+      }
 
-        // Right Solar Wing Grid
-        { x: 22, y: -6, color: "#44aaff" },  { x: 34, y: -6, color: "#44aaff" },  { x: 46, y: -6, color: "#44aaff" },
-        { x: 22, y: 6, color: "#44aaff" },   { x: 34, y: 6, color: "#44aaff" },   { x: 46, y: 6, color: "#44aaff" },
+      // Helper function to fill circular regions (Dish Antenna)
+      function addParticleCircle(cx, cy, radius, spacing, colors) {
+        for (let x = -radius; x <= radius; x += spacing) {
+          for (let y = -radius; y <= radius; y += spacing) {
+            if (x * x + y * y <= radius * radius) {
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              SATELLITE_NODES.push({ x: cx + x, y: cy + y, color, size: 1.0 });
+            }
+          }
+        }
+      }
 
-        // Antenna Dish Structure
-        { x: 0, y: -15, color: "#ffffff" },  { x: -6, y: -22, color: "#ffffff" },
-        { x: 0, y: -25, color: "#66ffff" },  { x: 6, y: -22, color: "#ffffff" }
-      ];
+      // 1. Central Bus / Satellite Body (Dense Cyan & Electric Blue Grid)
+      addParticleGrid(-14, 14, -10, 10, 1.8, ["#ffffff", "#77e0ff", "#33aaff", "#0088ff"]);
 
-      // Connecting structural lines for the satellite
-      const SATELLITE_LINES = [
-        // Body
-        [0,1], [1,2], [2,3], [3,0],
-        // Left Wing Frame
-        [0,5], [5,6], [6,7], [3,8], [8,9], [9,10], [7,10],
-        // Right Wing Frame
-        [1,11], [11,12], [12,13], [2,14], [14,15], [15,16], [13,16],
-        // Antenna Assembly
-        [4,17], [18,19], [19,20]
-      ];
+      // 2. Solar Panel Array Connectors (Beams)
+      addParticleGrid(-20, -14, -2, 2, 1.5, ["#cccccc", "#ffffff"]);
+      addParticleGrid(14, 20, -2, 2, 1.5, ["#cccccc", "#ffffff"]);
+
+      // 3. Left Solar Panel Array (Dense Gold / Amber Photovoltaic Grid)
+      addParticleGrid(-50, -20, -9, 9, 1.6, ["#ffcc00", "#ffaa00", "#ffeeaa", "#ff8800"]);
+
+      // 4. Right Solar Panel Array (Dense Gold / Amber Photovoltaic Grid)
+      addParticleGrid(20, 50, -9, 9, 1.6, ["#ffcc00", "#ffaa00", "#ffeeaa", "#ff8800"]);
+
+      // 5. High-Gain Dish Antenna Structure (Bright White / Cyan Dish)
+      addParticleGrid(-1, 1, -18, -10, 1.5, ["#ffffff", "#88ffff"]); // Antenna Boom
+      addParticleCircle(0, -21, 6, 1.5, ["#ffffff", "#aaffff", "#55d4ff"]); // parabolic dish
+
+      // 6. Instrument Boom / Magnetometer Sensor (Lower Tail)
+      addParticleGrid(-1, 1, 10, 22, 2.0, ["#88ccff", "#ffffff"]);
+      SATELLITE_NODES.push({ x: 0, y: 24, color: "#ff4444", size: 1.8 }); // Red Sensor Beacon
 
       let satellite = {
-        x: -100,
+        x: -120,
         y: canvas.height * 0.35,
-        speed: 0.45,
-        angle: 0.1, // Slight tilt relative to orbital path
+        speed: 0.4,
+        angle: 0.12, // Orbital tilt angle
         alpha: 0,
-        state: "fading_in", // "fading_in", "orbiting", "fading_out", "waiting"
+        state: "fading_in",
         waitTimer: 0,
         exhaustParticles: []
       };
@@ -187,8 +203,8 @@
         if (satellite.state === "waiting") {
           satellite.waitTimer--;
           if (satellite.waitTimer <= 0) {
-            satellite.x = -80;
-            satellite.y = Math.random() * (canvas.height * 0.5) + canvas.height * 0.25;
+            satellite.x = -120;
+            satellite.y = Math.random() * (canvas.height * 0.4) + canvas.height * 0.25;
             satellite.state = "fading_in";
           }
           return;
@@ -196,13 +212,13 @@
 
         // Orbital Movement along Sine Wave
         satellite.x += satellite.speed;
-        satellite.y += Math.sin(satellite.x * 0.008) * 0.25;
+        satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
 
         // Fade Lifecycle logic
         if (satellite.state === "fading_in") {
           satellite.alpha += 0.01;
-          if (satellite.alpha >= 0.85) {
-            satellite.alpha = 0.85;
+          if (satellite.alpha >= 0.9) {
+            satellite.alpha = 0.9;
             satellite.state = "orbiting";
           }
         } else if (satellite.state === "fading_out") {
@@ -210,9 +226,9 @@
           if (satellite.alpha <= 0) {
             satellite.alpha = 0;
             satellite.state = "waiting";
-            satellite.waitTimer = Math.floor(Math.random() * 400 + 300); // Orbit interval cooldown
+            satellite.waitTimer = Math.floor(Math.random() * 350 + 250);
           }
-        } else if (satellite.x > canvas.width - 100) {
+        } else if (satellite.x > canvas.width - 120) {
           satellite.state = "fading_out";
         }
 
@@ -220,67 +236,51 @@
         ctx.translate(satellite.x, satellite.y);
         ctx.rotate(satellite.angle);
 
-        // 1. Draw Satellite Particle Beam Lines
-        ctx.strokeStyle = `rgba(100, 200, 255, ${satellite.alpha * 0.4})`;
-        ctx.lineWidth = 0.7;
-        SATELLITE_LINES.forEach(line => {
-          const p1 = SATELLITE_NODES[line[0]];
-          const p2 = SATELLITE_NODES[line[1]];
-          if (p1 && p2) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        });
+        // Turn OFF shadow blur so individual particle colors stay vibrant
+        ctx.shadowBlur = 0;
 
-        // 2. Draw Satellite Particle Nodes with Cyan Glow
-        SATELLITE_NODES.forEach(node => {
-          const twinkle = (Math.sin(Date.now() * 0.005 + node.x) + 1) * 0.25 + 0.75;
+        // Draw High-Density Satellite Particle Nodes with Color-Glow
+        SATELLITE_NODES.forEach((node, i) => {
+          const twinkle = (Math.sin(Date.now() * 0.006 + i * 0.3) + 1) * 0.2 + 0.8;
+          
           ctx.fillStyle = node.color;
           ctx.globalAlpha = satellite.alpha * twinkle;
-          
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = node.color;
-          
+
           ctx.beginPath();
-          ctx.arc(node.x, node.y, 1.3, 0, Math.PI * 2);
+          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
           ctx.fill();
         });
 
         ctx.restore();
 
-        // 3. Emit Floating Thruster Tail Particles
+        // Thruster Exhaust Stream
         if (satellite.state === "orbiting" || satellite.state === "fading_in") {
           satellite.exhaustParticles.push({
-            x: satellite.x - Math.cos(satellite.angle) * 15,
-            y: satellite.y - Math.sin(satellite.angle) * 15 + (Math.random() - 0.5) * 4,
-            vx: -Math.random() * 0.5 - 0.2,
+            x: satellite.x - Math.cos(satellite.angle) * 16,
+            y: satellite.y - Math.sin(satellite.angle) * 16 + (Math.random() - 0.5) * 3,
+            vx: -Math.random() * 0.6 - 0.3,
             vy: (Math.random() - 0.5) * 0.2,
-            size: Math.random() * 1.2 + 0.5,
-            alpha: satellite.alpha * 0.6
+            size: Math.random() * 1.5 + 0.5,
+            alpha: satellite.alpha * 0.7
           });
         }
 
-        // Render and update thruster tail particles
+        // Update and draw exhaust stream
         for (let i = satellite.exhaustParticles.length - 1; i >= 0; i--) {
           const p = satellite.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.015;
+          p.alpha -= 0.018;
 
           if (p.alpha <= 0) {
             satellite.exhaustParticles.splice(i, 1);
             continue;
           }
 
-          ctx.fillStyle = `rgba(120, 220, 255, ${p.alpha})`;
-          ctx.shadowBlur = 4;
-          ctx.shadowColor = "#00ffff";
+          ctx.fillStyle = `rgba(100, 220, 255, ${p.alpha})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fill();
-          ctx.shadowBlur = 0;
         }
       }
 
