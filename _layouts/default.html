@@ -219,14 +219,12 @@
       addSolarPanel(-48, -18, -8, 8); // Left Array
       addSolarPanel(18, 48, -8, 8);   // Right Array
 
-      // 4. Rectangular Neck Mount
-      addMicroGrid(-5, 5, -15, -10, "#4a5568");
-      addMicroGrid(-4, 4, -14, -11, "#718096"); // Metallic highlight
+      // 4. Rectangular Neck Mount (Connecting Satellite Body to Dish base)
+      addMicroGrid(-4, 4, -18, -10, "#4a5568");
+      addMicroGrid(-3, 3, -17, -11, "#718096"); // Inner Metallic Highlight
 
-      // 5. Dish Antenna (Positioned above Rectangular Neck)
+      // 5. Dish Antenna (Attached at top of Rectangular Neck)
       addParabolicDish(0, -18, 18, 10);
-
-      // (Bottom Stub removed completely per request)
 
       let satellite = {
         x: -120,
@@ -254,15 +252,16 @@
         satellite.x += satellite.speed;
         satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
 
-        // Fade Lifecycle logic
+        // Fade Lifecycle logic (Reduced max alpha for fainter satellite appearance)
+        const targetAlpha = 0.45; // Fainter visibility limit
         if (satellite.state === "fading_in") {
-          satellite.alpha += 0.01;
-          if (satellite.alpha >= 0.95) {
-            satellite.alpha = 0.95;
+          satellite.alpha += 0.008;
+          if (satellite.alpha >= targetAlpha) {
+            satellite.alpha = targetAlpha;
             satellite.state = "orbiting";
           }
         } else if (satellite.state === "fading_out") {
-          satellite.alpha -= 0.01;
+          satellite.alpha -= 0.008;
           if (satellite.alpha <= 0) {
             satellite.alpha = 0;
             satellite.state = "waiting";
@@ -279,7 +278,7 @@
         // Turn OFF shadow blur completely for sharp micro-particle rendering
         ctx.shadowBlur = 0;
 
-        // Draw Sharp Micro-Particles
+        // Draw Sharp Micro-Particles with fainter opacity
         SATELLITE_NODES.forEach((node) => {
           ctx.fillStyle = node.color;
           ctx.globalAlpha = satellite.alpha;
@@ -291,7 +290,7 @@
 
         ctx.restore();
 
-        // Thruster Exhaust Stream
+        // Thruster Exhaust Stream (Scaled relative to satellite opacity)
         if (satellite.state === "orbiting" || satellite.state === "fading_in") {
           satellite.exhaustParticles.push({
             x: satellite.x - Math.cos(satellite.angle) * 14,
@@ -299,7 +298,7 @@
             vx: -Math.random() * 0.5 - 0.3,
             vy: (Math.random() - 0.5) * 0.15,
             size: Math.random() * 1.0 + 0.4,
-            alpha: satellite.alpha * 0.6
+            alpha: satellite.alpha * 0.5
           });
         }
 
@@ -308,7 +307,7 @@
           const p = satellite.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.02;
+          p.alpha -= 0.015;
 
           if (p.alpha <= 0) {
             satellite.exhaustParticles.splice(i, 1);
@@ -409,7 +408,7 @@
           });
         });
 
-        // 3. Draw High-Detail Micro-Particle Satellite
+        // 3. Draw Fainter Micro-Particle Satellite
         updateAndDrawSatellite();
 
         requestAnimationFrame(animate);
