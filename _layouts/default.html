@@ -174,25 +174,34 @@
         }
       }
 
-      // Helper: Larger Parabolic Dish Antenna with Reversed Concavity (U-shape curving up)
+      // Helper: Parabolic Dish Antenna with Tri-Prong Feed Structure
       function addParabolicDish(cx, cy, radiusX, radiusY) {
-        // Curved Dish Bowl (Aperture opening upwards)
+        // Curved Dish Bowl (U-shape curving up)
         for (let angle = Math.PI * 0.15; angle <= Math.PI * 0.85; angle += 0.04) {
           const rx = Math.cos(angle) * radiusX;
           const ry = Math.sin(angle) * radiusY;
 
-          // Dish thickness layers
           for (let t = 0; t <= 2.5; t += step) {
             SATELLITE_NODES.push({ x: cx + rx, y: cy + ry - t, color: "#ffffff", size: 0.7 });
           }
         }
 
-        // Central Feed Horn Boom extending upwards into dish interior
+        // Central Feed Center Pole
         for (let y = cy; y >= cy - 12; y -= step) {
           SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
         }
-        // Red Receiver Feed Tip
-        SATELLITE_NODES.push({ x: cx, y: cy - 13, color: "#ff3333", size: 1.0 });
+
+        // Two Angled Side Prongs extending to center horn
+        for (let i = 0; i <= 10; i += step) {
+          const ratio = i / 10;
+          // Left Prong
+          SATELLITE_NODES.push({ x: cx - (8 * (1 - ratio)), y: cy + 4 - (16 * ratio), color: "#778899", size: 0.5 });
+          // Right Prong
+          SATELLITE_NODES.push({ x: cx + (8 * (1 - ratio)), y: cy + 4 - (16 * ratio), color: "#778899", size: 0.5 });
+        }
+
+        // Red Center Feed Beacon Tip
+        SATELLITE_NODES.push({ x: cx, y: cy - 13, color: "#ff3333", size: 1.1 });
       }
 
       // --- SATELLITE COMPONENT BUILD ---
@@ -210,19 +219,20 @@
       addSolarPanel(-48, -18, -8, 8); // Left Array
       addSolarPanel(18, 48, -8, 8);   // Right Array
 
-      // 4. Larger Parabolic Dish (Reversed Concavity)
-      addMicroGrid(-1.5, 1.5, -16, -10, "#556677"); // Extended Mounting Stem
-      addParabolicDish(0, -18, 18, 10);             // Larger curved dish opening upwards
+      // 4. Rectangular Neck Mount
+      addMicroGrid(-5, 5, -15, -10, "#4a5568");
+      addMicroGrid(-4, 4, -14, -11, "#718096"); // Metallic highlight
 
-      // 5. Magnetometer Sensor Boom (Bottom Extension)
-      addMicroGrid(-1, 1, 10, 20, "#778899");
-      SATELLITE_NODES.push({ x: 0, y: 21, color: "#00e5ff", size: 0.95 }); // Cyan Sensor Tip
+      // 5. Dish Antenna (Positioned above Rectangular Neck)
+      addParabolicDish(0, -18, 18, 10);
+
+      // (Bottom Stub removed completely per request)
 
       let satellite = {
         x: -120,
         y: canvas.height * 0.35,
         speed: 0.38,
-        angle: 0.1, // Slight orbital tilt angle
+        angle: 0.1, // Orbital tilt angle
         alpha: 0,
         state: "fading_in",
         waitTimer: 0,
@@ -266,7 +276,7 @@
         ctx.translate(satellite.x, satellite.y);
         ctx.rotate(satellite.angle);
 
-        // Turn OFF shadow blur completely for crisp micro-particle shapes & solid colors
+        // Turn OFF shadow blur completely for sharp micro-particle rendering
         ctx.shadowBlur = 0;
 
         // Draw Sharp Micro-Particles
