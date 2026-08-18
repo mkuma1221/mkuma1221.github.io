@@ -159,7 +159,6 @@
 
         for (let x = minX; x <= maxX; x += step) {
           for (let y = minY; y <= maxY; y += step) {
-            // Check if coordinates land on a grid boundary line
             const isGridX = Math.abs((x - minX) % gridStepX) < step;
             const isGridY = Math.abs((y - minY) % gridStepY) < step;
             const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
@@ -175,25 +174,25 @@
         }
       }
 
-      // Helper: Parabolic Dish Antenna with Feed Horn
+      // Helper: Larger Parabolic Dish Antenna with Reversed Concavity (U-shape curving up)
       function addParabolicDish(cx, cy, radiusX, radiusY) {
-        // Curved Dish Bowl (White Outer Rim & Silver Inner)
-        for (let angle = Math.PI * 0.15; angle <= Math.PI * 0.85; angle += 0.05) {
+        // Curved Dish Bowl (Aperture opening upwards)
+        for (let angle = Math.PI * 0.15; angle <= Math.PI * 0.85; angle += 0.04) {
           const rx = Math.cos(angle) * radiusX;
           const ry = Math.sin(angle) * radiusY;
 
-          // Parabolic dish thickness layers
-          for (let t = 0; t <= 2; t += step) {
-            SATELLITE_NODES.push({ x: cx + rx, y: cy - ry + t, color: "#ffffff", size: 0.7 });
+          // Dish thickness layers
+          for (let t = 0; t <= 2.5; t += step) {
+            SATELLITE_NODES.push({ x: cx + rx, y: cy + ry - t, color: "#ffffff", size: 0.7 });
           }
         }
 
-        // Dish Feed Struts & Receiver Horn (Pointed upward-center)
-        for (let y = cy - 2; y >= cy - 10; y -= step) {
-          SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 }); // Central Boom
+        // Central Feed Horn Boom extending upwards into dish interior
+        for (let y = cy; y >= cy - 12; y -= step) {
+          SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
         }
-        // Red Receiver Point
-        SATELLITE_NODES.push({ x: cx, y: cy - 11, color: "#ff3333", size: 0.9 });
+        // Red Receiver Feed Tip
+        SATELLITE_NODES.push({ x: cx, y: cy - 13, color: "#ff3333", size: 1.0 });
       }
 
       // --- SATELLITE COMPONENT BUILD ---
@@ -203,7 +202,7 @@
       addMicroGrid(-10, 10, -8, 8, "#aab8c2");    // Lighter Top Highlight Panel
       addMicroGrid(-6, 6, -4, 4, "#657786");      // Darker Center Core Box
 
-      // 2. Structural Connectors/Mounting Beams (Black/Dark Metallic)
+      // 2. Structural Connectors/Mounting Beams
       addMicroGrid(-18, -12, -1.5, 1.5, "#334455");
       addMicroGrid(12, 18, -1.5, 1.5, "#334455");
 
@@ -211,9 +210,9 @@
       addSolarPanel(-48, -18, -8, 8); // Left Array
       addSolarPanel(18, 48, -8, 8);   // Right Array
 
-      // 4. Detailed Parabolic Antenna Dish (Top Mount)
-      addMicroGrid(-1.5, 1.5, -14, -10, "#556677"); // Dish Mounting Stem
-      addParabolicDish(0, -14, 11, 6);              // Curved Dish Shape
+      // 4. Larger Parabolic Dish (Reversed Concavity)
+      addMicroGrid(-1.5, 1.5, -16, -10, "#556677"); // Extended Mounting Stem
+      addParabolicDish(0, -18, 18, 10);             // Larger curved dish opening upwards
 
       // 5. Magnetometer Sensor Boom (Bottom Extension)
       addMicroGrid(-1, 1, 10, 20, "#778899");
