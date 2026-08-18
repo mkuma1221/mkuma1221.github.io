@@ -219,12 +219,12 @@
       addSolarPanel(-48, -18, -8, 8); // Left Array
       addSolarPanel(18, 48, -8, 8);   // Right Array
 
-      // 4. Rectangular Neck Mount (Connecting Satellite Body to Dish base)
-      addMicroGrid(-4, 4, -18, -10, "#4a5568");
-      addMicroGrid(-3, 3, -17, -11, "#718096"); // Inner Metallic Highlight
+      // 4. Small Rectangle Connecting Main Body to Dish Bottom
+      addMicroGrid(-3, 3, -14, -10, "#4a5568"); // Dark metallic base block
+      addMicroGrid(-2, 2, -13, -11, "#718096"); // Inner highlight
 
-      // 5. Dish Antenna (Attached at top of Rectangular Neck)
-      addParabolicDish(0, -18, 18, 10);
+      // 5. Dish Antenna (Sits directly on top of small connecting rectangle)
+      addParabolicDish(0, -14, 18, 10);
 
       let satellite = {
         x: -120,
@@ -252,8 +252,8 @@
         satellite.x += satellite.speed;
         satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
 
-        // Fade Lifecycle logic (Reduced max alpha for fainter satellite appearance)
-        const targetAlpha = 0.45; // Fainter visibility limit
+        // Fade Lifecycle logic (Fainter satellite appearance)
+        const targetAlpha = 0.45;
         if (satellite.state === "fading_in") {
           satellite.alpha += 0.008;
           if (satellite.alpha >= targetAlpha) {
@@ -278,7 +278,7 @@
         // Turn OFF shadow blur completely for sharp micro-particle rendering
         ctx.shadowBlur = 0;
 
-        // Draw Sharp Micro-Particles with fainter opacity
+        // Draw Micro-Particles with subtle opacity
         SATELLITE_NODES.forEach((node) => {
           ctx.fillStyle = node.color;
           ctx.globalAlpha = satellite.alpha;
@@ -290,7 +290,7 @@
 
         ctx.restore();
 
-        // Thruster Exhaust Stream (Scaled relative to satellite opacity)
+        // Thruster Exhaust Stream
         if (satellite.state === "orbiting" || satellite.state === "fading_in") {
           satellite.exhaustParticles.push({
             x: satellite.x - Math.cos(satellite.angle) * 14,
