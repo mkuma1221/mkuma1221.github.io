@@ -139,60 +139,91 @@
         activeConstellations.push(c);
       }
 
-      // --- DENSE MULTI-COLOR PARTICLE SATELLITE SYSTEM ---
+      // --- HIGH-RESOLUTION MICRO-PARTICLE SATELLITE MODEL ---
       const SATELLITE_NODES = [];
+      const step = 0.8; // Tight micro-particle spacing for sharp detail
 
-      // Helper function to fill rectangular regions with dense particles
-      function addParticleGrid(minX, maxX, minY, maxY, spacing, colors) {
-        for (let x = minX; x <= maxX; x += spacing) {
-          for (let y = minY; y <= maxY; y += spacing) {
-            const jx = (Math.random() - 0.5) * (spacing * 0.4);
-            const jy = (Math.random() - 0.5) * (spacing * 0.4);
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const size = Math.random() * 0.8 + 0.8;
-            SATELLITE_NODES.push({ x: x + jx, y: y + jy, color, size });
+      // Helper: Solid color particle block generator
+      function addMicroGrid(minX, maxX, minY, maxY, color) {
+        for (let x = minX; x <= maxX; x += step) {
+          for (let y = minY; y <= maxY; y += step) {
+            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
           }
         }
       }
 
-      // Helper function to fill circular regions (Dish Antenna)
-      function addParticleCircle(cx, cy, radius, spacing, colors) {
-        for (let x = -radius; x <= radius; x += spacing) {
-          for (let y = -radius; y <= radius; y += spacing) {
-            if (x * x + y * y <= radius * radius) {
-              const color = colors[Math.floor(Math.random() * colors.length)];
-              SATELLITE_NODES.push({ x: cx + x, y: cy + y, color, size: 1.0 });
+      // Helper: Solar Panel with distinct grid lines
+      function addSolarPanel(minX, maxX, minY, maxY) {
+        const gridStepX = 6;
+        const gridStepY = 5;
+
+        for (let x = minX; x <= maxX; x += step) {
+          for (let y = minY; y <= maxY; y += step) {
+            // Check if coordinates land on a grid boundary line
+            const isGridX = Math.abs((x - minX) % gridStepX) < step;
+            const isGridY = Math.abs((y - minY) % gridStepY) < step;
+            const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
+
+            let color;
+            if (isBorder || isGridX || isGridY) {
+              color = "#112244"; // Dark Indigo Grid Frame Lines
+            } else {
+              color = "#e6a100"; // Solid Gold/Amber Photovoltaic Cell
             }
+            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
           }
         }
       }
 
-      // 1. Central Bus / Satellite Body (Dense Cyan & Electric Blue Grid)
-      addParticleGrid(-14, 14, -10, 10, 1.8, ["#ffffff", "#77e0ff", "#33aaff", "#0088ff"]);
+      // Helper: Parabolic Dish Antenna with Feed Horn
+      function addParabolicDish(cx, cy, radiusX, radiusY) {
+        // Curved Dish Bowl (White Outer Rim & Silver Inner)
+        for (let angle = Math.PI * 0.15; angle <= Math.PI * 0.85; angle += 0.05) {
+          const rx = Math.cos(angle) * radiusX;
+          const ry = Math.sin(angle) * radiusY;
 
-      // 2. Solar Panel Array Connectors (Beams)
-      addParticleGrid(-20, -14, -2, 2, 1.5, ["#cccccc", "#ffffff"]);
-      addParticleGrid(14, 20, -2, 2, 1.5, ["#cccccc", "#ffffff"]);
+          // Parabolic dish thickness layers
+          for (let t = 0; t <= 2; t += step) {
+            SATELLITE_NODES.push({ x: cx + rx, y: cy - ry + t, color: "#ffffff", size: 0.7 });
+          }
+        }
 
-      // 3. Left Solar Panel Array (Dense Gold / Amber Photovoltaic Grid)
-      addParticleGrid(-50, -20, -9, 9, 1.6, ["#ffcc00", "#ffaa00", "#ffeeaa", "#ff8800"]);
+        // Dish Feed Struts & Receiver Horn (Pointed upward-center)
+        for (let y = cy - 2; y >= cy - 10; y -= step) {
+          SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 }); // Central Boom
+        }
+        // Red Receiver Point
+        SATELLITE_NODES.push({ x: cx, y: cy - 11, color: "#ff3333", size: 0.9 });
+      }
 
-      // 4. Right Solar Panel Array (Dense Gold / Amber Photovoltaic Grid)
-      addParticleGrid(20, 50, -9, 9, 1.6, ["#ffcc00", "#ffaa00", "#ffeeaa", "#ff8800"]);
+      // --- SATELLITE COMPONENT BUILD ---
 
-      // 5. High-Gain Dish Antenna Structure (Bright White / Cyan Dish)
-      addParticleGrid(-1, 1, -18, -10, 1.5, ["#ffffff", "#88ffff"]); // Antenna Boom
-      addParticleCircle(0, -21, 6, 1.5, ["#ffffff", "#aaffff", "#55d4ff"]); // parabolic dish
+      // 1. Solid Grey Satellite Body (Main Chassis Bus)
+      addMicroGrid(-12, 12, -10, 10, "#8899a6");  // Base Metallic Grey
+      addMicroGrid(-10, 10, -8, 8, "#aab8c2");    // Lighter Top Highlight Panel
+      addMicroGrid(-6, 6, -4, 4, "#657786");      // Darker Center Core Box
 
-      // 6. Instrument Boom / Magnetometer Sensor (Lower Tail)
-      addParticleGrid(-1, 1, 10, 22, 2.0, ["#88ccff", "#ffffff"]);
-      SATELLITE_NODES.push({ x: 0, y: 24, color: "#ff4444", size: 1.8 }); // Red Sensor Beacon
+      // 2. Structural Connectors/Mounting Beams (Black/Dark Metallic)
+      addMicroGrid(-18, -12, -1.5, 1.5, "#334455");
+      addMicroGrid(12, 18, -1.5, 1.5, "#334455");
+
+      // 3. Left & Right Solar Panels with Dark Grid Lines
+      addSolarPanel(-48, -18, -8, 8); // Left Array
+      addSolarPanel(18, 48, -8, 8);   // Right Array
+
+      // 4. Detailed Parabolic Antenna Dish (Top Mount)
+      addMicroGrid(-1.5, 1.5, -14, -10, "#556677"); // Dish Mounting Stem
+      addParabolicDish(0, -14, 11, 6);              // Curved Dish Shape
+
+      // 5. Magnetometer Sensor Boom (Bottom Extension)
+      addMicroGrid(-1, 1, 10, 20, "#778899");
+      SATELLITE_NODES.push({ x: 0, y: 21, color: "#00e5ff", size: 0.95 }); // Cyan Sensor Tip
 
       let satellite = {
         x: -120,
         y: canvas.height * 0.35,
-        speed: 0.4,
-        angle: 0.12, // Orbital tilt angle
+        speed: 0.38,
+        angle: 0.1, // Slight orbital tilt angle
         alpha: 0,
         state: "fading_in",
         waitTimer: 0,
@@ -217,8 +248,8 @@
         // Fade Lifecycle logic
         if (satellite.state === "fading_in") {
           satellite.alpha += 0.01;
-          if (satellite.alpha >= 0.9) {
-            satellite.alpha = 0.9;
+          if (satellite.alpha >= 0.95) {
+            satellite.alpha = 0.95;
             satellite.state = "orbiting";
           }
         } else if (satellite.state === "fading_out") {
@@ -236,15 +267,13 @@
         ctx.translate(satellite.x, satellite.y);
         ctx.rotate(satellite.angle);
 
-        // Turn OFF shadow blur so individual particle colors stay vibrant
+        // Turn OFF shadow blur completely for crisp micro-particle shapes & solid colors
         ctx.shadowBlur = 0;
 
-        // Draw High-Density Satellite Particle Nodes with Color-Glow
-        SATELLITE_NODES.forEach((node, i) => {
-          const twinkle = (Math.sin(Date.now() * 0.006 + i * 0.3) + 1) * 0.2 + 0.8;
-          
+        // Draw Sharp Micro-Particles
+        SATELLITE_NODES.forEach((node) => {
           ctx.fillStyle = node.color;
-          ctx.globalAlpha = satellite.alpha * twinkle;
+          ctx.globalAlpha = satellite.alpha;
 
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
@@ -256,28 +285,28 @@
         // Thruster Exhaust Stream
         if (satellite.state === "orbiting" || satellite.state === "fading_in") {
           satellite.exhaustParticles.push({
-            x: satellite.x - Math.cos(satellite.angle) * 16,
-            y: satellite.y - Math.sin(satellite.angle) * 16 + (Math.random() - 0.5) * 3,
-            vx: -Math.random() * 0.6 - 0.3,
-            vy: (Math.random() - 0.5) * 0.2,
-            size: Math.random() * 1.5 + 0.5,
-            alpha: satellite.alpha * 0.7
+            x: satellite.x - Math.cos(satellite.angle) * 14,
+            y: satellite.y - Math.sin(satellite.angle) * 14 + (Math.random() - 0.5) * 2,
+            vx: -Math.random() * 0.5 - 0.3,
+            vy: (Math.random() - 0.5) * 0.15,
+            size: Math.random() * 1.0 + 0.4,
+            alpha: satellite.alpha * 0.6
           });
         }
 
-        // Update and draw exhaust stream
+        // Update and draw exhaust trail
         for (let i = satellite.exhaustParticles.length - 1; i >= 0; i--) {
           const p = satellite.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.018;
+          p.alpha -= 0.02;
 
           if (p.alpha <= 0) {
             satellite.exhaustParticles.splice(i, 1);
             continue;
           }
 
-          ctx.fillStyle = `rgba(100, 220, 255, ${p.alpha})`;
+          ctx.fillStyle = `rgba(120, 200, 255, ${p.alpha})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fill();
@@ -371,7 +400,7 @@
           });
         });
 
-        // 3. Draw Particle Satellite Pass
+        // 3. Draw High-Detail Micro-Particle Satellite
         updateAndDrawSatellite();
 
         requestAnimationFrame(animate);
