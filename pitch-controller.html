@@ -1,442 +1,535 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.lang | default: 'en-US' }}">
 <head>
   <meta charset="UTF-8">
-  <title>Pitch Controller Model</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://pages-themes.github.io/cayman/assets/css/style.css">
-  
+  {% seo %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
   <style>
-    body {
-      font-family: sans-serif;
-      line-height: 1.7;
-      color: #333;
-    }
-
-    /* --- EXACT MATCH HEADER STYLING --- */
     .page-header {
-      position: relative; /* Keeps the home button anchored inside the header */
-      background-color: #ffffff !important;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/citation550.jpg') !important;
-      background-size: cover;
-      background-position: center;
-      
-      /* Forces exact header height matching index.html banner */
-      height: 210px !important; 
-      padding: 0 !important;
-      
-      /* Vertically and horizontally center content */
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      align-items: center !important;
-      box-sizing: border-box !important;
+      position: relative;
+      overflow: hidden;
     }
 
-    .page-header .content-wrapper {
-      margin: 0 auto !important;
-      padding: 0 !important;
-      width: 100%;
-    }
-
-    .page-header h1 {
-      color: #F5F5F5 !important;
-      font-size: 2.5rem !important; /* Matches main heading scale */
-      font-weight: 800;
-      margin: 0 !important; 
-      line-height: 1.2 !important;
-      text-shadow: 3px 3px 12px rgba(0, 0, 0, 1), 0px 0px 20px rgba(0, 0, 0, 0.6);
-    }
-
-   /* --- Home Button Styling --- */
-    .home-btn {
+    #constellation-canvas {
       position: absolute;
-      top: 18px;
-      left: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #ffffff;
-      text-decoration: none;
-      background-color: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      backdrop-filter: blur(5px);
-      transition: all 0.2s ease-in-out;
-      z-index: 10;
-    }
-
-    .home-btn:hover,
-    .home-btn:focus,
-    .home-btn:active {
-      text-decoration: none !important;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #ffffff;
-    }
-
-    .home-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .home-btn svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    .content-wrapper {
-      max-width: 950px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .section-title {
-      color: #000080;
-      margin-top: 35px;
-      margin-bottom: 10px;
-    }
-
-    .divider {
-      height: 2px;
-      background: #cfcfcf;
-      margin: 15px 0 25px 0;
-    }
-
-    .image-box {
-      text-align: center;
-      margin-top: 25px;
-      margin-bottom: 25px;
-    }
-
-    img {
-      max-width: 100%;
-      border-radius: 6px;
-    }
-
-    ul {
-      padding-left: 24px;
-    }
-
-    li {
-      margin-bottom: 18px;
-    }
-
-    /* --- Interactive Model Viewer Styles --- */
-    .instructions {
-      text-align: center;
-      font-style: italic;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .pipeline-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .model-thumb {
-      flex: 1;
-      min-width: 180px;
-      max-width: 240px;
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 10px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.25s ease-in-out;
-    }
-
-    .model-thumb:hover {
-      border-color: #000080;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .model-thumb.active {
-      border-color: #000080;
-      background-color: #ffffff;
-      box-shadow: 0 0 0 3px rgba(0, 0, 128, 0.2);
-    }
-
-    .model-thumb img {
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #ddd;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+      will-change: transform;
     }
 
-    .model-thumb h4 {
-      margin: 8px 0 0 0;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .pipeline-arrow {
-      color: #000080;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .pipeline-arrow svg {
-      width: 28px;
-      height: 28px;
-      fill: currentColor;
-    }
-
-    .model-display-box {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 25px;
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      margin-top: 20px;
-    }
-
-    .model-display-box h3 {
-      text-align: center;
-      color: #000080;
-      margin-top: 0;
-    }
-
-    /* Video section styling */
-    .video-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 24px;
-      max-width: 900px;
-      margin: 30px auto;
-    }
-
-    .video-card {
-      flex: 1 1 380px;
-      max-width: 420px;
-      text-align: center;
-    }
-
-    .video-card video {
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    /* --- Electric Blue Ghost Button Styling --- */
-    .doc-button-wrapper {
-      text-align: center;
-      margin: 45px 0 20px 0;
-    }
-
-    .btn-outlined-doc {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 28px;
-      background-color: transparent;
-      color: #0077cc;
-      border: 2px solid #00a8ff;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.25s ease-in-out;
-      outline: none;
-    }
-
-    .btn-outlined-doc svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      transition: fill 0.25s ease-in-out;
-    }
-
-    /* Restores default transparent look on focus/visited to prevent staying lit */
-    .btn-outlined-doc:focus,
-    .btn-outlined-doc:visited,
-    .btn-outlined-doc:active {
-      background-color: transparent;
-      color: #0077cc;
-      box-shadow: none;
-      transform: none;
-      text-decoration: none !important;
-    }
-
-    /* Lights up purely on hover */
-    .btn-outlined-doc:hover {
-      background-color: #00a8ff;
-      color: #ffffff !important;
-      border-color: #00a8ff;
-      text-decoration: none !important;
-      box-shadow: 0 0 15px rgba(0, 168, 255, 0.4);
-      transform: translateY(-2px);
+    .page-header .project-name,
+    .page-header .project-tagline,
+    .page-header .btn {
+      position: relative;
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
+  <section class="page-header">
+    <canvas id="constellation-canvas"></canvas>
 
-  <header class="page-header">
-    <a href="index.html" class="home-btn">
-      <svg viewBox="0 0 24 24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
-      Home
-    </a>
+    <h1 class="project-name">{{ site.title }}</h1>
+    <h2 class="project-tagline">{{ site.description }}</h2>
+  </section>
 
-    <div class="content-wrapper">
-      <h1>Pitch Controller Model</h1>
-    </div>
-  </header>
-
-  <div class="content-wrapper">
-
-    <h2 class="section-title">Project Overview and Goals</h2>
-    <div class="divider"></div>
-    
-    <ul>
-      <li>Developed a closed-loop pitch autopilot for a fourth-order longitudinal aircraft state-space model in MATLAB and Simulink using true airspeed, angle of attack, pitch angle, and pitch rate.</li>
-      <li>Verified open-loop stability, controllability, and observability through eigenvalue analysis and MATLAB rank tests.</li>
-      <li>Implemented a PID controller with an interactive Simulink tuning dashboard and realistic actuator dynamics, including elevator saturation (&plusmn;25&deg;), rate limits (&plusmn;30&deg;/s), and first-order actuator lag.</li>
-      <li>Improved robustness by integrating a Kalman filter with Gaussian sensor and aerodynamic disturbance noise, and added anti-windup compensation to reduce saturation-induced overshoot.</li>
-      <li>Validated performance using 10&deg; step, 10&deg; doublet, and 15&deg; square-wave commands, with real-time visualization through FlightGear and an artificial horizon display.</li>
-    </ul>
-    
-    <h2 class="section-title">Simulink Models</h2>
-    <div class="divider"></div>
-
-    <p class="instructions">Click on any iteration thumbnail below to inspect the model architecture and details.</p>
-
-    <div class="pipeline-container">
-      
-      <div class="model-thumb" onclick="selectModel(1)" id="thumb-1">
-        <img src="images/v1.png" alt="Version 1 Thumbnail">
-        <h4>Version 1</h4>
-      </div>
-
-      <div class="pipeline-arrow">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-        </svg>
-      </div>
-
-      <div class="model-thumb" onclick="selectModel(2)" id="thumb-2">
-        <img src="images/v2.png" alt="Version 2 Thumbnail">
-        <h4>Version 2</h4>
-      </div>
-
-      <div class="pipeline-arrow">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-        </svg>
-      </div>
-
-      <div class="model-thumb active" onclick="selectModel(3)" id="thumb-3">
-        <img src="images/v3.png" alt="Version 3 Thumbnail">
-        <h4>Version 3</h4>
-      </div>
-
-    </div>
-
-    <div class="model-display-box image-box" style="text-align: left;">
-      <h3 id="display-title">Version 3: Final Integrated Controller</h3>
-      <div style="text-align: center;">
-        <img id="display-img" src="images/v3.png" alt="Simulink Model Version 3" style="max-width: 90%; height: auto;">
-      </div>
-      <p id="display-desc">
-        The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments.
-      </p>
-    </div>
-
-    <h2 class="section-title">Results</h2>
-    <div class="divider"></div>
-
-    <div class="video-grid">
-      <div class="video-card">
-        <h3>10° Step</h3>
-        <video controls>
-          <source src="images/10degstep.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      <div class="video-card">
-        <h3>10° Doublet (5s)</h3>
-        <video controls>
-          <source src="images/doublet.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      <div class="video-card">
-        <h3>15° Square (8s)</h3>
-        <video controls>
-          <source src="images/square.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-
-    <div class="doc-button-wrapper">
-      <a href="Pitch_Autopilot_Controller.pdf" target="_blank" class="btn-outlined-doc">
-        <svg viewBox="0 0 24 24">
-          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
-        </svg>
-        View Technical Documentation
-      </a>
-    </div>
-
-  </div>
+  <section class="main-content">
+    {{ content }}
+  </section>
 
   <script>
-    // Model dataset
-    const modelData = {
-      1: {
-        title: "Version 1: Initial Baseline Model",
-        img: "images/v1.png",
-        alt: "Simulink Model Version 1",
-        desc: "The baseline model establishes the initial closed-loop feedback structure using the linearized state-space system of the longitudinal dynamics. It evaluates basic pitch command tracking performance under standard step inputs."
-      },
-      2: {
-        title: "Version 2: Kalman Filter & Noise Integration",
-        img: "images/v2.png",
-        alt: "Simulink Model Version 2",
-        desc: "This iteration enhances simulation realism by integrating a Kalman filter for state estimation along with simulated sensor and aerodynamic noise. Radians-to-degrees conversions were also added for intuitive controller tuning."
-      },
-      3: {
-        title: "Version 3: Final Integrated Controller",
-        img: "images/v3.png",
-        alt: "Simulink Model Version 3",
-        desc: "The final model features a dynamic Reference Commands subsystem (multi-input step, doublet, square wave), anti-windup integration, organized Goto/From signal blocks, and a FlightGear visualization interface driving real-time flight instruments."
+    document.addEventListener("DOMContentLoaded", function () {
+      const canvas = document.getElementById("constellation-canvas");
+      const ctx = canvas.getContext("2d");
+      const header = document.querySelector(".page-header");
+
+      function resize() {
+        canvas.width = header.clientWidth;
+        canvas.height = header.clientHeight;
       }
-    };
+      resize();
+      window.addEventListener("resize", resize);
 
-    function selectModel(version) {
-      // Update displayed content
-      document.getElementById('display-title').innerText = modelData[version].title;
-      document.getElementById('display-img').src = modelData[version].img;
-      document.getElementById('display-img').alt = modelData[version].alt;
-      document.getElementById('display-desc').innerText = modelData[version].desc;
+      const CONSTELLATION_DATA = [
+        { name: "Hydra", stars: [[0,50],[15,45],[30,55],[45,50],[60,65],[75,60],[85,40],[95,30],[100,15],[90,0],[75,10]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,7]] },
+        { name: "Centaurus", stars: [[10,100],[30,80],[45,60],[25,40],[10,20],[50,30],[70,10],[85,25],[95,50],[70,65],[85,90]], lines: [[0,1],[1,2],[2,3],[3,4],[2,5],[5,6],[6,7],[7,8],[8,9],[9,2],[8,10]] },
+        { name: "Orion", stars: [[10,0],[90,5],[30,45],[50,47],[70,49],[20,95],[80,100]], lines: [[0,2],[1,4],[2,3],[3,4],[2,5],[4,6],[0,1],[5,6]] },
+        { name: "Scorpius", stars: [[10,10],[30,20],[40,35],[45,55],[40,75],[25,90],[10,80],[15,65],[70,25],[85,10],[85,40]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[2,8],[8,9],[8,10]] },
+        { name: "Draco", stars: [[15,15],[10,30],[30,35],[35,20],[50,40],[70,30],[90,45],[85,70],[65,60],[45,80],[55,100]], lines: [[0,1],[1,2],[2,3],[3,0],[2,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10]] },
+        { name: "Cassiopeia", stars: [[0,100],[25,20],[50,60],[75,0],[100,40]], lines: [[0,1],[1,2],[2,3],[3,4]] },
+        { name: "Taurus", stars: [[0,50],[30,30],[50,40],[70,0],[90,80],[35,60]], lines: [[0,1],[1,2],[2,3],[2,4],[1,5]] },
+        { name: "Pegasus", stars: [[10,10],[80,10],[90,80],[20,70],[0,95],[100,0]], lines: [[0,1],[1,2],[2,3],[3,0],[3,4],[1,5]] },
+        { name: "Ursa Major", stars: [[0,0],[20,25],[35,45],[50,55],[55,90],[95,95],[90,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]] },
+        { name: "Leo", stars: [[80,20],[60,0],[40,10],[45,35],[70,45],[90,80],[40,85],[10,60]], lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[4,5],[5,6],[6,7],[7,3]] },
+        { name: "Lyra", stars: [[30,0],[70,10],[10,50],[50,60],[90,70]], lines: [[0,1],[0,2],[1,3],[2,3],[3,4]] },
+        { name: "Gemini", stars: [[10,0],[20,20],[30,50],[40,90],[70,10],[75,40],[80,80]], lines: [[0,1],[1,2],[2,3],[4,5],[5,6],[1,4]] },
+        { name: "Aquila", stars: [[50,0],[20,40],[80,40],[50,65],[50,100]], lines: [[0,1],[0,2],[1,3],[2,3],[3,4]] },
+        { name: "Andromeda", stars: [[0,50],[30,40],[60,30],[90,10],[35,75],[65,85]], lines: [[0,1],[1,2],[2,3],[1,4],[2,5]] },
+        { name: "Canis Major", stars: [[30,0],[10,35],[60,30],[80,65],[40,80],[95,90]], lines: [[0,1],[0,2],[2,3],[3,4],[3,5],[1,4]] }
+      ];
 
-      // Update active states for thumbnails
-      for (let i = 1; i <= 3; i++) {
-        const thumb = document.getElementById(`thumb-${i}`);
-        if (i === version) {
-          thumb.classList.add('active');
+      const starColors = [
+        "rgba(255, 255, 255, ",
+        "rgba(136, 204, 255, ",
+        "rgba(100, 170, 255, ",
+        "rgba(255, 150, 150, ",
+        "rgba(255, 190, 170, "
+      ];
+
+      const numAmbientStars = 35;
+      const ambientStars = [];
+      for (let i = 0; i < numAmbientStars; i++) {
+        ambientStars.push({
+          x: Math.random(),
+          y: Math.random(),
+          size: Math.random() * 0.9 + 0.3,
+          alpha: Math.random() * 0.5 + 0.5,
+          colorPrefix: starColors[Math.floor(Math.random() * starColors.length)],
+          speed: Math.random() * 0.002 + 0.001,
+          fadeDir: Math.random() > 0.5 ? 1 : -1
+        });
+      }
+
+      const activeCount = 3; 
+      const activeConstellations = [];
+
+      function spawnConstellation(zoneIndex) {
+        const activeNames = activeConstellations
+          .filter(c => c !== undefined && c.template)
+          .map(c => c.template.name);
+
+        const availableTemplates = CONSTELLATION_DATA.filter(c => !activeNames.includes(c.name));
+        const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)] || CONSTELLATION_DATA[0];
+        
+        const scale = Math.random() * 0.45 + 0.45;
+        
+        const colWidth = canvas.width / 3;
+        const minX = (zoneIndex * colWidth) + 10;
+        const maxX = (zoneIndex + 1) * colWidth - 120;
+
+        return {
+          template: template,
+          zoneIndex: zoneIndex,
+          x: Math.random() * Math.max(10, maxX - minX) + minX,
+          y: Math.random() * (canvas.height - 90) + 10,
+          vx: (Math.random() - 0.5) * 0.08,
+          vy: (Math.random() - 0.5) * 0.04,
+          scale: scale,
+          alpha: 0,
+          fadeState: "in",
+          holdTime: Math.random() * 300 + 200
+        };
+      }
+
+      for (let i = 0; i < activeCount; i++) {
+        const c = spawnConstellation(i);
+        c.alpha = Math.random() * 0.4;
+        activeConstellations.push(c);
+      }
+
+      const step = 0.8;
+
+      function createSatelliteNodes() {
+        const nodes = [];
+
+        function addMicroGrid(minX, maxX, minY, maxY, color) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size: 0.6 });
+            }
+          }
+        }
+
+        function addSolarPanel(minX, maxX, minY, maxY) {
+          const gridStepX = 6;
+          const gridStepY = 5;
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              const isGridX = Math.abs((x - minX) % gridStepX) < step;
+              const isGridY = Math.abs((y - minY) % gridStepY) < step;
+              const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
+              const color = (isBorder || isGridX || isGridY) ? "#112244" : "#e6a100";
+              nodes.push({ x, y, color, size: 0.6 });
+            }
+          }
+        }
+
+        function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
+          for (let y = minY; y <= maxY; y += step) {
+            const ratio = (y - minY) / (maxY - minY);
+            const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
+            const halfW = currentWidth / 2;
+            for (let x = -halfW; x <= halfW; x += step) {
+              nodes.push({ x, y, color, size: 0.6 });
+            }
+          }
+        }
+
+        function addThinParabolicDish(cx, cy, radiusX, radiusY) {
+          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.025) {
+            const rx = Math.cos(angle) * radiusX;
+            const ry = Math.sin(angle) * radiusY;
+            nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.65 });
+            nodes.push({ x: cx + rx, y: cy + ry - 0.7, color: "#e2e8f0", size: 0.6 });
+          }
+          for (let y = cy + 2; y >= cy - 10; y -= step) {
+            nodes.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
+          }
+          for (let i = 0; i <= 8; i += step) {
+            const ratio = i / 8;
+            nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+            nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+          }
+          nodes.push({ x: cx, y: cy - 11, color: "#ff1111", size: 1.2, isBlinking: true });
+        }
+
+        addMicroGrid(-16, 16, -6, 10, "#8899a6");
+        addMicroGrid(-14, 14, -4, 8, "#aab8c2");
+        addMicroGrid(-8, 8, -1, 5, "#657786");
+        addMicroGrid(-8, 8, -18, -6, "#4a5568");
+        addMicroGrid(-6, 6, -16, -8, "#718096");
+        addTrapezoidMount(12, 6, -23, -18, "#334455");
+        addThinParabolicDish(0, -28, 22, 10);
+        
+        addMicroGrid(-22, -16, 0, 4, "#334455");
+        addMicroGrid(16, 22, 0, 4, "#334455");
+        
+        addSolarPanel(-52, -22, -6, 10);
+        addSolarPanel(22, 52, -6, 10);
+
+        return nodes;
+      }
+
+      function createSaturnVNodes() {
+        const nodes = [];
+
+        function fillRect(minX, maxX, minY, maxY, color, size = 0.6) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size });
+            }
+          }
+        }
+
+        function fillCone(startX, endX, startRadius, endRadius, color, size = 0.6) {
+          const distance = Math.abs(endX - startX);
+          const stepsX = distance / step;
+          for (let i = 0; i <= stepsX; i++) {
+            const progress = i / stepsX;
+            const currentX = startX + (endX - startX) * progress;
+            const currentRadius = startRadius + (endRadius - startRadius) * progress;
+            
+            for (let r = -currentRadius; r <= currentRadius; r += step) {
+              nodes.push({ x: currentX, y: r, color, size });
+            }
+          }
+        }
+
+        function drawUSAFlagRotated(startX, startY, width, height) {
+          const fineStep = 0.2;
+          const particleRadius = 0.25;
+
+          const numStripes = 13;
+          const stripeW = width / numStripes;
+
+          for (let s = 0; s < numStripes; s++) {
+            const sMinX = startX + (s * stripeW);
+            const sMaxX = startX + ((s + 1) * stripeW);
+            const stripeColor = (s % 2 === 0) ? "#dc2626" : "#ffffff";
+
+            for (let x = sMinX; x <= sMaxX; x += fineStep) {
+              for (let y = startY; y <= startY + height; y += fineStep) {
+                nodes.push({ x, y, color: stripeColor, size: particleRadius });
+              }
+            }
+          }
+
+          const cantonWidth = stripeW * 7;
+          const cantonHeight = height * 0.54;
+          const cantonStartX = startX + width - cantonWidth;
+
+          for (let x = cantonStartX; x <= startX + width; x += fineStep) {
+            for (let y = startY; y <= startY + cantonHeight; y += fineStep) {
+              nodes.push({ x, y, color: "#1e3a8a", size: particleRadius });
+            }
+          }
+
+          const rows = 5;
+          const cols = 4;
+          for (let r = 1; r <= rows; r++) {
+            for (let c = 1; c <= cols; c++) {
+              const starX = cantonStartX + (cantonWidth * (c / (cols + 1)));
+              const starY = startY + (cantonHeight * (r / (rows + 1)));
+              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.3 });
+            }
+          }
+        }
+
+        fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
+        fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
+
+        fillCone(38, 45, 2.6, 1.2, "#e2e8f0", 0.6);
+
+        fillRect(30, 38, -2.6, 2.6, "#f8fafc", 0.6);
+
+        fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
+
+        fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
+
+        fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
+        fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
+        fillRect(-4, 0, -4.8, 4.8, "#0f172a", 0.6);
+
+        fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.6);
+        fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
+        fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
+
+        drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
+
+        fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
+        fillCone(-58, -52, -7.8, -5.2, "#f1f5f9", 0.6);
+
+        function drawEngineNozzle(startX, length, radiusY, yOffset) {
+          for (let l = 0; l <= length; l += step) {
+            const progress = l / length;
+            const currentRadius = radiusY * (0.6 + 0.4 * progress);
+            const currentX = startX - l;
+
+            for (let r = -currentRadius; r <= currentRadius; r += step) {
+              const isRim = (l >= length - step) || (Math.abs(r) >= currentRadius - 0.4);
+              const color = isRim ? "#0f172a" : "#334155";
+              nodes.push({ x: currentX, y: yOffset + r, color, size: 0.6 });
+            }
+          }
+        }
+
+        drawEngineNozzle(-58, 7.0, 2.2, -3.2);
+        drawEngineNozzle(-58, 7.0, 2.2, 3.2);
+        drawEngineNozzle(-58, 7.5, 2.5, 0.0);
+
+        return nodes;
+      }
+
+      const SATELLITE_NODES = createSatelliteNodes();
+      const SATURN_V_NODES = createSaturnVNodes();
+
+      let savedCraft = localStorage.getItem("activeCraftIndex");
+      let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
+      localStorage.setItem("activeCraftIndex", activeCraftIndex);
+
+      let craftCompleted = false;
+
+      let craft = {
+        x: -130,
+        y: canvas.height * 0.12,
+        speed: 1.42,
+        angle: 0.03,
+        alpha: 0,
+        state: "fading_in",
+        exhaustParticles: []
+      };
+
+      function initCraftPath() {
+        if (activeCraftIndex === 1) {
+          craft.y = canvas.height * 0.12;
+          craft.angle = 0.02;
         } else {
-          thumb.classList.remove('active');
+          craft.y = canvas.height * 0.92;
+          craft.angle = -0.03;
+        }
+
+        craft.x = -130;
+        craft.exhaustParticles = [];
+        craft.state = "fading_in";
+      }
+
+      initCraftPath();
+
+      function updateAndDrawCraft() {
+        if (craftCompleted) return;
+
+        craft.x += Math.cos(craft.angle) * craft.speed;
+        craft.y += Math.sin(craft.angle) * craft.speed;
+
+        const targetAlpha = 0.85;
+        if (craft.state === "fading_in") {
+          craft.alpha += 0.025;
+          if (craft.alpha >= targetAlpha) {
+            craft.alpha = targetAlpha;
+            craft.state = "orbiting";
+          }
+        } else if (craft.state === "fading_out") {
+          craft.alpha -= 0.025;
+          if (craft.alpha <= 0) {
+            craft.alpha = 0;
+            craftCompleted = true;
+          }
+        } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
+          craft.state = "fading_out";
+        }
+
+        ctx.save();
+        ctx.translate(Math.round(craft.x), Math.round(craft.y));
+        ctx.rotate(craft.angle);
+
+        if (activeCraftIndex === 0) {
+          ctx.scale(0.85, 0.85);
+        }
+
+        const currentNodes = activeCraftIndex === 0 ? SATELLITE_NODES : SATURN_V_NODES;
+        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2;
+
+        ctx.globalAlpha = craft.alpha;
+
+        currentNodes.forEach((node) => {
+          ctx.fillStyle = node.color;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        if (activeCraftIndex === 1) {
+          ctx.fillStyle = "#0f172a";
+          ctx.font = "bold 5px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("U S A", 10, 0);
+        }
+
+        ctx.restore();
+
+        if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
+          const nozzleX = craft.x - Math.cos(craft.angle) * 65;
+          const nozzleY = craft.y - Math.sin(craft.angle) * 65;
+
+          const fireColors = ["#ff2200", "#ff5500", "#ffaa00", "#ffe600", "#ffffff"];
+          
+          for (let k = 0; k < 3; k++) {
+            craft.exhaustParticles.push({
+              x: nozzleX,
+              y: nozzleY + (Math.random() - 0.5) * 8,
+              vx: -Math.cos(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
+              vy: -Math.sin(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
+              size: Math.random() * 3.5 + 1.2,
+              color: fireColors[Math.floor(Math.random() * fireColors.length)],
+              alpha: craft.alpha
+            });
+          }
+        }
+
+        for (let i = craft.exhaustParticles.length - 1; i >= 0; i--) {
+          const p = craft.exhaustParticles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.04;
+          p.size *= 0.95;
+
+          if (p.alpha <= 0 || p.size <= 0.2) {
+            craft.exhaustParticles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
         }
       }
-    }
-  </script>
 
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ambientStars.forEach(star => {
+          star.alpha += star.speed * star.fadeDir;
+
+          if (star.alpha >= 1.4) {
+            star.alpha = 1.0;
+            star.fadeDir = -1;
+          } else if (star.alpha <= 0.1) {
+            star.alpha = 0.1;
+            star.fadeDir = 1;
+            star.x = Math.random();
+            star.y = Math.random();
+          }
+
+          ctx.fillStyle = star.colorPrefix + star.alpha + ")";
+          ctx.beginPath();
+          ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        activeConstellations.forEach((c, index) => {
+          c.x += c.vx;
+          c.y += c.vy;
+
+          if (c.fadeState === "in") {
+            c.alpha += 0.003;
+            if (c.alpha >= 0.65) {
+              c.alpha = 0.65;
+              c.fadeState = "hold";
+            }
+          } else if (c.fadeState === "hold") {
+            c.holdTime--;
+            if (c.holdTime <= 0) {
+              c.fadeState = "out";
+            }
+          } else if (c.fadeState === "out") {
+            c.alpha -= 0.003;
+            if (c.alpha <= 0) {
+              activeConstellations[index] = spawnConstellation(c.zoneIndex);
+            }
+          }
+
+          const points = c.template.stars.map(s => ({
+            x: c.x + (s[0] * c.scale),
+            y: c.y + (s[1] * c.scale)
+          }));
+
+          ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
+          ctx.lineWidth = 0.8;
+          c.template.lines.forEach(line => {
+            const p1 = points[line[0]];
+            const p2 = points[line[1]];
+            if (p1 && p2) {
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          });
+
+          points.forEach(p => {
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.5)})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.2)})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 0.8, 0, Math.PI * 2);
+            ctx.fill();
+          });
+        });
+
+        updateAndDrawCraft();
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    });
+  </script>
 </body>
 </html>
