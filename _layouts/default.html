@@ -15,13 +15,14 @@
       overflow: hidden;
     }
 
+    /* Set canvas z-index higher so spacecraft flies over title text */
     #constellation-canvas {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 3;
       pointer-events: none; /* Disables mouse interaction */
     }
 
@@ -80,11 +81,11 @@
 
       // --- COLORFUL AMBIENT BACKGROUND STARS ---
       const starColors = [
-        "rgba(255, 255, 255, ",  // White
-        "rgba(136, 204, 255, ",  // Soft Ice Blue
-        "rgba(100, 170, 255, ",  // Deep Blue
-        "rgba(255, 150, 150, ",  // Warm Red/Coral
-        "rgba(255, 190, 170, "   // Orange-Red
+        "rgba(255, 255, 255, ",
+        "rgba(136, 204, 255, ",
+        "rgba(100, 170, 255, ",
+        "rgba(255, 150, 150, ",
+        "rgba(255, 190, 170, "
       ];
 
       const numAmbientStars = 35;
@@ -101,7 +102,7 @@
         });
       }
 
-      // --- 3 GRID COLUMNS FOR NON-OVERLAPPING CONSTELLATIONS ---
+      // --- 3 GRID COLUMNS FOR CONSTELLATIONS ---
       const activeCount = 3; 
       const activeConstellations = [];
 
@@ -223,7 +224,7 @@
           }
         }
 
-        // Forward Cockpit / Nose Transition (White Thermal Blanket)
+        // White Forward Nose Blanket
         for (let x = 18; x <= 32; x += step) {
           const ratio = (38 - x) / 20;
           const halfH = ratio * 6.5;
@@ -232,7 +233,7 @@
           }
         }
 
-        // 2. Clearer Cockpit Windows (Light cyan glass with dark frame)
+        // 2. Cockpit Windows
         for (let x = 23; x <= 28; x += step) {
           for (let y = -4.5; y <= -1.5; y += step) {
             const isFrame = x === 23 || x >= 27.2 || y <= -4.0 || y >= -2.0;
@@ -241,14 +242,14 @@
           }
         }
 
-        // Main Fuselage Hull (Pure White)
+        // Main Fuselage Hull
         for (let x = -22; x <= 18; x += step) {
           for (let y = -6.5; y <= 6.5; y += step) {
             nodes.push({ x, y, color: "#f8fafc", size: 0.6 });
           }
         }
 
-        // Payload Bay Door Seam Lines
+        // Payload Bay Seam Lines
         for (let x = -18; x <= 15; x += step) {
           nodes.push({ x, y: -6.5, color: "#cbd5e1", size: 0.5 });
           nodes.push({ x, y: 0, color: "#e2e8f0", size: 0.4 });
@@ -260,23 +261,18 @@
           nodes.push({ x, y: 7.2, color: "#1a1a1a", size: 0.6 });
         }
 
-        // 3. Top Vertical Rudder / Tail Fin ONLY (No bottom wing visible)
-        for (let x = -20; x <= -6; x += step) {
-          const ratio = (x + 20) / 14;
-          const finHeight = ratio * 18; // Sweeps vertically upwards
+        // 3. CORRECTED Tail Fin / Rudder Direction (Sweeps BACKWARD to the rear)
+        for (let x = -22; x <= -6; x += step) {
+          const ratio = (x - (-6)) / (-16); // Ratio sweeps toward the rear (-22)
+          const finHeight = Math.max(0, ratio) * 18;
           for (let y = -6.5 - finHeight; y <= -6.5; y += step) {
-            const isLeadingEdge = (y <= -6.5 - finHeight + 1.2) || (x <= -18.5);
-            const isTrailingRudder = x >= -8;
-            
-            let color = "#ffffff";
-            if (isLeadingEdge) color = "#1e293b"; // Black tile leading edge
-            else if (isTrailingRudder) color = "#e2e8f0"; // Rudder separation line
-
+            const isLeadingEdge = y <= -6.5 - finHeight + 1.2;
+            const color = isLeadingEdge ? "#1e293b" : "#ffffff";
             nodes.push({ x, y, color, size: 0.6 });
           }
         }
 
-        // 4. Iconic NASA Meatball Logo on Fuselage Side
+        // 4. NASA Meatball Logo
         const logoCX = 0;
         const logoCY = 0;
         const logoR = 4.2;
@@ -284,48 +280,28 @@
           for (let y = logoCY - logoR; y <= logoCY + logoR; y += step) {
             const dist = Math.hypot(x - logoCX, y - logoCY);
             if (dist <= logoR) {
-              let color = "#0b3d91"; // NASA Insignia Blue
-              
-              // Red Vector Chevron
+              let color = "#0b3d91"; // NASA Blue
               if (Math.abs((y - logoCY) + (x - logoCX) * 0.5) < 0.9) {
-                color = "#fc3d21"; // NASA Red
-              }
-              // Star field / White text core
-              else if (dist < 1.5) {
+                color = "#fc3d21"; // Red Chevron
+              } else if (dist < 1.5) {
                 color = "#ffffff";
               }
-
               nodes.push({ x, y, color, size: 0.6 });
             }
           }
         }
 
-        // 5. Clear Main Engine Nozzles & OMS Pods
-        // OMS Pods (Top Rear)
-        for (let x = -24; x <= -20; x += step) {
-          for (let y = -6.5; y <= -2.5; y += step) {
-            nodes.push({ x, y, color: "#64748b", size: 0.6 });
+        // 5. One Large Single Main Engine Nozzle Thruster (Back of Shuttle)
+        const engineR = 5.2;
+        for (let x = -28; x <= -22; x += step) {
+          const progress = (-22 - x) / 6;
+          const currentR = engineR * (0.6 + 0.4 * progress);
+          for (let y = -currentR; y <= currentR; y += step) {
+            const isRim = x === -28 || Math.abs(y) >= currentR - 0.6;
+            const color = isRim ? "#334155" : "#64748b"; // Metallic bell nozzle
+            nodes.push({ x, y, color, size: 0.65 });
           }
         }
-
-        // Three Clear Rocket Engine Bell Nozzles (SSMEs)
-        const enginePos = [
-          { x: -26, y: -4.5, r: 2.2 },
-          { x: -26, y: 0.0,  r: 2.5 },
-          { x: -26, y: 4.5,  r: 2.2 }
-        ];
-
-        enginePos.forEach(eng => {
-          for (let x = eng.x - 3; x <= eng.x; x += step) {
-            const progress = (eng.x - x) / 3;
-            const currentR = eng.r * (0.5 + 0.5 * progress);
-            for (let y = eng.y - currentR; y <= eng.y + currentR; y += step) {
-              const isRim = x === eng.x - 3 || Math.abs(y - eng.y) >= currentR - 0.5;
-              const color = isRim ? "#334155" : "#94a3b8"; // Metallic dark grey bell interior
-              nodes.push({ x, y, color, size: 0.65 });
-            }
-          }
-        });
 
         return nodes;
       }
@@ -333,37 +309,52 @@
       const SATELLITE_NODES = createSatelliteNodes();
       const SHUTTLE_NODES = createShuttleNodes();
 
-      // Randomly pick initial craft: 0 = Satellite, 1 = Shuttle
       let activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
 
+      // Spacecraft state with fiery exhaust particles & customizable flight path
       let craft = {
         x: -120,
-        y: canvas.height * 0.35,
-        speed: 0.38,
-        angle: 0.1,
+        y: canvas.height * 0.2,
+        speed: 0.45,
+        angle: 0.22, // Angle going diagonally across the title
         alpha: 0,
         state: "fading_in",
-        waitTimer: 0
+        waitTimer: 0,
+        exhaustParticles: []
       };
+
+      function resetCraftPath() {
+        activeCraftIndex = Math.random() < 0.5 ? 0 : 1;
+        
+        // Dynamic pathways over title
+        const paths = [
+          { y: canvas.height * 0.2, angle: 0.22 }, // High-to-low diagonal crossing
+          { y: canvas.height * 0.65, angle: -0.18 }, // Low-to-high diagonal crossing
+          { y: canvas.height * 0.42, angle: 0.05 }   // Direct mid-header crossing
+        ];
+        
+        const chosenPath = paths[Math.floor(Math.random() * paths.length)];
+        craft.x = -130;
+        craft.y = chosenPath.y;
+        craft.angle = chosenPath.angle;
+        craft.exhaustParticles = [];
+        craft.state = "fading_in";
+      }
 
       function updateAndDrawCraft() {
         if (craft.state === "waiting") {
           craft.waitTimer--;
           if (craft.waitTimer <= 0) {
-            // Randomly select between Satellite (0) and Shuttle (1)
-            activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
-            craft.x = -120;
-            craft.y = Math.random() * (canvas.height * 0.4) + canvas.height * 0.25;
-            craft.state = "fading_in";
+            resetCraftPath();
           }
           return;
         }
 
-        // Orbital Movement along Sine Wave
-        craft.x += craft.speed;
-        craft.y += Math.sin(craft.x * 0.006) * 0.2;
+        // Movement along assigned diagonal vector
+        craft.x += Math.cos(craft.angle) * craft.speed;
+        craft.y += Math.sin(craft.angle) * craft.speed;
 
-        const targetAlpha = 0.45;
+        const targetAlpha = 0.85; // Clearer visibility over title
         if (craft.state === "fading_in") {
           craft.alpha += 0.008;
           if (craft.alpha >= targetAlpha) {
@@ -375,9 +366,9 @@
           if (craft.alpha <= 0) {
             craft.alpha = 0;
             craft.state = "waiting";
-            craft.waitTimer = Math.floor(Math.random() * 350 + 250);
+            craft.waitTimer = Math.floor(Math.random() * 300 + 200);
           }
-        } else if (craft.x > canvas.width - 120) {
+        } else if (craft.x > canvas.width + 120 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
         }
 
@@ -397,13 +388,59 @@
         });
 
         ctx.restore();
+
+        // --- FIERY EXHAUST PARTICLE TRAIL ---
+        if (craft.state === "orbiting" || craft.state === "fading_in") {
+          // Thruster nozzle position relative to craft center
+          const nozzleDist = activeCraftIndex === 0 ? 0 : 28;
+          const nozzleX = craft.x - Math.cos(craft.angle) * nozzleDist;
+          const nozzleY = craft.y - Math.sin(craft.angle) * nozzleDist;
+
+          const fireColors = ["#ff3300", "#ff6600", "#ffcc00", "#ffffff"];
+          
+          for (let k = 0; k < 2; k++) {
+            craft.exhaustParticles.push({
+              x: nozzleX,
+              y: nozzleY + (Math.random() - 0.5) * 4,
+              vx: -Math.cos(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
+              vy: -Math.sin(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
+              size: Math.random() * 2.2 + 0.8,
+              color: fireColors[Math.floor(Math.random() * fireColors.length)],
+              alpha: craft.alpha
+            });
+          }
+        }
+
+        // Update and Render Flame Particles
+        for (let i = craft.exhaustParticles.length - 1; i >= 0; i--) {
+          const p = craft.exhaustParticles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.025;
+          p.size *= 0.96;
+
+          if (p.alpha <= 0 || p.size <= 0.2) {
+            craft.exhaustParticles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
       }
 
       // --- ANIMATION LOOP ---
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Draw Slow-fading Ambient Stars
+        // 1. Draw Ambient Background Stars
         ambientStars.forEach(star => {
           star.alpha += star.speed * star.fadeDir;
 
@@ -454,7 +491,6 @@
             y: c.y + (s[1] * c.scale)
           }));
 
-          // Draw Fainter Connecting Lines
           ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
           ctx.lineWidth = 0.8;
           c.template.lines.forEach(line => {
@@ -468,7 +504,6 @@
             }
           });
 
-          // Draw Brighter Star Nodes with Halo Glow
           points.forEach(p => {
             ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.5)})`;
             ctx.shadowBlur = 18;
@@ -486,7 +521,7 @@
           });
         });
 
-        // 3. Draw Active Spacecraft (Random Satellite / Shuttle)
+        // 3. Draw Active Spacecraft over Header Title
         updateAndDrawCraft();
 
         requestAnimationFrame(animate);
