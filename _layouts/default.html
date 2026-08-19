@@ -279,46 +279,47 @@
           }
         }
 
-        // Particle "USA" Text along rocket body
+        // Distinct Particle "USA" Text along rocket body
         function drawUSALetters(startX, startY) {
-          const fineStep = 0.22;
-          const color = "#000000";
+          const fineStep = 0.25;
+          const color = "#1e293b"; // Dark contrasting slate black
 
           // 'U'
-          for (let y = startY; y <= startY + 2.5; y += fineStep) {
-            nodes.push({ x: startX, y, color, size: 0.3 });
-            nodes.push({ x: startX + 1.2, y, color, size: 0.3 });
+          for (let y = startY - 1.2; y <= startY + 1.2; y += fineStep) {
+            nodes.push({ x: startX, y, color, size: 0.45 });
+            nodes.push({ x: startX + 1.5, y, color, size: 0.45 });
           }
-          for (let x = startX; x <= startX + 1.2; x += fineStep) {
-            nodes.push({ x, y: startY + 2.5, color, size: 0.3 });
+          for (let x = startX; x <= startX + 1.5; x += fineStep) {
+            nodes.push({ x, y: startY + 1.2, color, size: 0.45 });
           }
 
           // 'S'
-          const sX = startX + 2.0;
-          for (let x = sX; x <= sX + 1.2; x += fineStep) {
-            nodes.push({ x, y: startY, color, size: 0.3 });
-            nodes.push({ x, y: startY + 1.25, color, size: 0.3 });
-            nodes.push({ x, y: startY + 2.5, color, size: 0.3 });
+          const sX = startX + 2.5;
+          for (let x = sX; x <= sX + 1.5; x += fineStep) {
+            nodes.push({ x, y: startY - 1.2, color, size: 0.45 });
+            nodes.push({ x, y: startY, color, size: 0.45 });
+            nodes.push({ x, y: startY + 1.2, color, size: 0.45 });
           }
-          for (let y = startY; y <= startY + 1.25; y += fineStep) {
-            nodes.push({ x: sX, y, color, size: 0.3 });
+          for (let y = startY - 1.2; y <= startY; y += fineStep) {
+            nodes.push({ x: sX, y, color, size: 0.45 });
           }
-          for (let y = startY + 1.25; y <= startY + 2.5; y += fineStep) {
-            nodes.push({ x: sX + 1.2, y, color, size: 0.3 });
+          for (let y = startY; y <= startY + 1.2; y += fineStep) {
+            nodes.push({ x: sX + 1.5, y, color, size: 0.45 });
           }
 
           // 'A'
-          const aX = startX + 4.0;
-          for (let y = startY; y <= startY + 2.5; y += fineStep) {
-            nodes.push({ x: aX, y, color, size: 0.3 });
-            nodes.push({ x: aX + 1.2, y, color, size: 0.3 });
+          const aX = startX + 5.0;
+          for (let y = startY - 1.2; y <= startY + 1.2; y += fineStep) {
+            nodes.push({ x: aX, y, color, size: 0.45 });
+            nodes.push({ x: aX + 1.5, y, color, size: 0.45 });
           }
-          for (let x = aX; x <= aX + 1.2; x += fineStep) {
-            nodes.push({ x, y: startY, color, size: 0.3 });
-            nodes.push({ x, y: startY + 1.25, color, size: 0.3 });
+          for (let x = aX; x <= aX + 1.5; x += fineStep) {
+            nodes.push({ x, y: startY - 1.2, color, size: 0.45 });
+            nodes.push({ x, y: startY, color, size: 0.45 });
           }
         }
 
+        // Draw primary rocket structure first
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
 
@@ -329,9 +330,6 @@
         fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
 
         fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
-        
-        // Add USA Text to Stage 3
-        drawUSALetters(6, -1.2);
 
         fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
         fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
@@ -363,6 +361,9 @@
         drawEngineNozzle(-58, 7.0, 2.2, -3.2);
         drawEngineNozzle(-58, 7.0, 2.2, 3.2);
         drawEngineNozzle(-58, 7.5, 2.5, 0.0);
+
+        // Draw USA lettering last so particles overlay cleanly on top of the rocket body
+        drawUSALetters(6, 0);
 
         return nodes;
       }
