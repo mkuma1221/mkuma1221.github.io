@@ -193,7 +193,8 @@
             nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
             nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
           }
-          nodes.push({ x: cx, y: cy - 11, color: "#ff3333", size: 1.0 });
+          // Blinking tip beacon mark
+          nodes.push({ x: cx, y: cy - 11, color: "#ff1111", size: 1.2, isBlinking: true });
         }
 
         addMicroGrid(-16, 16, -6, 10, "#8899a6");
@@ -203,8 +204,12 @@
         addMicroGrid(-6, 6, -16, -8, "#718096");
         addTrapezoidMount(12, 6, -23, -18, "#334455");
         addThinParabolicDish(0, -28, 22, 10);
+        
+        // Equal spacing mounts for both solar panels
         addMicroGrid(-22, -16, 0, 4, "#334455");
         addMicroGrid(16, 22, 0, 4, "#334455");
+        
+        // Perfectly symmetrical left and right solar panels
         addSolarPanel(-52, -22, -6, 10);
         addSolarPanel(22, 52, -6, 10);
 
@@ -239,10 +244,9 @@
 
         // High-Detail USA Flag (Rotated 90 Degrees Clockwise)
         function drawUSAFlagRotated(startX, startY, width, height) {
-          const fineStep = 0.2; // Ultra-fine particle step
+          const fineStep = 0.2;
           const particleRadius = 0.25;
 
-          // 1. Draw 13 Vertical Stripes (Alternating Red and White)
           const numStripes = 13;
           const stripeW = width / numStripes;
 
@@ -258,7 +262,6 @@
             }
           }
 
-          // 2. Blue Canton (Top-Right Corner for 90° Clockwise Rotation)
           const cantonWidth = stripeW * 7;
           const cantonHeight = height * 0.54;
           const cantonStartX = startX + width - cantonWidth;
@@ -269,7 +272,6 @@
             }
           }
 
-          // 3. White Stars Grid inside Top-Right Canton
           const rows = 5;
           const cols = 4;
           for (let r = 1; r <= rows; r++) {
@@ -281,44 +283,31 @@
           }
         }
 
-        // 1. Launch Escape System (LES) Tower Spike
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
 
-        // 2. Command Module (CM) Cone
         fillCone(38, 45, 2.6, 1.2, "#e2e8f0", 0.6);
 
-        // 3. Service Module (SM)
         fillRect(30, 38, -2.6, 2.6, "#f8fafc", 0.6);
 
-        // 4. Spacecraft Lunar Module Adapter (S-IVB Interstage Taper)
         fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
 
-        // 5. S-IVB Third Stage
         fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
-        // USA Marking Strip on S-IVB
         fillRect(10, 12, -1.8, 1.8, "#0f172a", 0.6);
 
-        // 6. S-II Second Stage
         fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
-        // Black roll-pattern bands (S-II Stage)
         fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
         fillRect(-4, 0, -4.8, 4.8, "#0f172a", 0.6);
 
-        // 7. S-IC First Stage
         fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.6);
-        // First Stage Roll Pattern Vertical / Horizontal Stripes
         fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
         fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
 
-        // Correct USA Flag (Rotated 90 Deg Clockwise, Top-Right Canton)
         drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
 
-        // 8. Base Aerodynamic Fins (4 side fins)
         fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
         fillCone(-58, -52, -7.8, -5.2, "#f1f5f9", 0.6);
 
-        // 9. F-1 Engine Fairings & Engine Nozzles
         function drawEngineNozzle(startX, length, radiusY, yOffset) {
           for (let l = 0; l <= length; l += step) {
             const progress = l / length;
@@ -333,7 +322,6 @@
           }
         }
 
-        // 5 Main Engine Bells (Outer Top, Outer Bottom, Center Base)
         drawEngineNozzle(-58, 7.0, 2.2, -3.2);
         drawEngineNozzle(-58, 7.0, 2.2, 3.2);
         drawEngineNozzle(-58, 7.5, 2.5, 0.0);
@@ -349,7 +337,7 @@
       let craft = {
         x: -130,
         y: canvas.height * 0.12,
-        speed: 0.45,
+        speed: 0.95, // Increased animation speed
         angle: 0.03,
         alpha: 0,
         state: "fading_in",
@@ -361,12 +349,12 @@
         activeCraftIndex = activeCraftIndex === 0 ? 1 : 0;
         
         if (activeCraftIndex === 1) {
-          // Saturn V flies across top clear region
+          // Saturn V across top
           craft.y = canvas.height * 0.12;
           craft.angle = 0.02;
         } else {
-          // Satellite flies cleanly underneath header text
-          craft.y = canvas.height * 0.88;
+          // Satellite slightly lower on screen
+          craft.y = canvas.height * 0.92;
           craft.angle = -0.03;
         }
 
@@ -391,17 +379,17 @@
 
         const targetAlpha = 0.85;
         if (craft.state === "fading_in") {
-          craft.alpha += 0.008;
+          craft.alpha += 0.015;
           if (craft.alpha >= targetAlpha) {
             craft.alpha = targetAlpha;
             craft.state = "orbiting";
           }
         } else if (craft.state === "fading_out") {
-          craft.alpha -= 0.008;
+          craft.alpha -= 0.015;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
             craft.state = "waiting";
-            craft.waitTimer = Math.floor(Math.random() * 300 + 200);
+            craft.waitTimer = Math.floor(Math.random() * 150 + 100);
           }
         } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
@@ -410,12 +398,26 @@
         ctx.save();
         ctx.translate(craft.x, craft.y);
         ctx.rotate(craft.angle);
+
+        // Make satellite smaller in scale
+        if (activeCraftIndex === 0) {
+          ctx.scale(0.85, 0.85);
+        }
+
         ctx.shadowBlur = 0;
 
         const currentNodes = activeCraftIndex === 0 ? SATELLITE_NODES : SATURN_V_NODES;
+        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2; // Pulsing calculation
 
         currentNodes.forEach((node) => {
-          ctx.fillStyle = node.color;
+          if (node.isBlinking) {
+            ctx.fillStyle = `rgba(255, 30, 30, ${blinkValue})`;
+            ctx.shadowBlur = 8 * blinkValue;
+            ctx.shadowColor = "#ff0000";
+          } else {
+            ctx.fillStyle = node.color;
+            ctx.shadowBlur = 0;
+          }
           ctx.globalAlpha = craft.alpha;
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
@@ -431,12 +433,12 @@
 
           const fireColors = ["#ff2200", "#ff5500", "#ffaa00", "#ffe600", "#ffffff"];
           
-          for (let k = 0; k < 5; k++) {
+          for (let k = 0; k < 6; k++) {
             craft.exhaustParticles.push({
               x: nozzleX,
               y: nozzleY + (Math.random() - 0.5) * 8,
-              vx: -Math.cos(craft.angle) * (Math.random() * 1.4 + 0.8) + (Math.random() - 0.5) * 0.3,
-              vy: -Math.sin(craft.angle) * (Math.random() * 1.4 + 0.8) + (Math.random() - 0.5) * 0.3,
+              vx: -Math.cos(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
+              vy: -Math.sin(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
               size: Math.random() * 3.5 + 1.2,
               color: fireColors[Math.floor(Math.random() * fireColors.length)],
               alpha: craft.alpha
@@ -448,8 +450,8 @@
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.02;
-          p.size *= 0.96;
+          p.alpha -= 0.03;
+          p.size *= 0.95;
 
           if (p.alpha <= 0 || p.size <= 0.2) {
             craft.exhaustParticles.splice(i, 1);
