@@ -15,7 +15,6 @@
       overflow: hidden;
     }
 
-    /* Set canvas z-index higher so spacecraft flies cleanly without collision */
     #constellation-canvas {
       position: absolute;
       top: 0;
@@ -215,106 +214,84 @@
       function createShuttleNodes() {
         const nodes = [];
 
-        // 1. Black Thermal Nose Cone
-        for (let x = 32; x <= 38; x += step) {
-          const ratio = (38 - x) / 6;
-          const halfH = ratio * 3.5;
-          for (let y = -halfH; y <= halfH; y += step) {
-            nodes.push({ x, y, color: "#111111", size: 0.65 });
+        function fillRect(minX, maxX, minY, maxY, color, size = 0.6) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size });
+            }
           }
         }
 
-        // White Forward Nose Transition Body
-        for (let x = 20; x <= 32; x += step) {
-          const ratio = (38 - x) / 18;
-          const halfH = ratio * 5.0;
-          for (let y = -halfH; y <= halfH; y += step) {
-            nodes.push({ x, y, color: "#f1f5f9", size: 0.6 });
+        function fillPolyLine(xStart, xEnd, yStart, yEnd, startWidth, endWidth, color, size = 0.6) {
+          const stepsY = Math.abs(yEnd - yStart) / step;
+          for (let i = 0; i <= stepsY; i++) {
+            const progress = i / stepsY;
+            const currentY = yStart + (yEnd - yStart) * progress;
+            const currentX = xStart + (xEnd - xStart) * progress;
+            const currentWidth = startWidth + (endWidth - startWidth) * progress;
+            
+            for (let w = 0; w <= currentWidth; w += step) {
+              nodes.push({ x: currentX - w, y: currentY, color, size });
+            }
           }
         }
 
-        // Forward Cockpit Windows
-        for (let x = 24; x <= 28; x += step) {
-          for (let y = -3.8; y <= -1.8; y += step) {
-            nodes.push({ x, y, color: "#0f172a", size: 0.65 });
-          }
-        }
+        // --- 1. MAIN FUSELAGE & NOSE CONE ---
+        fillRect(34, 38, -2.5, 2.5, "#111111", 0.65);
+        fillPolyLine(34, 22, 0, -4.5, 5.0, 9.0, "#f8fafc");
+        fillPolyLine(34, 22, 0, 4.5, 5.0, 9.0, "#f8fafc");
+        fillRect(24, 28, -3.8, -1.8, "#0f172a", 0.65);
+        fillRect(-18, 22, -4.8, 4.8, "#ffffff", 0.6);
 
-        // Main White Fuselage Hull
-        for (let x = -20; x <= 20; x += step) {
-          for (let y = -5.0; y <= 5.0; y += step) {
-            nodes.push({ x, y, color: "#f8fafc", size: 0.6 });
-          }
-        }
-
-        // Side Windows / Payload Bay Door Panels
-        const windowXs = [-12, -7, -2, 3, 8, 13];
-        windowXs.forEach(wx => {
-          nodes.push({ x: wx, y: -3.5, color: "#334155", size: 0.55 });
-          nodes.push({ x: wx + 0.8, y: -3.5, color: "#334155", size: 0.55 });
+        [-10, -3, 4, 11, 18].forEach(x => {
+          fillRect(x, x + 1.2, -3.5, -2.8, "#334155", 0.55);
         });
 
-        // 2. Black Heat Shield Underside Flat Base Line
-        for (let x = -20; x <= 36; x += step) {
-          nodes.push({ x, y: 5.0, color: "#111111", size: 0.65 });
-          nodes.push({ x, y: 5.6, color: "#111111", size: 0.65 });
-        }
+        fillRect(-20, 36, 4.8, 5.8, "#111111", 0.65);
 
-        // 3. CORRECTED SWEPT-BACK VERTICAL TAIL / RUDDER
-        // Leading edge starts at x = -2 (top of fuselage) and sweeps backward to x = -16 at top peak
-        const finBaseStart = -2;
-        const finBaseEnd = -22;
-        const finHeight = 17.0;
+        // --- 2. DELTA WING PROFILE ---
+        fillPolyLine(20, -18, 4.8, 4.8, 0, 1.2, "#cbd5e1");
+        fillRect(-16, 12, 4.8, 5.8, "#94a3b8", 0.6);
 
-        for (let y = -5.0; y >= -5.0 - finHeight; y -= step) {
-          const heightRatio = (-5.0 - y) / finHeight; // 0 at base, 1 at top tip
+        // --- 3. SWEPT-BACK VERTICAL TAIL / RUDDER ---
+        const finHeight = 17;
+        for (let h = 0; h <= finHeight; h += step) {
+          const progress = h / finHeight;
+          const currentY = -4.8 - h;
           
-          // Front leading edge sweeps back sharply
-          const frontX = finBaseStart - (heightRatio * 14.0); 
-          // Trailing vertical/slightly angled back edge
-          const backX = finBaseEnd + (heightRatio * 2.0);
+          const leadingX = -2 - (progress * 14); 
+          const trailingX = -20 - (progress * 2);
 
-          for (let x = backX; x <= frontX; x += step) {
-            // Thermal tile leading edge strip
-            const isLeadingEdge = (x >= frontX - 1.8);
-            const color = isLeadingEdge ? "#0f172a" : "#ffffff";
-            nodes.push({ x, y, color, size: 0.6 });
+          for (let x = trailingX; x <= leadingX; x += step) {
+            const isLeadingEdge = (x >= leadingX - 1.6);
+            const color = isLeadingEdge ? "#0f172a" : "#f1f5f9";
+            nodes.push({ x, y: currentY, color, size: 0.6 });
           }
         }
 
-        // 4. OMS Pods (Upper Rear Side Fairings)
-        for (let x = -24; x <= -18; x += step) {
-          for (let y = -5.0; y <= -1.5; y += step) {
-            nodes.push({ x, y, color: "#e2e8f0", size: 0.6 });
-          }
-        }
+        // --- 4. OMS PODS & REAR HULL ---
+        fillRect(-24, -18, -4.8, -1.2, "#e2e8f0", 0.6);
+        fillRect(-24, -18, -4.2, -1.8, "#334155", 0.5);
+        fillRect(-22, -18, 4.2, 5.8, "#111111", 0.6);
 
-        // 5. CONVERGING-DIVERGING (DE LAVAL) MAIN THRUSTER NOZZLES
-        function drawCDThruster(cx, cy, length, maxR, throatR) {
-          for (let x = cx - length; x <= cx; x += step) {
-            const relX = (cx - x) / length; // 0 at mount, 1 at exit bell rim
-            
-            let currentR;
-            if (relX < 0.35) {
-              const t = relX / 0.35;
-              currentR = maxR * 0.85 - (maxR * 0.85 - throatR) * t; // Converging
-            } else {
-              const t = (relX - 0.35) / 0.65;
-              currentR = throatR + (maxR - throatR) * Math.pow(t, 1.2); // Diverging
-            }
+        // --- 5. MAIN ROCKET ENGINES (SSME NOZZLES) ---
+        function drawEngineNozzle(cx, cy, radius, length) {
+          for (let l = 0; l <= length; l += step) {
+            const progress = l / length;
+            const currentRadius = radius * (0.6 + 0.4 * progress);
+            const currentX = cx - l;
 
-            for (let y = cy - currentR; y <= cy + currentR; y += step) {
-              const isRim = relX >= 0.9 || Math.abs(y - cy) >= currentR - 0.55;
+            for (let r = -currentRadius; r <= currentRadius; r += step) {
+              const isRim = (l >= length - step) || (Math.abs(r) >= currentRadius - 0.4);
               const color = isRim ? "#0f172a" : "#475569";
-              nodes.push({ x, y, color, size: 0.6 });
+              nodes.push({ x: currentX, y: cy + r, color, size: 0.6 });
             }
           }
         }
 
-        // Render 3 Converging-Diverging Nozzles
-        drawCDThruster(-20, -3.5, 7.5, 3.4, 1.3); // Top SSME Engine
-        drawCDThruster(-20, 2.2, 7.5, 3.4, 1.3);  // Bottom SSME Engine
-        drawCDThruster(-17, -0.6, 8.0, 3.8, 1.5); // Center SSME Engine
+        drawEngineNozzle(-18, -2.8, 2.8, 6.0);
+        drawEngineNozzle(-18, 2.2, 2.8, 6.0);
+        drawEngineNozzle(-16, -0.3, 3.2, 6.5);
 
         return nodes;
       }
@@ -328,7 +305,7 @@
         x: -130,
         y: canvas.height * 0.12,
         speed: 0.45,
-        angle: 0.05,
+        angle: 0.03,
         alpha: 0,
         state: "fading_in",
         waitTimer: 0,
@@ -336,15 +313,14 @@
       };
 
       function resetCraftPath() {
-        // Alternates between Space Shuttle and Satellite
         activeCraftIndex = activeCraftIndex === 0 ? 1 : 0;
         
         if (activeCraftIndex === 1) {
-          // Space Shuttle: Flies ABOVE title text across top margin
+          // Shuttle flies across top clear region
           craft.y = canvas.height * 0.12;
           craft.angle = 0.03;
         } else {
-          // Satellite: Flies BELOW title & links near bottom margin
+          // Satellite flies cleanly underneath header text
           craft.y = canvas.height * 0.88;
           craft.angle = -0.03;
         }
@@ -354,7 +330,6 @@
         craft.state = "fading_in";
       }
 
-      // Initialize starting flight path
       resetCraftPath();
 
       function updateAndDrawCraft() {
@@ -404,7 +379,7 @@
 
         ctx.restore();
 
-        // --- FIERY EXHAUST PARTICLES FOR SPACE SHUTTLE (activeCraftIndex === 1) ---
+        // --- EXHAUST PARTICLES FOR SPACE SHUTTLE ---
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
           const nozzleX = craft.x - Math.cos(craft.angle) * 26;
           const nozzleY = craft.y - Math.sin(craft.angle) * 26;
@@ -424,7 +399,6 @@
           }
         }
 
-        // Render and update exhaust particles
         for (let i = craft.exhaustParticles.length - 1; i >= 0; i--) {
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
@@ -453,7 +427,7 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Draw Ambient Background Stars
+        // 1. Background Stars
         ambientStars.forEach(star => {
           star.alpha += star.speed * star.fadeDir;
 
@@ -476,7 +450,7 @@
           ctx.shadowBlur = 0;
         });
 
-        // 2. Draw Grid-Bounded Constellations
+        // 2. Constellations
         activeConstellations.forEach((c, index) => {
           c.x += c.vx;
           c.y += c.vy;
@@ -534,7 +508,7 @@
           });
         });
 
-        // 3. Draw Active Spacecraft over Header
+        // 3. Craft Animation
         updateAndDrawCraft();
 
         requestAnimationFrame(animate);
