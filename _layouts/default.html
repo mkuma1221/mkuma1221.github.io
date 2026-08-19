@@ -215,7 +215,7 @@
       function createShuttleNodes() {
         const nodes = [];
 
-        // 1. Black Thermal Nose Tip
+        // 1. Black Thermal Nose Cone (Matching image gradient: rounded forward nose)
         for (let x = 32; x <= 38; x += step) {
           const ratio = (38 - x) / 6;
           const halfH = ratio * 3.5;
@@ -224,84 +224,85 @@
           }
         }
 
-        // White Forward Nose Blanket
-        for (let x = 18; x <= 32; x += step) {
-          const ratio = (38 - x) / 20;
+        // White Forward Nose Transition Body
+        for (let x = 20; x <= 32; x += step) {
+          const ratio = (38 - x) / 18;
           const halfH = ratio * 6.5;
           for (let y = -halfH; y <= halfH; y += step) {
-            nodes.push({ x, y, color: "#ffffff", size: 0.6 });
+            nodes.push({ x, y, color: "#f1f5f9", size: 0.6 });
           }
         }
 
-        // 2. Cockpit Windows
-        for (let x = 23; x <= 28; x += step) {
-          for (let y = -4.5; y <= -1.5; y += step) {
-            const isFrame = x === 23 || x >= 27.2 || y <= -4.0 || y >= -2.0;
-            const color = isFrame ? "#1a202c" : "#7dd3fc";
-            nodes.push({ x, y, color, size: 0.65 });
+        // Forward Cockpit Windows (Dark framed windows matching reference image side view)
+        for (let x = 24; x <= 28; x += step) {
+          for (let y = -4.2; y <= -1.8; y += step) {
+            nodes.push({ x, y, color: "#0f172a", size: 0.65 });
           }
         }
 
-        // Main Fuselage Hull
-        for (let x = -22; x <= 18; x += step) {
-          for (let y = -6.5; y <= 6.5; y += step) {
+        // Main White Fuselage Hull
+        for (let x = -20; x <= 20; x += step) {
+          for (let y = -6.0; y <= 5.5; y += step) {
             nodes.push({ x, y, color: "#f8fafc", size: 0.6 });
           }
         }
 
-        // Payload Bay Seam Lines
-        for (let x = -18; x <= 15; x += step) {
-          nodes.push({ x, y: -6.5, color: "#cbd5e1", size: 0.5 });
-          nodes.push({ x, y: 0, color: "#e2e8f0", size: 0.4 });
-        }
+        // Additional Side Windows / Payload Bay Door Markings (Matching image)
+        const windowXs = [-12, -7, -2, 3, 8, 13];
+        windowXs.forEach(wx => {
+          nodes.push({ x: wx, y: -4.0, color: "#334155", size: 0.55 });
+          nodes.push({ x: wx + 0.8, y: -4.0, color: "#334155", size: 0.55 });
+        });
 
-        // Black Heat Shield Underside Strip
-        for (let x = -22; x <= 36; x += step) {
-          nodes.push({ x, y: 6.6, color: "#111111", size: 0.65 });
-          nodes.push({ x, y: 7.2, color: "#1a1a1a", size: 0.6 });
-        }
-
-        // 3. CORRECTED Tail Fin / Rudder Direction (Sweeps BACKWARD to the rear)
-        for (let x = -22; x <= -6; x += step) {
-          const ratio = (x - (-6)) / (-16); // Ratio sweeps toward the rear (-22)
-          const finHeight = Math.max(0, ratio) * 18;
-          for (let y = -6.5 - finHeight; y <= -6.5; y += step) {
-            const isLeadingEdge = y <= -6.5 - finHeight + 1.2;
-            const color = isLeadingEdge ? "#1e293b" : "#ffffff";
+        // 2. Fixed Delta Wing Along the Bottom (Matching reference image position and angle)
+        for (let x = -18; x <= 14; x += step) {
+          const wingWidthRatio = (x - (-18)) / 32; // Expands outward from rear to mid-fuselage
+          const wingBottom = 5.5 + (wingWidthRatio * 6.5);
+          for (let y = 5.5; y <= wingBottom; y += step) {
+            const isLeadingEdge = (y >= wingBottom - 1.2);
+            const color = isLeadingEdge ? "#1e293b" : "#e2e8f0"; // Black heat shield edge
             nodes.push({ x, y, color, size: 0.6 });
           }
         }
 
-        // 4. NASA Meatball Logo
-        const logoCX = 0;
-        const logoCY = 0;
-        const logoR = 4.2;
-        for (let x = logoCX - logoR; x <= logoCX + logoR; x += step) {
-          for (let y = logoCY - logoR; y <= logoCY + logoR; y += step) {
-            const dist = Math.hypot(x - logoCX, y - logoCY);
-            if (dist <= logoR) {
-              let color = "#0b3d91"; // NASA Blue
-              if (Math.abs((y - logoCY) + (x - logoCX) * 0.5) < 0.9) {
-                color = "#fc3d21"; // Red Chevron
-              } else if (dist < 1.5) {
-                color = "#ffffff";
-              }
+        // Black Heat Shield Underside Trim
+        for (let x = -20; x <= 36; x += step) {
+          nodes.push({ x, y: 5.6, color: "#111111", size: 0.65 });
+        }
+
+        // 3. Vertical Rudder / Tail Fin (Swept backwards to rear)
+        for (let x = -22; x <= -6; x += step) {
+          const ratio = (x - (-6)) / (-16);
+          const finHeight = Math.max(0, ratio) * 19;
+          for (let y = -6.0 - finHeight; y <= -6.0; y += step) {
+            const isLeadingEdge = (y <= -6.0 - finHeight + 1.2) || (x <= -20.5);
+            const color = isLeadingEdge ? "#0f172a" : "#f8fafc";
+            nodes.push({ x, y, color, size: 0.6 });
+          }
+        }
+
+        // 4. OMS Pods (Upper Rear Hump matching image)
+        for (let x = -24; x <= -18; x += step) {
+          for (let y = -6.0; y <= -2.0; y += step) {
+            nodes.push({ x, y, color: "#e2e8f0", size: 0.6 });
+          }
+        }
+
+        // 5. Fixed Main Rocket Thruster Engine Bells (3 SSMEs matching picture layout)
+        function drawEngineBell(cx, cy, r) {
+          for (let x = cx - 4; x <= cx; x += step) {
+            const progress = (cx - x) / 4;
+            const currentR = r * (0.5 + 0.5 * progress);
+            for (let y = cy - currentR; y <= cy + currentR; y += step) {
+              const isRim = x === cx - 4 || Math.abs(y - cy) >= currentR - 0.5;
+              const color = isRim ? "#1e293b" : "#64748b";
               nodes.push({ x, y, color, size: 0.6 });
             }
           }
         }
-
-        // 5. One Large Single Main Engine Nozzle Thruster (Back of Shuttle)
-        const engineR = 5.2;
-        for (let x = -28; x <= -22; x += step) {
-          const progress = (-22 - x) / 6;
-          const currentR = engineR * (0.6 + 0.4 * progress);
-          for (let y = -currentR; y <= currentR; y += step) {
-            const isRim = x === -28 || Math.abs(y) >= currentR - 0.6;
-            const color = isRim ? "#334155" : "#64748b"; // Metallic bell nozzle
-            nodes.push({ x, y, color, size: 0.65 });
-          }
-        }
+        drawEngineBell(-24, -4.0, 2.2); // Top left engine
+        drawEngineBell(-24, 2.0, 2.2);  // Bottom left engine
+        drawEngineBell(-22, -1.0, 2.4); // Offset center engine
 
         return nodes;
       }
@@ -311,12 +312,11 @@
 
       let activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
 
-      // Spacecraft state with fiery exhaust particles & customizable flight path
       let craft = {
         x: -120,
         y: canvas.height * 0.2,
         speed: 0.45,
-        angle: 0.22, // Angle going diagonally across the title
+        angle: 0.22,
         alpha: 0,
         state: "fading_in",
         waitTimer: 0,
@@ -326,11 +326,10 @@
       function resetCraftPath() {
         activeCraftIndex = Math.random() < 0.5 ? 0 : 1;
         
-        // Dynamic pathways over title
         const paths = [
-          { y: canvas.height * 0.2, angle: 0.22 }, // High-to-low diagonal crossing
-          { y: canvas.height * 0.65, angle: -0.18 }, // Low-to-high diagonal crossing
-          { y: canvas.height * 0.42, angle: 0.05 }   // Direct mid-header crossing
+          { y: canvas.height * 0.2, angle: 0.22 },
+          { y: canvas.height * 0.65, angle: -0.18 },
+          { y: canvas.height * 0.42, angle: 0.05 }
         ];
         
         const chosenPath = paths[Math.floor(Math.random() * paths.length)];
@@ -350,11 +349,10 @@
           return;
         }
 
-        // Movement along assigned diagonal vector
         craft.x += Math.cos(craft.angle) * craft.speed;
         craft.y += Math.sin(craft.angle) * craft.speed;
 
-        const targetAlpha = 0.85; // Clearer visibility over title
+        const targetAlpha = 0.85;
         if (craft.state === "fading_in") {
           craft.alpha += 0.008;
           if (craft.alpha >= targetAlpha) {
@@ -389,19 +387,17 @@
 
         ctx.restore();
 
-        // --- FIERY EXHAUST PARTICLE TRAIL ---
-        if (craft.state === "orbiting" || craft.state === "fading_in") {
-          // Thruster nozzle position relative to craft center
-          const nozzleDist = activeCraftIndex === 0 ? 0 : 28;
-          const nozzleX = craft.x - Math.cos(craft.angle) * nozzleDist;
-          const nozzleY = craft.y - Math.sin(craft.angle) * nozzleDist;
+        // --- FIERY EXHAUST PARTICLES: EXCLUSIVELY FOR SPACE SHUTTLE (activeCraftIndex === 1) ---
+        if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
+          const nozzleX = craft.x - Math.cos(craft.angle) * 26;
+          const nozzleY = craft.y - Math.sin(craft.angle) * 26;
 
           const fireColors = ["#ff3300", "#ff6600", "#ffcc00", "#ffffff"];
           
           for (let k = 0; k < 2; k++) {
             craft.exhaustParticles.push({
               x: nozzleX,
-              y: nozzleY + (Math.random() - 0.5) * 4,
+              y: nozzleY + (Math.random() - 0.5) * 6,
               vx: -Math.cos(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
               vy: -Math.sin(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
               size: Math.random() * 2.2 + 0.8,
@@ -411,7 +407,7 @@
           }
         }
 
-        // Update and Render Flame Particles
+        // Render and update existing particles
         for (let i = craft.exhaustParticles.length - 1; i >= 0; i--) {
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
