@@ -139,197 +139,213 @@
         activeConstellations.push(c);
       }
 
-      // --- HIGH-RESOLUTION MICRO-PARTICLE SATELLITE MODEL ---
-      const SATELLITE_NODES = [];
-      const step = 0.8; // Tight micro-particle spacing for sharp detail
+      // --- MICRO-PARTICLE BUILDERS ---
+      const step = 0.8;
 
-      // Helper: Solid color particle block generator
-      function addMicroGrid(minX, maxX, minY, maxY, color) {
-        for (let x = minX; x <= maxX; x += step) {
-          for (let y = minY; y <= maxY; y += step) {
-            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
-          }
-        }
-      }
+      function createSatelliteNodes() {
+        const nodes = [];
 
-      // Helper: Solar Panel with distinct grid lines
-      function addSolarPanel(minX, maxX, minY, maxY) {
-        const gridStepX = 6;
-        const gridStepY = 5;
-
-        for (let x = minX; x <= maxX; x += step) {
-          for (let y = minY; y <= maxY; y += step) {
-            const isGridX = Math.abs((x - minX) % gridStepX) < step;
-            const isGridY = Math.abs((y - minY) % gridStepY) < step;
-            const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
-
-            let color;
-            if (isBorder || isGridX || isGridY) {
-              color = "#112244"; // Dark Indigo Grid Frame Lines
-            } else {
-              color = "#e6a100"; // Solid Gold/Amber Photovoltaic Cell
+        function addMicroGrid(minX, maxX, minY, maxY, color) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size: 0.6 });
             }
-            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
           }
         }
-      }
 
-      // Helper: Angled Trapezoidal Mount
-      function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
-        for (let y = minY; y <= maxY; y += step) {
-          const ratio = (y - minY) / (maxY - minY);
-          const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
-          const halfW = currentWidth / 2;
-          for (let x = -halfW; x <= halfW; x += step) {
-            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
+        function addSolarPanel(minX, maxX, minY, maxY) {
+          const gridStepX = 6;
+          const gridStepY = 5;
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              const isGridX = Math.abs((x - minX) % gridStepX) < step;
+              const isGridY = Math.abs((y - minY) % gridStepY) < step;
+              const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
+              const color = (isBorder || isGridX || isGridY) ? "#112244" : "#e6a100";
+              nodes.push({ x, y, color, size: 0.6 });
+            }
           }
         }
+
+        function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
+          for (let y = minY; y <= maxY; y += step) {
+            const ratio = (y - minY) / (maxY - minY);
+            const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
+            const halfW = currentWidth / 2;
+            for (let x = -halfW; x <= halfW; x += step) {
+              nodes.push({ x, y, color, size: 0.6 });
+            }
+          }
+        }
+
+        function addThinParabolicDish(cx, cy, radiusX, radiusY) {
+          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.025) {
+            const rx = Math.cos(angle) * radiusX;
+            const ry = Math.sin(angle) * radiusY;
+            nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.65 });
+            nodes.push({ x: cx + rx, y: cy + ry - 0.7, color: "#e2e8f0", size: 0.6 });
+          }
+          for (let y = cy + 2; y >= cy - 10; y -= step) {
+            nodes.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
+          }
+          for (let i = 0; i <= 8; i += step) {
+            const ratio = i / 8;
+            nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+            nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+          }
+          nodes.push({ x: cx, y: cy - 11, color: "#ff3333", size: 1.0 });
+        }
+
+        addMicroGrid(-16, 16, -6, 10, "#8899a6");
+        addMicroGrid(-14, 14, -4, 8, "#aab8c2");
+        addMicroGrid(-8, 8, -1, 5, "#657786");
+        addMicroGrid(-8, 8, -18, -6, "#4a5568");
+        addMicroGrid(-6, 6, -16, -8, "#718096");
+        addTrapezoidMount(12, 6, -23, -18, "#334455");
+        addThinParabolicDish(0, -28, 22, 10);
+        addMicroGrid(-22, -16, 0, 4, "#334455");
+        addMicroGrid(16, 22, 0, 4, "#334455");
+        addSolarPanel(-52, -22, -6, 10);
+        addSolarPanel(22, 52, -6, 10);
+
+        return nodes;
       }
 
-      // Helper: Thin Parabolic Dish Antenna
-      function addThinParabolicDish(cx, cy, radiusX, radiusY) {
-        // Thin parabolic U-curve (sweeping upwards at outer ends)
-        for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.025) {
-          const rx = Math.cos(angle) * radiusX;
-          const ry = Math.sin(angle) * radiusY;
+      function createShuttleNodes() {
+        const nodes = [];
 
-          // Subtle 2-layer thickness for crisp definition
-          SATELLITE_NODES.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.65 });
-          SATELLITE_NODES.push({ x: cx + rx, y: cy + ry - 0.7, color: "#e2e8f0", size: 0.6 });
+        // Aerodynamic Nose Cone
+        for (let x = 18; x <= 35; x += step) {
+          const ratio = (35 - x) / 17;
+          const halfH = ratio * 5;
+          for (let y = -halfH; y <= halfH; y += step) {
+            const color = (x > 31 && Math.abs(y) < 2) ? "#111111" : "#ffffff";
+            nodes.push({ x, y, color, size: 0.6 });
+          }
         }
 
-        // Central Feed Horn Pole
-        for (let y = cy + 2; y >= cy - 10; y -= step) {
-          SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
+        // Main White Fuselage
+        for (let x = -20; x <= 18; x += step) {
+          for (let y = -5; y <= 5; y += step) {
+            nodes.push({ x, y, color: "#ffffff", size: 0.6 });
+          }
         }
 
-        // Side support struts for feed horn
-        for (let i = 0; i <= 8; i += step) {
-          const ratio = i / 8;
-          SATELLITE_NODES.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
-          SATELLITE_NODES.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+        // Dark Cockpit Windshield Tiles
+        for (let x = 20; x <= 24; x += step) {
+          for (let y = -2.5; y <= -0.5; y += step) {
+            nodes.push({ x, y, color: "#1a202c", size: 0.6 });
+          }
         }
 
-        // Red Center Feed Tip Beacon
-        SATELLITE_NODES.push({ x: cx, y: cy - 11, color: "#ff3333", size: 1.0 });
+        // Black Heat Shield Underside Strip
+        for (let x = -20; x <= 33; x += step) {
+          nodes.push({ x, y: 5.2, color: "#111111", size: 0.6 });
+          nodes.push({ x, y: 5.8, color: "#111111", size: 0.6 });
+        }
+
+        // Characteristic Delta Wings
+        for (let x = -15; x <= 10; x += step) {
+          const ratio = (10 - x) / 25;
+          const wingSpan = 5 + ratio * 16;
+          for (let y = 5; y <= wingSpan; y += step) {
+            const isWingEdge = y >= wingSpan - 1.2 || x <= -13;
+            const color = isWingEdge ? "#1a1a1a" : "#f8fafc";
+            nodes.push({ x, y, color, size: 0.6 });
+          }
+        }
+
+        // Vertical Tail Fin
+        for (let x = -18; x <= -6; x += step) {
+          const ratio = (x + 18) / 12;
+          const finHeight = ratio * 15;
+          for (let y = -5 - finHeight; y <= -5; y += step) {
+            const isLeadingEdge = (y <= -5 - finHeight + 1.2) || (x <= -16);
+            const color = isLeadingEdge ? "#2d3748" : "#ffffff";
+            nodes.push({ x, y, color, size: 0.6 });
+          }
+        }
+
+        // OMS Pods & Engines
+        for (let x = -24; x <= -20; x += step) {
+          for (let y = -4; y <= 2; y += step) {
+            nodes.push({ x, y, color: "#4a5568", size: 0.6 });
+          }
+        }
+        nodes.push({ x: -25, y: -2, color: "#1a202c", size: 0.9 });
+        nodes.push({ x: -25, y: 0, color: "#1a202c", size: 0.9 });
+        nodes.push({ x: -25, y: 2, color: "#1a202c", size: 0.9 });
+
+        return nodes;
       }
 
-      // --- SATELLITE COMPONENT BUILD ---
+      const SATELLITE_NODES = createSatelliteNodes();
+      const SHUTTLE_NODES = createShuttleNodes();
 
-      // 1. Bottom Box: Main Satellite Body
-      addMicroGrid(-16, 16, -6, 10, "#8899a6");  // Base Metallic Grey
-      addMicroGrid(-14, 14, -4, 8, "#aab8c2");   // Inner Panel Highlight
-      addMicroGrid(-8, 8, -1, 5, "#657786");     // Core Detail Box
+      // Randomly pick initial craft: 0 = Satellite, 1 = Shuttle
+      let activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
 
-      // 2. Middle Box: Small Square Neck Mount
-      addMicroGrid(-8, 8, -18, -6, "#4a5568");   // Darker Metallic Neck
-      addMicroGrid(-6, 6, -16, -8, "#718096");   // Inner Highlight
-
-      // 3. Angled Trapezoidal Mount Struts
-      addTrapezoidMount(12, 6, -23, -18, "#334455");
-
-      // 4. Thin Parabolic Dish
-      addThinParabolicDish(0, -28, 22, 10);
-
-      // 5. Left & Right Solar Panels
-      addMicroGrid(-22, -16, 0, 4, "#334455");
-      addMicroGrid(16, 22, 0, 4, "#334455");
-      addSolarPanel(-52, -22, -6, 10); // Left Array
-      addSolarPanel(22, 52, -6, 10);   // Right Array
-
-      let satellite = {
+      let craft = {
         x: -120,
         y: canvas.height * 0.35,
         speed: 0.38,
-        angle: 0.1, // Orbital tilt angle
+        angle: 0.1,
         alpha: 0,
         state: "fading_in",
-        waitTimer: 0,
-        exhaustParticles: []
+        waitTimer: 0
       };
 
-      function updateAndDrawSatellite() {
-        if (satellite.state === "waiting") {
-          satellite.waitTimer--;
-          if (satellite.waitTimer <= 0) {
-            satellite.x = -120;
-            satellite.y = Math.random() * (canvas.height * 0.4) + canvas.height * 0.25;
-            satellite.state = "fading_in";
+      function updateAndDrawCraft() {
+        if (craft.state === "waiting") {
+          craft.waitTimer--;
+          if (craft.waitTimer <= 0) {
+            // Randomly select between Satellite (0) and Shuttle (1)
+            activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
+            craft.x = -120;
+            craft.y = Math.random() * (canvas.height * 0.4) + canvas.height * 0.25;
+            craft.state = "fading_in";
           }
           return;
         }
 
         // Orbital Movement along Sine Wave
-        satellite.x += satellite.speed;
-        satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
+        craft.x += craft.speed;
+        craft.y += Math.sin(craft.x * 0.006) * 0.2;
 
-        // Fade Lifecycle logic (Fainter satellite appearance)
         const targetAlpha = 0.45;
-        if (satellite.state === "fading_in") {
-          satellite.alpha += 0.008;
-          if (satellite.alpha >= targetAlpha) {
-            satellite.alpha = targetAlpha;
-            satellite.state = "orbiting";
+        if (craft.state === "fading_in") {
+          craft.alpha += 0.008;
+          if (craft.alpha >= targetAlpha) {
+            craft.alpha = targetAlpha;
+            craft.state = "orbiting";
           }
-        } else if (satellite.state === "fading_out") {
-          satellite.alpha -= 0.008;
-          if (satellite.alpha <= 0) {
-            satellite.alpha = 0;
-            satellite.state = "waiting";
-            satellite.waitTimer = Math.floor(Math.random() * 350 + 250);
+        } else if (craft.state === "fading_out") {
+          craft.alpha -= 0.008;
+          if (craft.alpha <= 0) {
+            craft.alpha = 0;
+            craft.state = "waiting";
+            craft.waitTimer = Math.floor(Math.random() * 350 + 250);
           }
-        } else if (satellite.x > canvas.width - 120) {
-          satellite.state = "fading_out";
+        } else if (craft.x > canvas.width - 120) {
+          craft.state = "fading_out";
         }
 
         ctx.save();
-        ctx.translate(satellite.x, satellite.y);
-        ctx.rotate(satellite.angle);
-
-        // Turn OFF shadow blur completely for sharp micro-particle rendering
+        ctx.translate(craft.x, craft.y);
+        ctx.rotate(craft.angle);
         ctx.shadowBlur = 0;
 
-        // Draw Micro-Particles with subtle opacity
-        SATELLITE_NODES.forEach((node) => {
-          ctx.fillStyle = node.color;
-          ctx.globalAlpha = satellite.alpha;
+        const currentNodes = activeCraftIndex === 0 ? SATELLITE_NODES : SHUTTLE_NODES;
 
+        currentNodes.forEach((node) => {
+          ctx.fillStyle = node.color;
+          ctx.globalAlpha = craft.alpha;
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
           ctx.fill();
         });
 
         ctx.restore();
-
-        // Thruster Exhaust Stream
-        if (satellite.state === "orbiting" || satellite.state === "fading_in") {
-          satellite.exhaustParticles.push({
-            x: satellite.x - Math.cos(satellite.angle) * 16,
-            y: satellite.y - Math.sin(satellite.angle) * 16 + (Math.random() - 0.5) * 2,
-            vx: -Math.random() * 0.5 - 0.3,
-            vy: (Math.random() - 0.5) * 0.15,
-            size: Math.random() * 1.0 + 0.4,
-            alpha: satellite.alpha * 0.5
-          });
-        }
-
-        // Update and draw exhaust trail
-        for (let i = satellite.exhaustParticles.length - 1; i >= 0; i--) {
-          const p = satellite.exhaustParticles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.alpha -= 0.015;
-
-          if (p.alpha <= 0) {
-            satellite.exhaustParticles.splice(i, 1);
-            continue;
-          }
-
-          ctx.fillStyle = `rgba(120, 200, 255, ${p.alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
       }
 
       // --- ANIMATION LOOP ---
@@ -419,8 +435,8 @@
           });
         });
 
-        // 3. Draw Micro-Particle Satellite
-        updateAndDrawSatellite();
+        // 3. Draw Active Spacecraft (Random Satellite / Shuttle)
+        updateAndDrawCraft();
 
         requestAnimationFrame(animate);
       }
