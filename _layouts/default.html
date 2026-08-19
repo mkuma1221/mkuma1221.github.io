@@ -174,55 +174,64 @@
         }
       }
 
-      // Helper: Parabolic Dish Antenna with Tri-Prong Feed Structure
-      function addParabolicDish(cx, cy, radiusX, radiusY) {
-        // Curved Dish Bowl (U-shape curving up)
-        for (let angle = Math.PI * 0.15; angle <= Math.PI * 0.85; angle += 0.04) {
-          const rx = Math.cos(angle) * radiusX;
-          const ry = Math.sin(angle) * radiusY;
+      // Helper: Angled Trapezoidal Mount
+      function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
+        for (let y = minY; y <= maxY; y += step) {
+          const ratio = (y - minY) / (maxY - minY); // 0 at top, 1 at bottom
+          const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
+          const halfW = currentWidth / 2;
+          for (let x = -halfW; x <= halfW; x += step) {
+            SATELLITE_NODES.push({ x, y, color, size: 0.6 });
+          }
+        }
+      }
 
-          for (let t = 0; t <= 2.5; t += step) {
-            SATELLITE_NODES.push({ x: cx + rx, y: cy + ry - t, color: "#ffffff", size: 0.7 });
+      // Helper: Crescent / Curved Parabolic Dish
+      function addCrescentDish(cx, cy, radiusX, radiusY) {
+        // Upper rim curve and lower bowl curve
+        for (let angle = Math.PI * 0.1; angle <= Math.PI * 0.9; angle += 0.03) {
+          const rx = Math.cos(angle) * radiusX;
+          
+          // Dish thickness profile tapering to sharp outer tips
+          const topCurve = cy - Math.sin(angle) * (radiusY * 0.5);
+          const bottomCurve = cy + Math.sin(angle) * radiusY;
+
+          for (let y = topCurve; y <= bottomCurve; y += step) {
+            SATELLITE_NODES.push({ x: cx + rx, y: y, color: "#ffffff", size: 0.7 });
           }
         }
 
-        // Central Feed Center Pole
-        for (let y = cy; y >= cy - 12; y -= step) {
+        // Central Feed Horn Pole
+        for (let y = cy; y >= cy - 10; y -= step) {
           SATELLITE_NODES.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
         }
 
-        // Two Angled Side Prongs extending to center horn
-        for (let i = 0; i <= 10; i += step) {
-          const ratio = i / 10;
-          // Left Prong
-          SATELLITE_NODES.push({ x: cx - (8 * (1 - ratio)), y: cy + 4 - (16 * ratio), color: "#778899", size: 0.5 });
-          // Right Prong
-          SATELLITE_NODES.push({ x: cx + (8 * (1 - ratio)), y: cy + 4 - (16 * ratio), color: "#778899", size: 0.5 });
-        }
-
-        // Red Center Feed Beacon Tip
-        SATELLITE_NODES.push({ x: cx, y: cy - 13, color: "#ff3333", size: 1.1 });
+        // Red Center Feed Tip
+        SATELLITE_NODES.push({ x: cx, y: cy - 11, color: "#ff3333", size: 1.1 });
       }
 
-      // --- SATELLITE COMPONENT BUILD ---
+      // --- SATELLITE COMPONENT BUILD (Based directly on drawn diagram) ---
 
-      // 1. Lower Box: Main Body (Satellite Bus Chassis)
-      addMicroGrid(-14, 14, -8, 8, "#8899a6");   // Main Chassis Base Metallic Grey
-      addMicroGrid(-12, 12, -6, 6, "#aab8c2");   // Inner Panel Surface
-      addMicroGrid(-7, 7, -3, 3, "#657786");     // Center Core Box
+      // 1. Bottom Box: Wide Rectangular Body
+      addMicroGrid(-16, 16, -6, 10, "#8899a6");  // Base Metallic Grey
+      addMicroGrid(-14, 14, -4, 8, "#aab8c2");   // Inner Panel Highlight
+      addMicroGrid(-8, 8, -1, 5, "#657786");     // Core Detail Box
 
-      // 2. Upper Box: Neck Structure (Positioned directly above the lower body)
-      addMicroGrid(-6, 6, -16, -8, "#4a5568");   // Darker Metallic Neck Box
-      addMicroGrid(-4, 4, -14, -10, "#718096");  // Inner Highlight Layer
+      // 2. Middle Box: Smaller Square Neck Sitting Centrally on Body
+      addMicroGrid(-8, 8, -18, -6, "#4a5568");   // Darker Metallic Neck
+      addMicroGrid(-6, 6, -16, -8, "#718096");   // Inner Highlight
 
-      // 3. Solar Panel Mounting Arms & Solar Arrays
-      addMicroGrid(-20, -14, -1.5, 1.5, "#334455");
-      addMicroGrid(14, 20, -1.5, 1.5, "#334455");
-      addSolarPanel(-50, -20, -8, 8); // Left Array
-      addSolarPanel(20, 50, -8, 8);   // Right Array
+      // 3. Trapezoidal Connector / Angled Mount (Narrow at top of neck, widening up to dish)
+      addTrapezoidMount(12, 6, -23, -18, "#334455");
 
-      // 4. Parabolic Dish Antenna (Attached to the top of the upper neck box)
-      addParabolicDish(0, -16, 18, 10);
+      // 4. Curved Crescent Dish (Attaches to top of trapezoidal mount)
+      addCrescentDish(0, -25, 22, 10);
+
+      // 5. Left & Right Solar Panels Attached to Main Body
+      addMicroGrid(-22, -16, 0, 4, "#334455");
+      addMicroGrid(16, 22, 0, 4, "#334455");
+      addSolarPanel(-52, -22, -6, 10); // Left Array
+      addSolarPanel(22, 52, -6, 10);   // Right Array
 
       let satellite = {
         x: -120,
@@ -250,7 +259,7 @@
         satellite.x += satellite.speed;
         satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
 
-        // Fade Lifecycle logic (Fainter satellite opacity limit)
+        // Fade Lifecycle logic (Fainter satellite appearance)
         const targetAlpha = 0.45;
         if (satellite.state === "fading_in") {
           satellite.alpha += 0.008;
@@ -291,8 +300,8 @@
         // Thruster Exhaust Stream
         if (satellite.state === "orbiting" || satellite.state === "fading_in") {
           satellite.exhaustParticles.push({
-            x: satellite.x - Math.cos(satellite.angle) * 14,
-            y: satellite.y - Math.sin(satellite.angle) * 14 + (Math.random() - 0.5) * 2,
+            x: satellite.x - Math.cos(satellite.angle) * 16,
+            y: satellite.y - Math.sin(satellite.angle) * 16 + (Math.random() - 0.5) * 2,
             vx: -Math.random() * 0.5 - 0.3,
             vy: (Math.random() - 0.5) * 0.15,
             size: Math.random() * 1.0 + 0.4,
@@ -406,7 +415,7 @@
           });
         });
 
-        // 3. Draw Fainter Micro-Particle Satellite
+        // 3. Draw Micro-Particle Satellite
         updateAndDrawSatellite();
 
         requestAnimationFrame(animate);
