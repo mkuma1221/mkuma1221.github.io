@@ -215,7 +215,7 @@
       function createShuttleNodes() {
         const nodes = [];
 
-        // 1. Black Thermal Nose Cone (Matching image gradient: rounded forward nose)
+        // 1. Black Thermal Nose Cone
         for (let x = 32; x <= 38; x += step) {
           const ratio = (38 - x) / 6;
           const halfH = ratio * 3.5;
@@ -233,7 +233,7 @@
           }
         }
 
-        // Forward Cockpit Windows (Dark framed windows matching reference image side view)
+        // Forward Cockpit Windows
         for (let x = 24; x <= 28; x += step) {
           for (let y = -4.2; y <= -1.8; y += step) {
             nodes.push({ x, y, color: "#0f172a", size: 0.65 });
@@ -247,20 +247,20 @@
           }
         }
 
-        // Additional Side Windows / Payload Bay Door Markings (Matching image)
+        // Side Windows / Payload Bay Door Panels
         const windowXs = [-12, -7, -2, 3, 8, 13];
         windowXs.forEach(wx => {
           nodes.push({ x: wx, y: -4.0, color: "#334155", size: 0.55 });
           nodes.push({ x: wx + 0.8, y: -4.0, color: "#334155", size: 0.55 });
         });
 
-        // 2. Fixed Delta Wing Along the Bottom (Matching reference image position and angle)
+        // 2. Fixed Delta Wing Along the Bottom
         for (let x = -18; x <= 14; x += step) {
-          const wingWidthRatio = (x - (-18)) / 32; // Expands outward from rear to mid-fuselage
+          const wingWidthRatio = (x - (-18)) / 32;
           const wingBottom = 5.5 + (wingWidthRatio * 6.5);
           for (let y = 5.5; y <= wingBottom; y += step) {
             const isLeadingEdge = (y >= wingBottom - 1.2);
-            const color = isLeadingEdge ? "#1e293b" : "#e2e8f0"; // Black heat shield edge
+            const color = isLeadingEdge ? "#1e293b" : "#e2e8f0";
             nodes.push({ x, y, color, size: 0.6 });
           }
         }
@@ -270,39 +270,43 @@
           nodes.push({ x, y: 5.6, color: "#111111", size: 0.65 });
         }
 
-        // 3. Vertical Rudder / Tail Fin (Swept backwards to rear)
-        for (let x = -22; x <= -6; x += step) {
-          const ratio = (x - (-6)) / (-16);
-          const finHeight = Math.max(0, ratio) * 19;
-          for (let y = -6.0 - finHeight; y <= -6.0; y += step) {
-            const isLeadingEdge = (y <= -6.0 - finHeight + 1.2) || (x <= -20.5);
+        // 3. CORRECTED Rudder / Vertical Tail Fin (Properly Angled & Swept Rearward)
+        for (let x = -24; x <= -4; x += step) {
+          // Sweeps up and back from x = -4 to x = -24
+          const progress = (-4 - x) / 20; 
+          const finTopY = -6.0 - (progress * 22.0); // Taller, prominent stabilizer
+          
+          for (let y = finTopY; y <= -6.0; y += step) {
+            const isLeadingEdge = (y <= finTopY + 1.8) || (x <= -21.0);
             const color = isLeadingEdge ? "#0f172a" : "#f8fafc";
             nodes.push({ x, y, color, size: 0.6 });
           }
         }
 
-        // 4. OMS Pods (Upper Rear Hump matching image)
-        for (let x = -24; x <= -18; x += step) {
-          for (let y = -6.0; y <= -2.0; y += step) {
+        // 4. OMS Pods (Upper Rear Hump)
+        for (let x = -25; x <= -18; x += step) {
+          for (let y = -6.0; y <= -1.5; y += step) {
             nodes.push({ x, y, color: "#e2e8f0", size: 0.6 });
           }
         }
 
-        // 5. Fixed Main Rocket Thruster Engine Bells (3 SSMEs matching picture layout)
-        function drawEngineBell(cx, cy, r) {
-          for (let x = cx - 4; x <= cx; x += step) {
-            const progress = (cx - x) / 4;
-            const currentR = r * (0.5 + 0.5 * progress);
+        // 5. LARGER Main Engine Thruster Bells (SSMEs)
+        function drawLargeEngineBell(cx, cy, r) {
+          for (let x = cx - 6.5; x <= cx; x += step) {
+            const progress = (cx - x) / 6.5;
+            const currentR = r * (0.45 + 0.55 * progress);
             for (let y = cy - currentR; y <= cy + currentR; y += step) {
-              const isRim = x === cx - 4 || Math.abs(y - cy) >= currentR - 0.5;
-              const color = isRim ? "#1e293b" : "#64748b";
-              nodes.push({ x, y, color, size: 0.6 });
+              const isRim = x <= cx - 5.5 || Math.abs(y - cy) >= currentR - 0.6;
+              const color = isRim ? "#0f172a" : "#64748b";
+              nodes.push({ x, y, color, size: 0.65 });
             }
           }
         }
-        drawEngineBell(-24, -4.0, 2.2); // Top left engine
-        drawEngineBell(-24, 2.0, 2.2);  // Bottom left engine
-        drawEngineBell(-22, -1.0, 2.4); // Offset center engine
+
+        // 3 Significantly Larger Thrusters
+        drawLargeEngineBell(-24, -4.5, 3.6); // Top Engine
+        drawLargeEngineBell(-24, 2.5, 3.6);  // Bottom Engine
+        drawLargeEngineBell(-21, -1.0, 3.8); // Center Engine
 
         return nodes;
       }
@@ -313,10 +317,10 @@
       let activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
 
       let craft = {
-        x: -120,
-        y: canvas.height * 0.2,
+        x: -130,
+        y: canvas.height * 0.22,
         speed: 0.45,
-        angle: 0.22,
+        angle: 0.1,
         alpha: 0,
         state: "fading_in",
         waitTimer: 0,
@@ -324,21 +328,27 @@
       };
 
       function resetCraftPath() {
-        activeCraftIndex = Math.random() < 0.5 ? 0 : 1;
+        // Toggle craft type
+        activeCraftIndex = activeCraftIndex === 0 ? 1 : 0;
         
-        const paths = [
-          { y: canvas.height * 0.2, angle: 0.22 },
-          { y: canvas.height * 0.65, angle: -0.18 },
-          { y: canvas.height * 0.42, angle: 0.05 }
-        ];
-        
-        const chosenPath = paths[Math.floor(Math.random() * paths.length)];
+        // RULE: Space Shuttle (1) = TOP PATH, Satellite (0) = BOTTOM PATH
+        if (activeCraftIndex === 1) {
+          // Space Shuttle Top Path across Header
+          craft.y = canvas.height * 0.22;
+          craft.angle = 0.12;
+        } else {
+          // Satellite Bottom Path across Header
+          craft.y = canvas.height * 0.72;
+          craft.angle = -0.08;
+        }
+
         craft.x = -130;
-        craft.y = chosenPath.y;
-        craft.angle = chosenPath.angle;
         craft.exhaustParticles = [];
         craft.state = "fading_in";
       }
+
+      // Initialize path based on starting craft
+      resetCraftPath();
 
       function updateAndDrawCraft() {
         if (craft.state === "waiting") {
@@ -366,7 +376,7 @@
             craft.state = "waiting";
             craft.waitTimer = Math.floor(Math.random() * 300 + 200);
           }
-        } else if (craft.x > canvas.width + 120 || craft.y > canvas.height + 100 || craft.y < -100) {
+        } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
         }
 
@@ -389,18 +399,18 @@
 
         // --- FIERY EXHAUST PARTICLES: EXCLUSIVELY FOR SPACE SHUTTLE (activeCraftIndex === 1) ---
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
-          const nozzleX = craft.x - Math.cos(craft.angle) * 26;
-          const nozzleY = craft.y - Math.sin(craft.angle) * 26;
+          const nozzleX = craft.x - Math.cos(craft.angle) * 30;
+          const nozzleY = craft.y - Math.sin(craft.angle) * 30;
 
-          const fireColors = ["#ff3300", "#ff6600", "#ffcc00", "#ffffff"];
+          const fireColors = ["#ff2200", "#ff6600", "#ffaa00", "#ffffff"];
           
-          for (let k = 0; k < 2; k++) {
+          for (let k = 0; k < 3; k++) {
             craft.exhaustParticles.push({
               x: nozzleX,
-              y: nozzleY + (Math.random() - 0.5) * 6,
-              vx: -Math.cos(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
-              vy: -Math.sin(craft.angle) * (Math.random() * 0.8 + 0.5) + (Math.random() - 0.5) * 0.2,
-              size: Math.random() * 2.2 + 0.8,
+              y: nozzleY + (Math.random() - 0.5) * 8,
+              vx: -Math.cos(craft.angle) * (Math.random() * 1.0 + 0.6) + (Math.random() - 0.5) * 0.25,
+              vy: -Math.sin(craft.angle) * (Math.random() * 1.0 + 0.6) + (Math.random() - 0.5) * 0.25,
+              size: Math.random() * 2.8 + 1.0,
               color: fireColors[Math.floor(Math.random() * fireColors.length)],
               alpha: craft.alpha
             });
@@ -412,7 +422,7 @@
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.025;
+          p.alpha -= 0.022;
           p.size *= 0.96;
 
           if (p.alpha <= 0 || p.size <= 0.2) {
@@ -423,7 +433,7 @@
           ctx.save();
           ctx.globalAlpha = Math.max(0, p.alpha);
           ctx.fillStyle = p.color;
-          ctx.shadowBlur = 6;
+          ctx.shadowBlur = 8;
           ctx.shadowColor = p.color;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
