@@ -237,48 +237,46 @@
           }
         }
 
-        // Helper for High-Detail USA Flag (90 Degrees Clockwise Rotated)
+        // High-Detail USA Flag (Rotated 90 Degrees Clockwise)
         function drawUSAFlagRotated(startX, startY, width, height) {
-          // Micro step for high particle resolution
-          const fineStep = 0.25;
+          const fineStep = 0.2; // Ultra-fine particle step
           const particleRadius = 0.25;
 
-          // Background base
-          for (let x = startX; x <= startX + width; x += fineStep) {
-            for (let y = startY; y <= startY + height; y += fineStep) {
-              nodes.push({ x, y, color: "#ffffff", size: particleRadius });
-            }
-          }
+          // 1. Draw 13 Vertical Stripes (Alternating Red and White)
+          const numStripes = 13;
+          const stripeW = width / numStripes;
 
-          // 7 Vertical Red Stripes (Rotated 90 Deg Clockwise)
-          const stripeW = width / 7;
-          for (let s = 0; s < 7; s += 2) {
+          for (let s = 0; s < numStripes; s++) {
             const sMinX = startX + (s * stripeW);
             const sMaxX = startX + ((s + 1) * stripeW);
+            const stripeColor = (s % 2 === 0) ? "#dc2626" : "#ffffff";
+
             for (let x = sMinX; x <= sMaxX; x += fineStep) {
               for (let y = startY; y <= startY + height; y += fineStep) {
-                nodes.push({ x, y, color: "#dc2626", size: particleRadius });
+                nodes.push({ x, y, color: stripeColor, size: particleRadius });
               }
             }
           }
 
-          // Canton (Blue Field) - Top Left (4 stripes wide, 45% of height down)
-          const cantonW = stripeW * 4;
-          const cantonH = height * 0.45;
-          for (let x = startX; x <= startX + cantonW; x += fineStep) {
-            for (let y = startY; y <= startY + cantonH; y += fineStep) {
-              nodes.push({ x, y, color: "#1d4ed8", size: particleRadius });
+          // 2. Blue Canton (Top-Right Corner for 90° Clockwise Rotation)
+          const cantonWidth = stripeW * 7;
+          const cantonHeight = height * 0.54;
+          const cantonStartX = startX + width - cantonWidth;
+
+          for (let x = cantonStartX; x <= startX + width; x += fineStep) {
+            for (let y = startY; y <= startY + cantonHeight; y += fineStep) {
+              nodes.push({ x, y, color: "#1e3a8a", size: particleRadius });
             }
           }
 
-          // Detailed White Star Particles in Canton
-          const starCols = 3;
-          const starRows = 3;
-          for (let r = 1; r <= starRows; r++) {
-            for (let c = 1; c <= starCols; c++) {
-              const starX = startX + (cantonW * (c / (starCols + 1)));
-              const starY = startY + (cantonH * (r / (starRows + 1)));
-              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.35 });
+          // 3. White Stars Grid inside Top-Right Canton
+          const rows = 5;
+          const cols = 4;
+          for (let r = 1; r <= rows; r++) {
+            for (let c = 1; c <= cols; c++) {
+              const starX = cantonStartX + (cantonWidth * (c / (cols + 1)));
+              const starY = startY + (cantonHeight * (r / (rows + 1)));
+              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.3 });
             }
           }
         }
@@ -313,8 +311,8 @@
         fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
         fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
 
-        // High-Detail USA Flag (90 Deg Clockwise Rotated) on First Stage Body
-        drawUSAFlagRotated(-32, -2.5, 4.0, 6.5);
+        // Correct USA Flag (Rotated 90 Deg Clockwise, Top-Right Canton)
+        drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
 
         // 8. Base Aerodynamic Fins (4 side fins)
         fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
