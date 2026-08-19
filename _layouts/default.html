@@ -22,8 +22,8 @@
       height: 100%;
       z-index: 3;
       pointer-events: none;
-      will-change: transform;
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
     }
 
     .page-header .project-name,
@@ -58,7 +58,9 @@
         canvas.height = header.clientHeight;
       }
       resize();
-      window.addEventListener("resize", resize);
+
+      const resizeObserver = new ResizeObserver(() => resize());
+      resizeObserver.observe(header);
 
       const CONSTELLATION_DATA = [
         { name: "Hydra", stars: [[0,50],[15,45],[30,55],[45,50],[60,65],[75,60],[85,40],[95,30],[100,15],[90,0],[75,10]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,7]] },
@@ -81,12 +83,10 @@
       const starColors = [
         "rgba(255, 255, 255, ",
         "rgba(136, 204, 255, ",
-        "rgba(100, 170, 255, ",
-        "rgba(255, 150, 150, ",
-        "rgba(255, 190, 170, "
+        "rgba(100, 170, 255, "
       ];
 
-      const numAmbientStars = 25;
+      const numAmbientStars = 20;
       const ambientStars = [];
       for (let i = 0; i < numAmbientStars; i++) {
         ambientStars.push({
@@ -100,7 +100,7 @@
         });
       }
 
-      const activeCount = 3; 
+      const activeCount = 2; 
       const activeConstellations = [];
 
       function spawnConstellation(zoneIndex) {
@@ -112,7 +112,7 @@
         const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)] || CONSTELLATION_DATA[0];
         
         const scale = Math.random() * 0.45 + 0.45;
-        const colWidth = canvas.width / 3;
+        const colWidth = canvas.width / 2;
         const minX = (zoneIndex * colWidth) + 10;
         const maxX = (zoneIndex + 1) * colWidth - 120;
 
@@ -136,7 +136,7 @@
         activeConstellations.push(c);
       }
 
-      const step = 0.8;
+      const step = 1.0;
 
       function createSatelliteNodes() {
         const nodes = [];
@@ -171,7 +171,7 @@
           }
         }
         function addThinParabolicDish(cx, cy, radiusX, radiusY) {
-          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.025) {
+          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.03) {
             const rx = Math.cos(angle) * radiusX;
             const ry = Math.sin(angle) * radiusY;
             nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.65 });
@@ -225,7 +225,7 @@
           }
         }
         function drawUSAFlagRotated(startX, startY, width, height) {
-          const fineStep = 0.2;
+          const fineStep = 0.3;
           const particleRadius = 0.25;
           const numStripes = 13;
           const stripeW = width / numStripes;
@@ -251,8 +251,8 @@
             }
           }
 
-          const rows = 5;
-          const cols = 4;
+          const rows = 3;
+          const cols = 3;
           for (let r = 1; r <= rows; r++) {
             for (let c = 1; c <= cols; c++) {
               const starX = cantonStartX + (cantonWidth * (c / (cols + 1)));
@@ -326,11 +326,8 @@
         return offCanvas;
       }
 
-      const SATELLITE_NODES = createSatelliteNodes();
-      const SATURN_V_NODES = createSaturnVNodes();
-
-      const satOffscreen = buildOffscreenCraftCanvas(SATELLITE_NODES, false);
-      const rocketOffscreen = buildOffscreenCraftCanvas(SATURN_V_NODES, true);
+      const satOffscreen = buildOffscreenCraftCanvas(createSatelliteNodes(), false);
+      const rocketOffscreen = buildOffscreenCraftCanvas(createSaturnVNodes(), true);
 
       let savedCraft = localStorage.getItem("activeCraftIndex");
       let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
@@ -339,9 +336,9 @@
       let craftCompleted = false;
 
       let craft = {
-        x: -130,
+        x: -160,
         y: canvas.height * 0.12,
-        speed: 2.5,
+        speed: 3.5,
         angle: 0.03,
         alpha: 0,
         state: "fading_in",
@@ -356,7 +353,7 @@
           craft.y = canvas.height * 0.92;
           craft.angle = -0.03;
         }
-        craft.x = -130;
+        craft.x = -160;
         craft.exhaustParticles = [];
         craft.state = "fading_in";
       }
@@ -371,18 +368,18 @@
 
         const targetAlpha = 0.85;
         if (craft.state === "fading_in") {
-          craft.alpha += 0.04;
+          craft.alpha += 0.08;
           if (craft.alpha >= targetAlpha) {
             craft.alpha = targetAlpha;
             craft.state = "orbiting";
           }
         } else if (craft.state === "fading_out") {
-          craft.alpha -= 0.04;
+          craft.alpha -= 0.08;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
             craftCompleted = true;
           }
-        } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
+        } else if (craft.x > canvas.width + 160 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
         }
 
@@ -410,27 +407,25 @@
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
           const nozzleX = craft.x - Math.cos(craft.angle) * 65;
           const nozzleY = craft.y - Math.sin(craft.angle) * 65;
-          const fireColors = ["#ff2200", "#ff5500", "#ffaa00", "#ffe600"];
+          const fireColors = ["#ff2200", "#ff5500", "#ffaa00"];
           
-          for (let k = 0; k < 2; k++) {
-            craft.exhaustParticles.push({
-              x: nozzleX,
-              y: nozzleY + (Math.random() - 0.5) * 6,
-              vx: -Math.cos(craft.angle) * (Math.random() * 2.5 + 1.5),
-              vy: -Math.sin(craft.angle) * (Math.random() * 2.5 + 1.5),
-              size: Math.random() * 3 + 1,
-              color: fireColors[Math.floor(Math.random() * fireColors.length)],
-              alpha: craft.alpha
-            });
-          }
+          craft.exhaustParticles.push({
+            x: nozzleX,
+            y: nozzleY + (Math.random() - 0.5) * 6,
+            vx: -Math.cos(craft.angle) * 3.0,
+            vy: -Math.sin(craft.angle) * 3.0,
+            size: Math.random() * 3 + 1,
+            color: fireColors[Math.floor(Math.random() * fireColors.length)],
+            alpha: craft.alpha
+          });
         }
 
         for (let i = craft.exhaustParticles.length - 1; i >= 0; i--) {
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.06;
-          p.size *= 0.92;
+          p.alpha -= 0.08;
+          p.size *= 0.9;
 
           if (p.alpha <= 0 || p.size <= 0.2) {
             craft.exhaustParticles.splice(i, 1);
@@ -445,19 +440,15 @@
         }
       }
 
-      let isScrolling = false;
-      let scrollTimeout;
+      let isVisible = true;
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+      }, { threshold: 0.0 });
 
-      window.addEventListener("scroll", () => {
-        isScrolling = true;
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          isScrolling = false;
-        }, 100);
-      }, { passive: true });
+      observer.observe(header);
 
       function animate() {
-        if (!isScrolling) {
+        if (isVisible) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
           ambientStars.forEach(star => {
