@@ -206,25 +206,23 @@
 
       // --- SATELLITE COMPONENT BUILD ---
 
-      // 1. Solid Grey Satellite Body (Main Chassis Bus)
-      addMicroGrid(-12, 12, -10, 10, "#8899a6");  // Base Metallic Grey
-      addMicroGrid(-10, 10, -8, 8, "#aab8c2");    // Lighter Top Highlight Panel
-      addMicroGrid(-6, 6, -4, 4, "#657786");      // Darker Center Core Box
+      // 1. Lower Box: Main Body (Satellite Bus Chassis)
+      addMicroGrid(-14, 14, -8, 8, "#8899a6");   // Main Chassis Base Metallic Grey
+      addMicroGrid(-12, 12, -6, 6, "#aab8c2");   // Inner Panel Surface
+      addMicroGrid(-7, 7, -3, 3, "#657786");     // Center Core Box
 
-      // 2. Structural Connectors/Mounting Beams
-      addMicroGrid(-18, -12, -1.5, 1.5, "#334455");
-      addMicroGrid(12, 18, -1.5, 1.5, "#334455");
+      // 2. Upper Box: Neck Structure (Positioned directly above the lower body)
+      addMicroGrid(-6, 6, -16, -8, "#4a5568");   // Darker Metallic Neck Box
+      addMicroGrid(-4, 4, -14, -10, "#718096");  // Inner Highlight Layer
 
-      // 3. Left & Right Solar Panels with Dark Grid Lines
-      addSolarPanel(-48, -18, -8, 8); // Left Array
-      addSolarPanel(18, 48, -8, 8);   // Right Array
+      // 3. Solar Panel Mounting Arms & Solar Arrays
+      addMicroGrid(-20, -14, -1.5, 1.5, "#334455");
+      addMicroGrid(14, 20, -1.5, 1.5, "#334455");
+      addSolarPanel(-50, -20, -8, 8); // Left Array
+      addSolarPanel(20, 50, -8, 8);   // Right Array
 
-      // 4. Small Rectangle Connecting Main Body to Dish Bottom
-      addMicroGrid(-3, 3, -14, -10, "#4a5568"); // Dark metallic base block
-      addMicroGrid(-2, 2, -13, -11, "#718096"); // Inner highlight
-
-      // 5. Dish Antenna (Sits directly on top of small connecting rectangle)
-      addParabolicDish(0, -14, 18, 10);
+      // 4. Parabolic Dish Antenna (Attached to the top of the upper neck box)
+      addParabolicDish(0, -16, 18, 10);
 
       let satellite = {
         x: -120,
@@ -252,7 +250,7 @@
         satellite.x += satellite.speed;
         satellite.y += Math.sin(satellite.x * 0.006) * 0.2;
 
-        // Fade Lifecycle logic (Fainter satellite appearance)
+        // Fade Lifecycle logic (Fainter satellite opacity limit)
         const targetAlpha = 0.45;
         if (satellite.state === "fading_in") {
           satellite.alpha += 0.008;
