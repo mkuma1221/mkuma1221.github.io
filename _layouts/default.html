@@ -22,6 +22,8 @@
       height: 100%;
       z-index: 3;
       pointer-events: none;
+      will-change: transform;
+      transform: translateZ(0);
     }
 
     .page-header .project-name,
@@ -48,7 +50,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const canvas = document.getElementById("constellation-canvas");
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", { alpha: true });
       const header = document.querySelector(".page-header");
 
       function resize() {
@@ -84,7 +86,7 @@
         "rgba(255, 190, 170, "
       ];
 
-      const numAmbientStars = 35;
+      const numAmbientStars = 25;
       const ambientStars = [];
       for (let i = 0; i < numAmbientStars; i++) {
         ambientStars.push({
@@ -110,7 +112,6 @@
         const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)] || CONSTELLATION_DATA[0];
         
         const scale = Math.random() * 0.45 + 0.45;
-        
         const colWidth = canvas.width / 3;
         const minX = (zoneIndex * colWidth) + 10;
         const maxX = (zoneIndex + 1) * colWidth - 120;
@@ -139,7 +140,6 @@
 
       function createSatelliteNodes() {
         const nodes = [];
-
         function addMicroGrid(minX, maxX, minY, maxY, color) {
           for (let x = minX; x <= maxX; x += step) {
             for (let y = minY; y <= maxY; y += step) {
@@ -147,7 +147,6 @@
             }
           }
         }
-
         function addSolarPanel(minX, maxX, minY, maxY) {
           const gridStepX = 6;
           const gridStepY = 5;
@@ -161,7 +160,6 @@
             }
           }
         }
-
         function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
           for (let y = minY; y <= maxY; y += step) {
             const ratio = (y - minY) / (maxY - minY);
@@ -172,7 +170,6 @@
             }
           }
         }
-
         function addThinParabolicDish(cx, cy, radiusX, radiusY) {
           for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.025) {
             const rx = Math.cos(angle) * radiusX;
@@ -198,10 +195,8 @@
         addMicroGrid(-6, 6, -16, -8, "#718096");
         addTrapezoidMount(12, 6, -23, -18, "#334455");
         addThinParabolicDish(0, -28, 22, 10);
-        
         addMicroGrid(-22, -16, 0, 4, "#334455");
         addMicroGrid(16, 22, 0, 4, "#334455");
-        
         addSolarPanel(-52, -22, -6, 10);
         addSolarPanel(22, 52, -6, 10);
 
@@ -210,7 +205,6 @@
 
       function createSaturnVNodes() {
         const nodes = [];
-
         function fillRect(minX, maxX, minY, maxY, color, size = 0.6) {
           for (let x = minX; x <= maxX; x += step) {
             for (let y = minY; y <= maxY; y += step) {
@@ -218,7 +212,6 @@
             }
           }
         }
-
         function fillCone(startX, endX, startRadius, endRadius, color, size = 0.6) {
           const distance = Math.abs(endX - startX);
           const stepsX = distance / step;
@@ -226,17 +219,14 @@
             const progress = i / stepsX;
             const currentX = startX + (endX - startX) * progress;
             const currentRadius = startRadius + (endRadius - startRadius) * progress;
-            
             for (let r = -currentRadius; r <= currentRadius; r += step) {
               nodes.push({ x: currentX, y: r, color, size });
             }
           }
         }
-
         function drawUSAFlagRotated(startX, startY, width, height) {
           const fineStep = 0.2;
           const particleRadius = 0.25;
-
           const numStripes = 13;
           const stripeW = width / numStripes;
 
@@ -244,7 +234,6 @@
             const sMinX = startX + (s * stripeW);
             const sMaxX = startX + ((s + 1) * stripeW);
             const stripeColor = (s % 2 === 0) ? "#dc2626" : "#ffffff";
-
             for (let x = sMinX; x <= sMaxX; x += fineStep) {
               for (let y = startY; y <= startY + height; y += fineStep) {
                 nodes.push({ x, y, color: stripeColor, size: particleRadius });
@@ -275,25 +264,17 @@
 
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
-
         fillCone(38, 45, 2.6, 1.2, "#e2e8f0", 0.6);
-
         fillRect(30, 38, -2.6, 2.6, "#f8fafc", 0.6);
-
         fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
-
         fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
-
         fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
         fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
         fillRect(-4, 0, -4.8, 4.8, "#0f172a", 0.6);
-
         fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.6);
         fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
         fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
-
         drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
-
         fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
         fillCone(-58, -52, -7.8, -5.2, "#f1f5f9", 0.6);
 
@@ -302,7 +283,6 @@
             const progress = l / length;
             const currentRadius = radiusY * (0.6 + 0.4 * progress);
             const currentX = startX - l;
-
             for (let r = -currentRadius; r <= currentRadius; r += step) {
               const isRim = (l >= length - step) || (Math.abs(r) >= currentRadius - 0.4);
               const color = isRim ? "#0f172a" : "#334155";
@@ -318,8 +298,39 @@
         return nodes;
       }
 
+      function buildOffscreenCraftCanvas(nodes, isSaturnV) {
+        const offCanvas = document.createElement("canvas");
+        offCanvas.width = 160;
+        offCanvas.height = 100;
+        const offCtx = offCanvas.getContext("2d");
+        
+        offCtx.translate(80, 50);
+
+        nodes.forEach(node => {
+          if (!node.isBlinking) {
+            offCtx.fillStyle = node.color;
+            offCtx.beginPath();
+            offCtx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+            offCtx.fill();
+          }
+        });
+
+        if (isSaturnV) {
+          offCtx.fillStyle = "#0f172a";
+          offCtx.font = "bold 5px sans-serif";
+          offCtx.textAlign = "center";
+          offCtx.textBaseline = "middle";
+          offCtx.fillText("U S A", 10, 0);
+        }
+
+        return offCanvas;
+      }
+
       const SATELLITE_NODES = createSatelliteNodes();
       const SATURN_V_NODES = createSaturnVNodes();
+
+      const satOffscreen = buildOffscreenCraftCanvas(SATELLITE_NODES, false);
+      const rocketOffscreen = buildOffscreenCraftCanvas(SATURN_V_NODES, true);
 
       let savedCraft = localStorage.getItem("activeCraftIndex");
       let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
@@ -330,7 +341,7 @@
       let craft = {
         x: -130,
         y: canvas.height * 0.12,
-        speed: 0.95,
+        speed: 2.5,
         angle: 0.03,
         alpha: 0,
         state: "fading_in",
@@ -345,7 +356,6 @@
           craft.y = canvas.height * 0.92;
           craft.angle = -0.03;
         }
-
         craft.x = -130;
         craft.exhaustParticles = [];
         craft.state = "fading_in";
@@ -361,13 +371,13 @@
 
         const targetAlpha = 0.85;
         if (craft.state === "fading_in") {
-          craft.alpha += 0.015;
+          craft.alpha += 0.04;
           if (craft.alpha >= targetAlpha) {
             craft.alpha = targetAlpha;
             craft.state = "orbiting";
           }
         } else if (craft.state === "fading_out") {
-          craft.alpha -= 0.015;
+          craft.alpha -= 0.04;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
             craftCompleted = true;
@@ -377,42 +387,22 @@
         }
 
         ctx.save();
-        ctx.translate(craft.x, craft.y);
+        ctx.translate(Math.round(craft.x), Math.round(craft.y));
         ctx.rotate(craft.angle);
+        ctx.globalAlpha = craft.alpha;
 
+        const cachedImg = activeCraftIndex === 0 ? satOffscreen : rocketOffscreen;
         if (activeCraftIndex === 0) {
           ctx.scale(0.85, 0.85);
         }
+        ctx.drawImage(cachedImg, -80, -50);
 
-        ctx.shadowBlur = 0;
-
-        const currentNodes = activeCraftIndex === 0 ? SATELLITE_NODES : SATURN_V_NODES;
-        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2;
-
-        currentNodes.forEach((node) => {
-          if (node.isBlinking) {
-            ctx.fillStyle = `rgba(255, 30, 30, ${blinkValue})`;
-            ctx.shadowBlur = 8 * blinkValue;
-            ctx.shadowColor = "#ff0000";
-          } else {
-            ctx.fillStyle = node.color;
-            ctx.shadowBlur = 0;
-          }
-          ctx.globalAlpha = craft.alpha;
+        if (activeCraftIndex === 0) {
+          const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2;
+          ctx.fillStyle = `rgba(255, 30, 30, ${blinkValue})`;
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+          ctx.arc(0, -39, 1.2, 0, Math.PI * 2);
           ctx.fill();
-        });
-
-        if (activeCraftIndex === 1) {
-          ctx.save();
-          ctx.fillStyle = "#0f172a";
-          ctx.font = "bold 5px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.globalAlpha = craft.alpha;
-          ctx.fillText("U S A", 10, 0);
-          ctx.restore();
         }
 
         ctx.restore();
@@ -420,16 +410,15 @@
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
           const nozzleX = craft.x - Math.cos(craft.angle) * 65;
           const nozzleY = craft.y - Math.sin(craft.angle) * 65;
-
-          const fireColors = ["#ff2200", "#ff5500", "#ffaa00", "#ffe600", "#ffffff"];
+          const fireColors = ["#ff2200", "#ff5500", "#ffaa00", "#ffe600"];
           
-          for (let k = 0; k < 6; k++) {
+          for (let k = 0; k < 2; k++) {
             craft.exhaustParticles.push({
               x: nozzleX,
-              y: nozzleY + (Math.random() - 0.5) * 8,
-              vx: -Math.cos(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
-              vy: -Math.sin(craft.angle) * (Math.random() * 2.2 + 1.2) + (Math.random() - 0.5) * 0.3,
-              size: Math.random() * 3.5 + 1.2,
+              y: nozzleY + (Math.random() - 0.5) * 6,
+              vx: -Math.cos(craft.angle) * (Math.random() * 2.5 + 1.5),
+              vy: -Math.sin(craft.angle) * (Math.random() * 2.5 + 1.5),
+              size: Math.random() * 3 + 1,
               color: fireColors[Math.floor(Math.random() * fireColors.length)],
               alpha: craft.alpha
             });
@@ -440,109 +429,105 @@
           const p = craft.exhaustParticles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.alpha -= 0.03;
-          p.size *= 0.95;
+          p.alpha -= 0.06;
+          p.size *= 0.92;
 
           if (p.alpha <= 0 || p.size <= 0.2) {
             craft.exhaustParticles.splice(i, 1);
             continue;
           }
 
-          ctx.save();
           ctx.globalAlpha = Math.max(0, p.alpha);
           ctx.fillStyle = p.color;
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = p.color;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fill();
-          ctx.restore();
         }
       }
 
+      let isScrolling = false;
+      let scrollTimeout;
+
+      window.addEventListener("scroll", () => {
+        isScrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          isScrolling = false;
+        }, 100);
+      }, { passive: true });
+
       function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (!isScrolling) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ambientStars.forEach(star => {
-          star.alpha += star.speed * star.fadeDir;
-
-          if (star.alpha >= 1.4) {
-            star.alpha = 1.0;
-            star.fadeDir = -1;
-          } else if (star.alpha <= 0.1) {
-            star.alpha = 0.1;
-            star.fadeDir = 1;
-            star.x = Math.random();
-            star.y = Math.random();
-          }
-
-          ctx.shadowBlur = 4;
-          ctx.shadowColor = "#ffffff";
-          ctx.fillStyle = star.colorPrefix + star.alpha + ")";
-          ctx.beginPath();
-          ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        });
-
-        activeConstellations.forEach((c, index) => {
-          c.x += c.vx;
-          c.y += c.vy;
-
-          if (c.fadeState === "in") {
-            c.alpha += 0.003;
-            if (c.alpha >= 0.65) {
-              c.alpha = 0.65;
-              c.fadeState = "hold";
+          ambientStars.forEach(star => {
+            star.alpha += star.speed * star.fadeDir;
+            if (star.alpha >= 1.4) {
+              star.alpha = 1.0;
+              star.fadeDir = -1;
+            } else if (star.alpha <= 0.1) {
+              star.alpha = 0.1;
+              star.fadeDir = 1;
+              star.x = Math.random();
+              star.y = Math.random();
             }
-          } else if (c.fadeState === "hold") {
-            c.holdTime--;
-            if (c.holdTime <= 0) {
-              c.fadeState = "out";
-            }
-          } else if (c.fadeState === "out") {
-            c.alpha -= 0.003;
-            if (c.alpha <= 0) {
-              activeConstellations[index] = spawnConstellation(c.zoneIndex);
-            }
-          }
 
-          const points = c.template.stars.map(s => ({
-            x: c.x + (s[0] * c.scale),
-            y: c.y + (s[1] * c.scale)
-          }));
+            ctx.fillStyle = star.colorPrefix + star.alpha + ")";
+            ctx.beginPath();
+            ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
+            ctx.fill();
+          });
 
-          ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
-          ctx.lineWidth = 0.8;
-          c.template.lines.forEach(line => {
-            const p1 = points[line[0]];
-            const p2 = points[line[1]];
-            if (p1 && p2) {
+          activeConstellations.forEach((c, index) => {
+            c.x += c.vx;
+            c.y += c.vy;
+
+            if (c.fadeState === "in") {
+              c.alpha += 0.003;
+              if (c.alpha >= 0.65) {
+                c.alpha = 0.65;
+                c.fadeState = "hold";
+              }
+            } else if (c.fadeState === "hold") {
+              c.holdTime--;
+              if (c.holdTime <= 0) {
+                c.fadeState = "out";
+              }
+            } else if (c.fadeState === "out") {
+              c.alpha -= 0.003;
+              if (c.alpha <= 0) {
+                activeConstellations[index] = spawnConstellation(c.zoneIndex);
+              }
+            }
+
+            const points = c.template.stars.map(s => ({
+              x: c.x + (s[0] * c.scale),
+              y: c.y + (s[1] * c.scale)
+            }));
+
+            ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
+            ctx.lineWidth = 0.8;
+            c.template.lines.forEach(line => {
+              const p1 = points[line[0]];
+              const p2 = points[line[1]];
+              if (p1 && p2) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            });
+
+            points.forEach(p => {
+              ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.2)})`;
               ctx.beginPath();
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
+              ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+              ctx.fill();
+            });
           });
 
-          points.forEach(p => {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.5)})`;
-            ctx.shadowBlur = 18;
-            ctx.shadowColor = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.2)})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 0.8, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.shadowBlur = 0;
-          });
-        });
-
-        updateAndDrawCraft();
+          updateAndDrawCraft();
+        }
 
         requestAnimationFrame(animate);
       }
