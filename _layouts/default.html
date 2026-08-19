@@ -193,7 +193,6 @@
             nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
             nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
           }
-          // Blinking tip beacon mark
           nodes.push({ x: cx, y: cy - 11, color: "#ff1111", size: 1.2, isBlinking: true });
         }
 
@@ -205,18 +204,16 @@
         addTrapezoidMount(12, 6, -23, -18, "#334455");
         addThinParabolicDish(0, -28, 22, 10);
         
-        // Equal spacing mounts for both solar panels
         addMicroGrid(-22, -16, 0, 4, "#334455");
         addMicroGrid(16, 22, 0, 4, "#334455");
         
-        // Perfectly symmetrical left and right solar panels
         addSolarPanel(-52, -22, -6, 10);
         addSolarPanel(22, 52, -6, 10);
 
         return nodes;
       }
 
-      // --- SATURN V ROCKET (Horizontal Profile Layout) ---
+      // --- SATURN V ROCKET ---
       function createSaturnVNodes() {
         const nodes = [];
 
@@ -242,7 +239,6 @@
           }
         }
 
-        // High-Detail USA Flag (Rotated 90 Degrees Clockwise)
         function drawUSAFlagRotated(startX, startY, width, height) {
           const fineStep = 0.2;
           const particleRadius = 0.25;
@@ -283,6 +279,46 @@
           }
         }
 
+        // Particle "USA" Text along rocket body
+        function drawUSALetters(startX, startY) {
+          const fineStep = 0.22;
+          const color = "#000000";
+
+          // 'U'
+          for (let y = startY; y <= startY + 2.5; y += fineStep) {
+            nodes.push({ x: startX, y, color, size: 0.3 });
+            nodes.push({ x: startX + 1.2, y, color, size: 0.3 });
+          }
+          for (let x = startX; x <= startX + 1.2; x += fineStep) {
+            nodes.push({ x, y: startY + 2.5, color, size: 0.3 });
+          }
+
+          // 'S'
+          const sX = startX + 2.0;
+          for (let x = sX; x <= sX + 1.2; x += fineStep) {
+            nodes.push({ x, y: startY, color, size: 0.3 });
+            nodes.push({ x, y: startY + 1.25, color, size: 0.3 });
+            nodes.push({ x, y: startY + 2.5, color, size: 0.3 });
+          }
+          for (let y = startY; y <= startY + 1.25; y += fineStep) {
+            nodes.push({ x: sX, y, color, size: 0.3 });
+          }
+          for (let y = startY + 1.25; y <= startY + 2.5; y += fineStep) {
+            nodes.push({ x: sX + 1.2, y, color, size: 0.3 });
+          }
+
+          // 'A'
+          const aX = startX + 4.0;
+          for (let y = startY; y <= startY + 2.5; y += fineStep) {
+            nodes.push({ x: aX, y, color, size: 0.3 });
+            nodes.push({ x: aX + 1.2, y, color, size: 0.3 });
+          }
+          for (let x = aX; x <= aX + 1.2; x += fineStep) {
+            nodes.push({ x, y: startY, color, size: 0.3 });
+            nodes.push({ x, y: startY + 1.25, color, size: 0.3 });
+          }
+        }
+
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
 
@@ -293,7 +329,9 @@
         fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
 
         fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
-        fillRect(10, 12, -1.8, 1.8, "#0f172a", 0.6);
+        
+        // Add USA Text to Stage 3
+        drawUSALetters(6, -1.2);
 
         fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
         fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
@@ -332,28 +370,28 @@
       const SATELLITE_NODES = createSatelliteNodes();
       const SATURN_V_NODES = createSaturnVNodes();
 
-      let activeCraftIndex = Math.random() < 0.5 ? 0 : 1; 
+      // --- PERSISTENT MODEL TOGGLE ON PAGE REFRESH ---
+      let savedCraft = localStorage.getItem("activeCraftIndex");
+      let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
+      localStorage.setItem("activeCraftIndex", activeCraftIndex);
+
+      let craftCompleted = false;
 
       let craft = {
         x: -130,
         y: canvas.height * 0.12,
-        speed: 0.95, // Increased animation speed
+        speed: 0.95,
         angle: 0.03,
         alpha: 0,
         state: "fading_in",
-        waitTimer: 0,
         exhaustParticles: []
       };
 
-      function resetCraftPath() {
-        activeCraftIndex = activeCraftIndex === 0 ? 1 : 0;
-        
+      function initCraftPath() {
         if (activeCraftIndex === 1) {
-          // Saturn V across top
           craft.y = canvas.height * 0.12;
           craft.angle = 0.02;
         } else {
-          // Satellite slightly lower on screen
           craft.y = canvas.height * 0.92;
           craft.angle = -0.03;
         }
@@ -363,16 +401,10 @@
         craft.state = "fading_in";
       }
 
-      resetCraftPath();
+      initCraftPath();
 
       function updateAndDrawCraft() {
-        if (craft.state === "waiting") {
-          craft.waitTimer--;
-          if (craft.waitTimer <= 0) {
-            resetCraftPath();
-          }
-          return;
-        }
+        if (craftCompleted) return;
 
         craft.x += Math.cos(craft.angle) * craft.speed;
         craft.y += Math.sin(craft.angle) * craft.speed;
@@ -388,8 +420,7 @@
           craft.alpha -= 0.015;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
-            craft.state = "waiting";
-            craft.waitTimer = Math.floor(Math.random() * 150 + 100);
+            craftCompleted = true; // Stop rendering craft once it completes 1 flight pass
           }
         } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
@@ -399,7 +430,6 @@
         ctx.translate(craft.x, craft.y);
         ctx.rotate(craft.angle);
 
-        // Make satellite smaller in scale
         if (activeCraftIndex === 0) {
           ctx.scale(0.85, 0.85);
         }
@@ -407,7 +437,7 @@
         ctx.shadowBlur = 0;
 
         const currentNodes = activeCraftIndex === 0 ? SATELLITE_NODES : SATURN_V_NODES;
-        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2; // Pulsing calculation
+        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2;
 
         currentNodes.forEach((node) => {
           if (node.isBlinking) {
@@ -555,7 +585,7 @@
           });
         });
 
-        // 3. Craft Animation
+        // 3. Craft Animation (Runs once per page load)
         updateAndDrawCraft();
 
         requestAnimationFrame(animate);
