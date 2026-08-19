@@ -237,26 +237,50 @@
           }
         }
 
-        // Helper for the USA Flag
-        function drawUSAFlag(startX, startY, width, height) {
-          // White background base for flag
-          fillRect(startX, startX + width, startY, startY + height, "#ffffff", 0.5);
-          
-          // Red stripes (7 total)
-          const stripeH = height / 7;
-          for (let s = 0; s < 7; s += 2) {
-            fillRect(startX, startX + width, startY + (s * stripeH), startY + ((s + 1) * stripeH), "#dc2626", 0.5);
+        // Helper for High-Detail USA Flag (90 Degrees Clockwise Rotated)
+        function drawUSAFlagRotated(startX, startY, width, height) {
+          // Micro step for high particle resolution
+          const fineStep = 0.25;
+          const particleRadius = 0.25;
+
+          // Background base
+          for (let x = startX; x <= startX + width; x += fineStep) {
+            for (let y = startY; y <= startY + height; y += fineStep) {
+              nodes.push({ x, y, color: "#ffffff", size: particleRadius });
+            }
           }
-          
-          // Blue canton (union field)
-          const cantonW = width * 0.45;
-          const cantonH = stripeH * 4;
-          fillRect(startX, startX + cantonW, startY, startY + cantonH, "#1d4ed8", 0.5);
-          
-          // Star dots
-          nodes.push({ x: startX + (cantonW * 0.3), y: startY + (cantonH * 0.3), color: "#ffffff", size: 0.4 });
-          nodes.push({ x: startX + (cantonW * 0.7), y: startY + (cantonH * 0.3), color: "#ffffff", size: 0.4 });
-          nodes.push({ x: startX + (cantonW * 0.5), y: startY + (cantonH * 0.7), color: "#ffffff", size: 0.4 });
+
+          // 7 Vertical Red Stripes (Rotated 90 Deg Clockwise)
+          const stripeW = width / 7;
+          for (let s = 0; s < 7; s += 2) {
+            const sMinX = startX + (s * stripeW);
+            const sMaxX = startX + ((s + 1) * stripeW);
+            for (let x = sMinX; x <= sMaxX; x += fineStep) {
+              for (let y = startY; y <= startY + height; y += fineStep) {
+                nodes.push({ x, y, color: "#dc2626", size: particleRadius });
+              }
+            }
+          }
+
+          // Canton (Blue Field) - Top Left (4 stripes wide, 45% of height down)
+          const cantonW = stripeW * 4;
+          const cantonH = height * 0.45;
+          for (let x = startX; x <= startX + cantonW; x += fineStep) {
+            for (let y = startY; y <= startY + cantonH; y += fineStep) {
+              nodes.push({ x, y, color: "#1d4ed8", size: particleRadius });
+            }
+          }
+
+          // Detailed White Star Particles in Canton
+          const starCols = 3;
+          const starRows = 3;
+          for (let r = 1; r <= starRows; r++) {
+            for (let c = 1; c <= starCols; c++) {
+              const starX = startX + (cantonW * (c / (starCols + 1)));
+              const starY = startY + (cantonH * (r / (starRows + 1)));
+              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.35 });
+            }
+          }
         }
 
         // 1. Launch Escape System (LES) Tower Spike
@@ -289,8 +313,8 @@
         fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
         fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
 
-        // USA Flag on First Stage Body
-        drawUSAFlag(-32, -2.5, 6.5, 4.0);
+        // High-Detail USA Flag (90 Deg Clockwise Rotated) on First Stage Body
+        drawUSAFlagRotated(-32, -2.5, 4.0, 6.5);
 
         // 8. Base Aerodynamic Fins (4 side fins)
         fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
