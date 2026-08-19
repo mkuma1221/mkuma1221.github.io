@@ -237,6 +237,28 @@
           }
         }
 
+        // Helper for the USA Flag
+        function drawUSAFlag(startX, startY, width, height) {
+          // White background base for flag
+          fillRect(startX, startX + width, startY, startY + height, "#ffffff", 0.5);
+          
+          // Red stripes (7 total)
+          const stripeH = height / 7;
+          for (let s = 0; s < 7; s += 2) {
+            fillRect(startX, startX + width, startY + (s * stripeH), startY + ((s + 1) * stripeH), "#dc2626", 0.5);
+          }
+          
+          // Blue canton (union field)
+          const cantonW = width * 0.45;
+          const cantonH = stripeH * 4;
+          fillRect(startX, startX + cantonW, startY, startY + cantonH, "#1d4ed8", 0.5);
+          
+          // Star dots
+          nodes.push({ x: startX + (cantonW * 0.3), y: startY + (cantonH * 0.3), color: "#ffffff", size: 0.4 });
+          nodes.push({ x: startX + (cantonW * 0.7), y: startY + (cantonH * 0.3), color: "#ffffff", size: 0.4 });
+          nodes.push({ x: startX + (cantonW * 0.5), y: startY + (cantonH * 0.7), color: "#ffffff", size: 0.4 });
+        }
+
         // 1. Launch Escape System (LES) Tower Spike
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
@@ -266,6 +288,9 @@
         // First Stage Roll Pattern Vertical / Horizontal Stripes
         fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
         fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
+
+        // USA Flag on First Stage Body
+        drawUSAFlag(-32, -2.5, 6.5, 4.0);
 
         // 8. Base Aerodynamic Fins (4 side fins)
         fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
