@@ -214,67 +214,118 @@
       function createShuttleNodes() {
         const nodes = [];
 
-        // Aerodynamic Nose Cone
-        for (let x = 18; x <= 35; x += step) {
-          const ratio = (35 - x) / 17;
-          const halfH = ratio * 5;
+        // 1. Black Thermal Nose Tip
+        for (let x = 32; x <= 38; x += step) {
+          const ratio = (38 - x) / 6;
+          const halfH = ratio * 3.5;
           for (let y = -halfH; y <= halfH; y += step) {
-            const color = (x > 31 && Math.abs(y) < 2) ? "#111111" : "#ffffff";
-            nodes.push({ x, y, color, size: 0.6 });
+            nodes.push({ x, y, color: "#111111", size: 0.65 });
           }
         }
 
-        // Main White Fuselage
-        for (let x = -20; x <= 18; x += step) {
-          for (let y = -5; y <= 5; y += step) {
+        // Forward Cockpit / Nose Transition (White Thermal Blanket)
+        for (let x = 18; x <= 32; x += step) {
+          const ratio = (38 - x) / 20;
+          const halfH = ratio * 6.5;
+          for (let y = -halfH; y <= halfH; y += step) {
             nodes.push({ x, y, color: "#ffffff", size: 0.6 });
           }
         }
 
-        // Dark Cockpit Windshield Tiles
-        for (let x = 20; x <= 24; x += step) {
-          for (let y = -2.5; y <= -0.5; y += step) {
-            nodes.push({ x, y, color: "#1a202c", size: 0.6 });
+        // 2. Clearer Cockpit Windows (Light cyan glass with dark frame)
+        for (let x = 23; x <= 28; x += step) {
+          for (let y = -4.5; y <= -1.5; y += step) {
+            const isFrame = x === 23 || x >= 27.2 || y <= -4.0 || y >= -2.0;
+            const color = isFrame ? "#1a202c" : "#7dd3fc";
+            nodes.push({ x, y, color, size: 0.65 });
           }
+        }
+
+        // Main Fuselage Hull (Pure White)
+        for (let x = -22; x <= 18; x += step) {
+          for (let y = -6.5; y <= 6.5; y += step) {
+            nodes.push({ x, y, color: "#f8fafc", size: 0.6 });
+          }
+        }
+
+        // Payload Bay Door Seam Lines
+        for (let x = -18; x <= 15; x += step) {
+          nodes.push({ x, y: -6.5, color: "#cbd5e1", size: 0.5 });
+          nodes.push({ x, y: 0, color: "#e2e8f0", size: 0.4 });
         }
 
         // Black Heat Shield Underside Strip
-        for (let x = -20; x <= 33; x += step) {
-          nodes.push({ x, y: 5.2, color: "#111111", size: 0.6 });
-          nodes.push({ x, y: 5.8, color: "#111111", size: 0.6 });
+        for (let x = -22; x <= 36; x += step) {
+          nodes.push({ x, y: 6.6, color: "#111111", size: 0.65 });
+          nodes.push({ x, y: 7.2, color: "#1a1a1a", size: 0.6 });
         }
 
-        // Characteristic Delta Wings
-        for (let x = -15; x <= 10; x += step) {
-          const ratio = (10 - x) / 25;
-          const wingSpan = 5 + ratio * 16;
-          for (let y = 5; y <= wingSpan; y += step) {
-            const isWingEdge = y >= wingSpan - 1.2 || x <= -13;
-            const color = isWingEdge ? "#1a1a1a" : "#f8fafc";
+        // 3. Top Vertical Rudder / Tail Fin ONLY (No bottom wing visible)
+        for (let x = -20; x <= -6; x += step) {
+          const ratio = (x + 20) / 14;
+          const finHeight = ratio * 18; // Sweeps vertically upwards
+          for (let y = -6.5 - finHeight; y <= -6.5; y += step) {
+            const isLeadingEdge = (y <= -6.5 - finHeight + 1.2) || (x <= -18.5);
+            const isTrailingRudder = x >= -8;
+            
+            let color = "#ffffff";
+            if (isLeadingEdge) color = "#1e293b"; // Black tile leading edge
+            else if (isTrailingRudder) color = "#e2e8f0"; // Rudder separation line
+
             nodes.push({ x, y, color, size: 0.6 });
           }
         }
 
-        // Vertical Tail Fin
-        for (let x = -18; x <= -6; x += step) {
-          const ratio = (x + 18) / 12;
-          const finHeight = ratio * 15;
-          for (let y = -5 - finHeight; y <= -5; y += step) {
-            const isLeadingEdge = (y <= -5 - finHeight + 1.2) || (x <= -16);
-            const color = isLeadingEdge ? "#2d3748" : "#ffffff";
-            nodes.push({ x, y, color, size: 0.6 });
+        // 4. Iconic NASA Meatball Logo on Fuselage Side
+        const logoCX = 0;
+        const logoCY = 0;
+        const logoR = 4.2;
+        for (let x = logoCX - logoR; x <= logoCX + logoR; x += step) {
+          for (let y = logoCY - logoR; y <= logoCY + logoR; y += step) {
+            const dist = Math.hypot(x - logoCX, y - logoCY);
+            if (dist <= logoR) {
+              let color = "#0b3d91"; // NASA Insignia Blue
+              
+              // Red Vector Chevron
+              if (Math.abs((y - logoCY) + (x - logoCX) * 0.5) < 0.9) {
+                color = "#fc3d21"; // NASA Red
+              }
+              // Star field / White text core
+              else if (dist < 1.5) {
+                color = "#ffffff";
+              }
+
+              nodes.push({ x, y, color, size: 0.6 });
+            }
           }
         }
 
-        // OMS Pods & Engines
+        // 5. Clear Main Engine Nozzles & OMS Pods
+        // OMS Pods (Top Rear)
         for (let x = -24; x <= -20; x += step) {
-          for (let y = -4; y <= 2; y += step) {
-            nodes.push({ x, y, color: "#4a5568", size: 0.6 });
+          for (let y = -6.5; y <= -2.5; y += step) {
+            nodes.push({ x, y, color: "#64748b", size: 0.6 });
           }
         }
-        nodes.push({ x: -25, y: -2, color: "#1a202c", size: 0.9 });
-        nodes.push({ x: -25, y: 0, color: "#1a202c", size: 0.9 });
-        nodes.push({ x: -25, y: 2, color: "#1a202c", size: 0.9 });
+
+        // Three Clear Rocket Engine Bell Nozzles (SSMEs)
+        const enginePos = [
+          { x: -26, y: -4.5, r: 2.2 },
+          { x: -26, y: 0.0,  r: 2.5 },
+          { x: -26, y: 4.5,  r: 2.2 }
+        ];
+
+        enginePos.forEach(eng => {
+          for (let x = eng.x - 3; x <= eng.x; x += step) {
+            const progress = (eng.x - x) / 3;
+            const currentR = eng.r * (0.5 + 0.5 * progress);
+            for (let y = eng.y - currentR; y <= eng.y + currentR; y += step) {
+              const isRim = x === eng.x - 3 || Math.abs(y - eng.y) >= currentR - 0.5;
+              const color = isRim ? "#334155" : "#94a3b8"; // Metallic dark grey bell interior
+              nodes.push({ x, y, color, size: 0.65 });
+            }
+          }
+        });
 
         return nodes;
       }
