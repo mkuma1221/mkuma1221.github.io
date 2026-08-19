@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
   <style>
-    /* Canvas overlay styling */
     .page-header {
       position: relative;
       overflow: hidden;
@@ -22,7 +21,7 @@
       width: 100%;
       height: 100%;
       z-index: 3;
-      pointer-events: none; /* Disables mouse interaction */
+      pointer-events: none;
     }
 
     .page-header .project-name,
@@ -59,7 +58,6 @@
       resize();
       window.addEventListener("resize", resize);
 
-      // --- CONSTELLATION DATASETS ---
       const CONSTELLATION_DATA = [
         { name: "Hydra", stars: [[0,50],[15,45],[30,55],[45,50],[60,65],[75,60],[85,40],[95,30],[100,15],[90,0],[75,10]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,7]] },
         { name: "Centaurus", stars: [[10,100],[30,80],[45,60],[25,40],[10,20],[50,30],[70,10],[85,25],[95,50],[70,65],[85,90]], lines: [[0,1],[1,2],[2,3],[3,4],[2,5],[5,6],[6,7],[7,8],[8,9],[9,2],[8,10]] },
@@ -78,7 +76,6 @@
         { name: "Canis Major", stars: [[30,0],[10,35],[60,30],[80,65],[40,80],[95,90]], lines: [[0,1],[0,2],[2,3],[3,4],[3,5],[1,4]] }
       ];
 
-      // --- COLORFUL AMBIENT BACKGROUND STARS ---
       const starColors = [
         "rgba(255, 255, 255, ",
         "rgba(136, 204, 255, ",
@@ -101,7 +98,6 @@
         });
       }
 
-      // --- 3 GRID COLUMNS FOR CONSTELLATIONS ---
       const activeCount = 3; 
       const activeConstellations = [];
 
@@ -139,7 +135,6 @@
         activeConstellations.push(c);
       }
 
-      // --- MICRO-PARTICLE BUILDERS ---
       const step = 0.8;
 
       function createSatelliteNodes() {
@@ -213,7 +208,6 @@
         return nodes;
       }
 
-      // --- SATURN V ROCKET ---
       function createSaturnVNodes() {
         const nodes = [];
 
@@ -327,7 +321,6 @@
       const SATELLITE_NODES = createSatelliteNodes();
       const SATURN_V_NODES = createSaturnVNodes();
 
-      // --- PERSISTENT MODEL TOGGLE ON PAGE REFRESH ---
       let savedCraft = localStorage.getItem("activeCraftIndex");
       let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
       localStorage.setItem("activeCraftIndex", activeCraftIndex);
@@ -377,7 +370,7 @@
           craft.alpha -= 0.015;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
-            craftCompleted = true; // Stop rendering craft once it completes 1 flight pass
+            craftCompleted = true;
           }
         } else if (craft.x > canvas.width + 130 || craft.y > canvas.height + 100 || craft.y < -100) {
           craft.state = "fading_out";
@@ -411,7 +404,6 @@
           ctx.fill();
         });
 
-        // --- DIRECT CANVAS TEXT RENDER FOR "USA" ON ROCKET BODY ---
         if (activeCraftIndex === 1) {
           ctx.save();
           ctx.fillStyle = "#0f172a";
@@ -425,7 +417,6 @@
 
         ctx.restore();
 
-        // --- EXHAUST PLUME FOR SATURN V ---
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
           const nozzleX = craft.x - Math.cos(craft.angle) * 65;
           const nozzleY = craft.y - Math.sin(craft.angle) * 65;
@@ -469,11 +460,9 @@
         }
       }
 
-      // --- ANIMATION LOOP ---
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Background Stars
         ambientStars.forEach(star => {
           star.alpha += star.speed * star.fadeDir;
 
@@ -496,7 +485,6 @@
           ctx.shadowBlur = 0;
         });
 
-        // 2. Constellations
         activeConstellations.forEach((c, index) => {
           c.x += c.vx;
           c.y += c.vy;
@@ -554,7 +542,6 @@
           });
         });
 
-        // 3. Craft Animation (Runs once per page load)
         updateAndDrawCraft();
 
         requestAnimationFrame(animate);
