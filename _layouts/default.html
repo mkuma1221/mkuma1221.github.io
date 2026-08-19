@@ -279,47 +279,6 @@
           }
         }
 
-        // Distinct Particle "USA" Text along rocket body
-        function drawUSALetters(startX, startY) {
-          const fineStep = 0.25;
-          const color = "#1e293b"; // Dark contrasting slate black
-
-          // 'U'
-          for (let y = startY - 1.2; y <= startY + 1.2; y += fineStep) {
-            nodes.push({ x: startX, y, color, size: 0.45 });
-            nodes.push({ x: startX + 1.5, y, color, size: 0.45 });
-          }
-          for (let x = startX; x <= startX + 1.5; x += fineStep) {
-            nodes.push({ x, y: startY + 1.2, color, size: 0.45 });
-          }
-
-          // 'S'
-          const sX = startX + 2.5;
-          for (let x = sX; x <= sX + 1.5; x += fineStep) {
-            nodes.push({ x, y: startY - 1.2, color, size: 0.45 });
-            nodes.push({ x, y: startY, color, size: 0.45 });
-            nodes.push({ x, y: startY + 1.2, color, size: 0.45 });
-          }
-          for (let y = startY - 1.2; y <= startY; y += fineStep) {
-            nodes.push({ x: sX, y, color, size: 0.45 });
-          }
-          for (let y = startY; y <= startY + 1.2; y += fineStep) {
-            nodes.push({ x: sX + 1.5, y, color, size: 0.45 });
-          }
-
-          // 'A'
-          const aX = startX + 5.0;
-          for (let y = startY - 1.2; y <= startY + 1.2; y += fineStep) {
-            nodes.push({ x: aX, y, color, size: 0.45 });
-            nodes.push({ x: aX + 1.5, y, color, size: 0.45 });
-          }
-          for (let x = aX; x <= aX + 1.5; x += fineStep) {
-            nodes.push({ x, y: startY - 1.2, color, size: 0.45 });
-            nodes.push({ x, y: startY, color, size: 0.45 });
-          }
-        }
-
-        // Draw primary rocket structure first
         fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
         fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
 
@@ -361,9 +320,6 @@
         drawEngineNozzle(-58, 7.0, 2.2, -3.2);
         drawEngineNozzle(-58, 7.0, 2.2, 3.2);
         drawEngineNozzle(-58, 7.5, 2.5, 0.0);
-
-        // Draw USA lettering last so particles overlay cleanly on top of the rocket body
-        drawUSALetters(6, 0);
 
         return nodes;
       }
@@ -454,6 +410,18 @@
           ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
           ctx.fill();
         });
+
+        // --- DIRECT CANVAS TEXT RENDER FOR "USA" ON ROCKET BODY ---
+        if (activeCraftIndex === 1) {
+          ctx.save();
+          ctx.fillStyle = "#0f172a";
+          ctx.font = "bold 5px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.globalAlpha = craft.alpha;
+          ctx.fillText("U S A", 10, 0);
+          ctx.restore();
+        }
 
         ctx.restore();
 
