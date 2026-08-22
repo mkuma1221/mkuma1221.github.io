@@ -53,9 +53,18 @@
       const ctx = canvas.getContext("2d", { alpha: true });
       const header = document.querySelector(".page-header");
 
+      let dpr = window.devicePixelRatio || 1;
+
       function resize() {
-        canvas.width = header.clientWidth;
-        canvas.height = header.clientHeight;
+        dpr = window.devicePixelRatio || 1;
+        const rect = header.getBoundingClientRect();
+        
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + "px";
+        canvas.style.height = rect.height + "px";
+        
+        ctx.scale(dpr, dpr);
       }
       resize();
 
@@ -112,7 +121,9 @@
         const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)] || CONSTELLATION_DATA[0];
         
         const scale = Math.random() * 0.45 + 0.45;
-        const colWidth = canvas.width / 2;
+        const width = canvas.width / dpr;
+        const height = canvas.height / dpr;
+        const colWidth = width / 2;
         const minX = (zoneIndex * colWidth) + 10;
         const maxX = (zoneIndex + 1) * colWidth - 120;
 
@@ -120,7 +131,7 @@
           template: template,
           zoneIndex: zoneIndex,
           x: Math.random() * Math.max(10, maxX - minX) + minX,
-          y: Math.random() * (canvas.height - 90) + 10,
+          y: Math.random() * (height - 90) + 10,
           vx: (Math.random() - 0.5) * 0.02,
           vy: (Math.random() - 0.5) * 0.01,
           scale: scale,
@@ -136,14 +147,14 @@
         activeConstellations.push(c);
       }
 
-      const step = 1.0;
+      const step = 0.8;
 
       function createSatelliteNodes() {
         const nodes = [];
         function addMicroGrid(minX, maxX, minY, maxY, color) {
           for (let x = minX; x <= maxX; x += step) {
             for (let y = minY; y <= maxY; y += step) {
-              nodes.push({ x, y, color, size: 0.6 });
+              nodes.push({ x, y, color, size: 0.65 });
             }
           }
         }
@@ -156,7 +167,7 @@
               const isGridY = Math.abs((y - minY) % gridStepY) < step;
               const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
               const color = (isBorder || isGridX || isGridY) ? "#112244" : "#e6a100";
-              nodes.push({ x, y, color, size: 0.6 });
+              nodes.push({ x, y, color, size: 0.65 });
             }
           }
         }
@@ -166,24 +177,24 @@
             const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
             const halfW = currentWidth / 2;
             for (let x = -halfW; x <= halfW; x += step) {
-              nodes.push({ x, y, color, size: 0.6 });
+              nodes.push({ x, y, color, size: 0.65 });
             }
           }
         }
         function addThinParabolicDish(cx, cy, radiusX, radiusY) {
-          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.03) {
+          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.02) {
             const rx = Math.cos(angle) * radiusX;
             const ry = Math.sin(angle) * radiusY;
-            nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.65 });
-            nodes.push({ x: cx + rx, y: cy + ry - 0.7, color: "#e2e8f0", size: 0.6 });
+            nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.7 });
+            nodes.push({ x: cx + rx, y: cy + ry - 0.7, color: "#e2e8f0", size: 0.65 });
           }
           for (let y = cy + 2; y >= cy - 10; y -= step) {
-            nodes.push({ x: cx, y: y, color: "#99aabb", size: 0.5 });
+            nodes.push({ x: cx, y: y, color: "#99aabb", size: 0.55 });
           }
           for (let i = 0; i <= 8; i += step) {
             const ratio = i / 8;
-            nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
-            nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.5 });
+            nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.55 });
+            nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#778899", size: 0.55 });
           }
           nodes.push({ x: cx, y: cy - 11, color: "#ff1111", size: 1.2, isBlinking: true });
         }
@@ -205,14 +216,14 @@
 
       function createSaturnVNodes() {
         const nodes = [];
-        function fillRect(minX, maxX, minY, maxY, color, size = 0.6) {
+        function fillRect(minX, maxX, minY, maxY, color, size = 0.65) {
           for (let x = minX; x <= maxX; x += step) {
             for (let y = minY; y <= maxY; y += step) {
               nodes.push({ x, y, color, size });
             }
           }
         }
-        function fillCone(startX, endX, startRadius, endRadius, color, size = 0.6) {
+        function fillCone(startX, endX, startRadius, endRadius, color, size = 0.65) {
           const distance = Math.abs(endX - startX);
           const stepsX = distance / step;
           for (let i = 0; i <= stepsX; i++) {
@@ -225,8 +236,8 @@
           }
         }
         function drawUSAFlagRotated(startX, startY, width, height) {
-          const fineStep = 0.3;
-          const particleRadius = 0.25;
+          const fineStep = 0.25;
+          const particleRadius = 0.3;
           const numStripes = 13;
           const stripeW = width / numStripes;
 
@@ -257,26 +268,26 @@
             for (let c = 1; c <= cols; c++) {
               const starX = cantonStartX + (cantonWidth * (c / (cols + 1)));
               const starY = startY + (cantonHeight * (r / (rows + 1)));
-              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.3 });
+              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.35 });
             }
           }
         }
 
-        fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.5);
-        fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.55);
-        fillCone(38, 45, 2.6, 1.2, "#e2e8f0", 0.6);
-        fillRect(30, 38, -2.6, 2.6, "#f8fafc", 0.6);
-        fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.6);
-        fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.6);
-        fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.6);
-        fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.6);
-        fillRect(-4, 0, -4.8, 4.8, "#0f172a", 0.6);
-        fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.6);
-        fillRect(-58, -48, -5.2, 0, "#0f172a", 0.6);
-        fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.6);
+        fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.55);
+        fillCone(45, 50, 1.2, 0.4, "#94a3b8", 0.6);
+        fillCone(38, 45, 2.6, 1.2, "#e2e8f0", 0.65);
+        fillRect(30, 38, -2.6, 2.6, "#f8fafc", 0.65);
+        fillCone(20, 30, 3.8, 2.6, "#f8fafc", 0.65);
+        fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.65);
+        fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.65);
+        fillRect(-22, -16, -4.8, 4.8, "#0f172a", 0.65);
+        fillRect(-4, 0, -4.8, 4.8, "#0f172a", 0.65);
+        fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.65);
+        fillRect(-58, -48, -5.2, 0, "#0f172a", 0.65);
+        fillRect(-40, -34, -5.2, 5.2, "#0f172a", 0.65);
         drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
-        fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.6);
-        fillCone(-58, -52, -7.8, -5.2, "#f1f5f9", 0.6);
+        fillCone(-58, -52, 7.8, 5.2, "#f1f5f9", 0.65);
+        fillCone(-58, -52, -7.8, -5.2, "#f1f5f9", 0.65);
 
         function drawEngineNozzle(startX, length, radiusY, yOffset) {
           for (let l = 0; l <= length; l += step) {
@@ -286,7 +297,7 @@
             for (let r = -currentRadius; r <= currentRadius; r += step) {
               const isRim = (l >= length - step) || (Math.abs(r) >= currentRadius - 0.4);
               const color = isRim ? "#0f172a" : "#334155";
-              nodes.push({ x: currentX, y: yOffset + r, color, size: 0.6 });
+              nodes.push({ x: currentX, y: yOffset + r, color, size: 0.65 });
             }
           }
         }
@@ -299,11 +310,13 @@
       }
 
       function buildOffscreenCraftCanvas(nodes, isSaturnV) {
+        const renderScale = 2; // Render offscreen canvas at 2x resolution for super sharp visuals
         const offCanvas = document.createElement("canvas");
-        offCanvas.width = 160;
-        offCanvas.height = 100;
+        offCanvas.width = 160 * renderScale;
+        offCanvas.height = 100 * renderScale;
         const offCtx = offCanvas.getContext("2d");
         
+        offCtx.scale(renderScale, renderScale);
         offCtx.translate(80, 50);
 
         nodes.forEach(node => {
@@ -337,7 +350,7 @@
 
       let craft = {
         x: -160,
-        y: canvas.height * 0.12,
+        y: (canvas.height / dpr) * 0.12,
         speed: 1.2,
         angle: 0.03,
         alpha: 0,
@@ -346,11 +359,12 @@
       };
 
       function initCraftPath() {
+        const height = canvas.height / dpr;
         if (activeCraftIndex === 1) {
-          craft.y = canvas.height * 0.12;
+          craft.y = height * 0.12;
           craft.angle = 0.02;
         } else {
-          craft.y = canvas.height * 0.92;
+          craft.y = height * 0.92;
           craft.angle = -0.03;
         }
         craft.x = -160;
@@ -362,6 +376,9 @@
 
       function updateAndDrawCraft(dt) {
         if (craftCompleted) return;
+
+        const width = canvas.width / dpr;
+        const height = canvas.height / dpr;
 
         craft.x += Math.cos(craft.angle) * craft.speed * dt;
         craft.y += Math.sin(craft.angle) * craft.speed * dt;
@@ -379,7 +396,7 @@
             craft.alpha = 0;
             craftCompleted = true;
           }
-        } else if (craft.x > canvas.width + 160 || craft.y > canvas.height + 100 || craft.y < -100) {
+        } else if (craft.x > width + 160 || craft.y > height + 100 || craft.y < -100) {
           craft.state = "fading_out";
         }
 
@@ -389,32 +406,37 @@
         ctx.globalAlpha = craft.alpha;
 
         const cachedImg = activeCraftIndex === 0 ? satOffscreen : rocketOffscreen;
+        
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+
         if (activeCraftIndex === 0) {
-          ctx.scale(0.85, 0.85);
+          ctx.drawImage(cachedImg, -40 * 0.85, -25 * 0.85, 80 * 0.85, 50 * 0.85);
+        } else {
+          ctx.drawImage(cachedImg, -40, -25, 80, 50);
         }
-        ctx.drawImage(cachedImg, -80, -50);
 
         if (activeCraftIndex === 0) {
           const blinkValue = (Math.sin(Date.now() * 0.005) + 1) / 2;
           ctx.fillStyle = `rgba(255, 30, 30, ${blinkValue})`;
           ctx.beginPath();
-          ctx.arc(0, -39, 1.2, 0, Math.PI * 2);
+          ctx.arc(0, -33, 1.2, 0, Math.PI * 2);
           ctx.fill();
         }
 
         ctx.restore();
 
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
-          const nozzleX = craft.x - Math.cos(craft.angle) * 65;
-          const nozzleY = craft.y - Math.sin(craft.angle) * 65;
+          const nozzleX = craft.x - Math.cos(craft.angle) * 32.5;
+          const nozzleY = craft.y - Math.sin(craft.angle) * 32.5;
           const fireColors = ["#ff2200", "#ff5500", "#ffaa00"];
           
           craft.exhaustParticles.push({
             x: nozzleX,
-            y: nozzleY + (Math.random() - 0.5) * 5,
+            y: nozzleY + (Math.random() - 0.5) * 3,
             vx: -Math.cos(craft.angle) * 1.0,
             vy: -Math.sin(craft.angle) * 1.0,
-            size: Math.random() * 2.5 + 1,
+            size: Math.random() * 2 + 1,
             color: fireColors[Math.floor(Math.random() * fireColors.length)],
             alpha: craft.alpha
           });
@@ -455,7 +477,10 @@
         lastTime = currentTime;
 
         if (isVisible) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const width = canvas.width / dpr;
+          const height = canvas.height / dpr;
+
+          ctx.clearRect(0, 0, width, height);
 
           ambientStars.forEach(star => {
             star.alpha += star.speed * star.fadeDir * dt;
@@ -471,7 +496,7 @@
 
             ctx.fillStyle = star.colorPrefix + star.alpha + ")";
             ctx.beginPath();
-            ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
+            ctx.arc(star.x * width, star.y * height, star.size, 0, Math.PI * 2);
             ctx.fill();
           });
 
