@@ -365,8 +365,8 @@
         ctx.rotate(craft.angle);
 
         const nodes = activeCraftIndex === 0 ? satNodes : rocketNodes;
-        // Satellite made 10% smaller (0.9 multiplier)
-        const baseScale = (activeCraftIndex === 0 ? 0.9 : 1.15) * dpr;
+        // Satellite made another 10% smaller (0.81 multiplier)
+        const baseScale = (activeCraftIndex === 0 ? 0.81 : 1.15) * dpr;
 
         nodes.forEach(node => {
           if (!node.isBlinking) {
@@ -394,9 +394,9 @@
         ctx.restore();
 
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
-          // Moved particle origin farther left to line up with engine nozzles (-75)
-          const nozzleX = craft.x + Math.cos(craft.angle) * (-75 * 1.15);
-          const nozzleY = craft.y + Math.sin(craft.angle) * (-75 * 1.15);
+          // Exhaust origin adjusted forward to -65 so thrust comes directly from nozzles
+          const nozzleX = craft.x + Math.cos(craft.angle) * (-65 * 1.15);
+          const nozzleY = craft.y + Math.sin(craft.angle) * (-65 * 1.15);
           const fireColors = ["#ff0000", "#ff4500", "#ffaa00"];
           
           craft.exhaustParticles.push({
