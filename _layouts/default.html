@@ -53,13 +53,14 @@
       const ctx = canvas.getContext("2d", { alpha: true });
       const header = document.querySelector(".page-header");
 
+      let dpr = window.devicePixelRatio || 1;
+
       function resize() {
-        const dpr = window.devicePixelRatio || 1;
+        dpr = window.devicePixelRatio || 1;
         canvas.width = header.clientWidth * dpr;
         canvas.height = header.clientHeight * dpr;
         canvas.style.width = header.clientWidth + "px";
         canvas.style.height = header.clientHeight + "px";
-        ctx.scale(dpr, dpr);
       }
       resize();
 
@@ -104,7 +105,7 @@
         });
       }
 
-      const activeCount = 2;
+      const activeCount = 2; 
       const activeConstellations = [];
 
       function spawnConstellation(zoneIndex) {
@@ -140,151 +141,170 @@
         activeConstellations.push(c);
       }
 
-      function drawVectorSatellite(c) {
-        c.save();
-        
-        // Solar Panel Left
-        c.fillStyle = "#ffb703";
-        c.strokeStyle = "#023047";
-        c.lineWidth = 1;
-        c.fillRect(-65, -12, 35, 24);
-        c.strokeRect(-65, -12, 35, 24);
+      const step = 1.0;
 
-        // Solar Panel Grid Lines (Left)
-        c.strokeStyle = "rgba(0,0,0,0.3)";
-        c.beginPath();
-        c.moveTo(-47.5, -12); c.lineTo(-47.5, 12);
-        c.moveTo(-65, 0); c.lineTo(-30, 0);
-        c.stroke();
+      function createSatelliteNodes() {
+        const nodes = [];
+        function addMicroGrid(minX, maxX, minY, maxY, color) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size: 0.9 });
+            }
+          }
+        }
+        function addSolarPanel(minX, maxX, minY, maxY) {
+          const gridStepX = 6;
+          const gridStepY = 5;
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              const isGridX = Math.abs((x - minX) % gridStepX) < step;
+              const isGridY = Math.abs((y - minY) % gridStepY) < step;
+              const isBorder = x === minX || x >= maxX - step || y === minY || y >= maxY - step;
+              const color = (isBorder || isGridX || isGridY) ? "#0d1b2a" : "#ffb703";
+              nodes.push({ x, y, color, size: 0.9 });
+            }
+          }
+        }
+        function addTrapezoidMount(topWidth, bottomWidth, minY, maxY, color) {
+          for (let y = minY; y <= maxY; y += step) {
+            const ratio = (y - minY) / (maxY - minY);
+            const currentWidth = topWidth + (bottomWidth - topWidth) * ratio;
+            const halfW = currentWidth / 2;
+            for (let x = -halfW; x <= halfW; x += step) {
+              nodes.push({ x, y, color, size: 0.9 });
+            }
+          }
+        }
+        function addThinParabolicDish(cx, cy, radiusX, radiusY) {
+          for (let angle = Math.PI * 0.12; angle <= Math.PI * 0.88; angle += 0.03) {
+            const rx = Math.cos(angle) * radiusX;
+            const ry = Math.sin(angle) * radiusY;
+            nodes.push({ x: cx + rx, y: cy + ry, color: "#ffffff", size: 0.9 });
+            nodes.push({ x: cx + rx, y: cy + ry - 0.7, color: "#f1f5f9", size: 0.9 });
+          }
+          for (let y = cy + 2; y >= cy - 10; y -= step) {
+            nodes.push({ x: cx, y: y, color: "#94a3b8", size: 0.9 });
+          }
+          for (let i = 0; i <= 8; i += step) {
+            const ratio = i / 8;
+            nodes.push({ x: cx - (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#64748b", size: 0.9 });
+            nodes.push({ x: cx + (6 * (1 - ratio)), y: cy + 3 - (13 * ratio), color: "#64748b", size: 0.9 });
+          }
+          nodes.push({ x: cx, y: cy - 11, color: "#ff0000", size: 1.5, isBlinking: true });
+        }
 
-        // Solar Panel Right
-        c.fillStyle = "#ffb703";
-        c.strokeStyle = "#023047";
-        c.fillRect(30, -12, 35, 24);
-        c.strokeRect(30, -12, 35, 24);
+        addMicroGrid(-16, 16, -6, 10, "#94a3b8");
+        addMicroGrid(-14, 14, -4, 8, "#cbd5e1");
+        addMicroGrid(-8, 8, -1, 5, "#475569");
+        addMicroGrid(-8, 8, -18, -6, "#334155");
+        addMicroGrid(-6, 6, -16, -8, "#64748b");
+        addTrapezoidMount(12, 6, -23, -18, "#1e293b");
+        addThinParabolicDish(0, -28, 22, 10);
+        addMicroGrid(-22, -16, 0, 4, "#1e293b");
+        addMicroGrid(16, 22, 0, 4, "#1e293b");
+        addSolarPanel(-52, -22, -6, 10);
+        addSolarPanel(22, 52, -6, 10);
 
-        // Solar Panel Grid Lines (Right)
-        c.beginPath();
-        c.moveTo(47.5, -12); c.lineTo(47.5, 12);
-        c.moveTo(30, 0); c.lineTo(65, 0);
-        c.stroke();
-
-        // Panel Mount Arms
-        c.fillStyle = "#475569";
-        c.fillRect(-30, -2, 8, 4);
-        c.fillRect(22, -2, 8, 4);
-
-        // Main Satellite Body
-        const grad = c.createLinearGradient(-22, 0, 22, 0);
-        grad.addColorStop(0, "#cbd5e1");
-        grad.addColorStop(0.5, "#ffffff");
-        grad.addColorStop(1, "#94a3b8");
-        c.fillStyle = grad;
-        c.strokeStyle = "#334155";
-        c.lineWidth = 1.5;
-        c.beginPath();
-        c.roundRect(-22, -18, 44, 36, 4);
-        c.fill();
-        c.stroke();
-
-        // Inner Electronics Hatch
-        c.fillStyle = "#475569";
-        c.fillRect(-12, -10, 24, 20);
-
-        // Parabolic Dish Antenna
-        c.beginPath();
-        c.strokeStyle = "#e2e8f0";
-        c.lineWidth = 2.5;
-        c.arc(0, -18, 26, Math.PI * 1.25, Math.PI * 1.75);
-        c.stroke();
-
-        // Dish Feed Struts
-        c.strokeStyle = "#94a3b8";
-        c.lineWidth = 1.2;
-        c.beginPath();
-        c.moveTo(-12, -22); c.lineTo(0, -36);
-        c.moveTo(12, -22); c.lineTo(0, -36);
-        c.stroke();
-
-        // Feed Beacon LED
-        const blinkValue = (Math.sin(Date.now() * 0.008) + 1) / 2;
-        c.fillStyle = `rgba(255, 30, 30, ${0.4 + blinkValue * 0.6})`;
-        c.beginPath();
-        c.arc(0, -36, 2.5, 0, Math.PI * 2);
-        c.fill();
-
-        c.restore();
+        return nodes;
       }
 
-      function drawVectorRocket(c) {
-        c.save();
-        
-        // Main Body Tube Gradient
-        const grad = c.createLinearGradient(0, -8, 0, 8);
-        grad.addColorStop(0, "#ffffff");
-        grad.addColorStop(0.6, "#e2e8f0");
-        grad.addColorStop(1, "#64748b");
+      function createSaturnVNodes() {
+        const nodes = [];
+        function fillRect(minX, maxX, minY, maxY, color, size = 0.9) {
+          for (let x = minX; x <= maxX; x += step) {
+            for (let y = minY; y <= maxY; y += step) {
+              nodes.push({ x, y, color, size });
+            }
+          }
+        }
+        function fillCone(startX, endX, startRadius, endRadius, color, size = 0.9) {
+          const distance = Math.abs(endX - startX);
+          const stepsX = distance / step;
+          for (let i = 0; i <= stepsX; i++) {
+            const progress = i / stepsX;
+            const currentX = startX + (endX - startX) * progress;
+            const currentRadius = startRadius + (endRadius - startRadius) * progress;
+            for (let r = -currentRadius; r <= currentRadius; r += step) {
+              nodes.push({ x: currentX, y: r, color, size });
+            }
+          }
+        }
+        function drawUSAFlagRotated(startX, startY, width, height) {
+          const fineStep = 0.5;
+          const particleRadius = 0.5;
+          const numStripes = 13;
+          const stripeW = width / numStripes;
 
-        // Nose Cone
-        c.fillStyle = "#ef4444";
-        c.beginPath();
-        c.moveTo(55, 0);
-        c.quadraticCurveTo(35, -7, 25, -7);
-        c.lineTo(25, 7);
-        c.quadraticCurveTo(35, 7, 55, 0);
-        c.fill();
+          for (let s = 0; s < numStripes; s++) {
+            const sMinX = startX + (s * stripeW);
+            const sMaxX = startX + ((s + 1) * stripeW);
+            const stripeColor = (s % 2 === 0) ? "#ef4444" : "#ffffff";
+            for (let x = sMinX; x <= sMaxX; x += fineStep) {
+              for (let y = startY; y <= startY + height; y += fineStep) {
+                nodes.push({ x, y, color: stripeColor, size: particleRadius });
+              }
+            }
+          }
 
-        // Main Hull Body
-        c.fillStyle = grad;
-        c.fillRect(-45, -7, 70, 14);
+          const cantonWidth = stripeW * 7;
+          const cantonHeight = height * 0.54;
+          const cantonStartX = startX + width - cantonWidth;
 
-        // Black Details & USA Markings
-        c.fillStyle = "#0f172a";
-        c.fillRect(-15, -7, 10, 14);
-        c.fillRect(-35, -7, 6, 14);
+          for (let x = cantonStartX; x <= startX + width; x += fineStep) {
+            for (let y = startY; y <= startY + cantonHeight; y += fineStep) {
+              nodes.push({ x, y, color: "#1d4ed8", size: particleRadius });
+            }
+          }
 
-        c.fillStyle = "#ffffff";
-        c.font = "bold 6px sans-serif";
-        c.textAlign = "center";
-        c.textBaseline = "middle";
-        c.fillText("USA", 2, 0);
+          const rows = 3;
+          const cols = 3;
+          for (let r = 1; r <= rows; r++) {
+            for (let c = 1; c <= cols; c++) {
+              const starX = cantonStartX + (cantonWidth * (c / (cols + 1)));
+              const starY = startY + (cantonHeight * (r / (rows + 1)));
+              nodes.push({ x: starX, y: starY, color: "#ffffff", size: 0.6 });
+            }
+          }
+        }
 
-        // Top & Bottom Fins
-        c.fillStyle = "#dc2626";
-        c.beginPath();
-        c.moveTo(-25, -7);
-        c.lineTo(-48, -16);
-        c.lineTo(-40, -7);
-        c.closePath();
-        c.fill();
+        fillRect(50, 62, -0.4, 0.4, "#cbd5e1", 0.8);
+        fillCone(45, 50, 1.2, 0.4, "#64748b", 0.8);
+        fillCone(38, 45, 2.6, 1.2, "#f1f5f9", 0.8);
+        fillRect(30, 38, -2.6, 2.6, "#ffffff", 0.9);
+        fillCone(20, 30, 3.8, 2.6, "#ffffff", 0.9);
+        fillRect(2, 20, -3.8, 3.8, "#ffffff", 0.9);
+        fillRect(-24, 2, -4.8, 4.8, "#ffffff", 0.9);
+        fillRect(-22, -16, -4.8, 4.8, "#090d16", 0.9);
+        fillRect(-4, 0, -4.8, 4.8, "#090d16", 0.9);
+        fillRect(-58, -24, -5.2, 5.2, "#ffffff", 0.9);
+        fillRect(-58, -48, -5.2, 0, "#090d16", 0.9);
+        fillRect(-40, -34, -5.2, 5.2, "#090d16", 0.9);
+        drawUSAFlagRotated(-32, -2.5, 5.0, 7.5);
+        fillCone(-58, -52, 7.8, 5.2, "#ffffff", 0.9);
+        fillCone(-58, -52, -7.8, -5.2, "#ffffff", 0.9);
 
-        c.beginPath();
-        c.moveTo(-25, 7);
-        c.lineTo(-48, 16);
-        c.lineTo(-40, 7);
-        c.closePath();
-        c.fill();
+        function drawEngineNozzle(startX, length, radiusY, yOffset) {
+          for (let l = 0; l <= length; l += step) {
+            const progress = l / length;
+            const currentRadius = radiusY * (0.6 + 0.4 * progress);
+            const currentX = startX - l;
+            for (let r = -currentRadius; r <= currentRadius; r += step) {
+              const isRim = (l >= length - step) || (Math.abs(r) >= currentRadius - 0.4);
+              const color = isRim ? "#090d16" : "#1e293b";
+              nodes.push({ x: currentX, y: yOffset + r, color, size: 0.9 });
+            }
+          }
+        }
 
-        // Rocket Exhaust Nozzles
-        c.fillStyle = "#1e293b";
-        c.beginPath();
-        c.moveTo(-45, -5);
-        c.lineTo(-52, -7);
-        c.lineTo(-52, -1);
-        c.lineTo(-45, -2);
-        c.closePath();
-        c.fill();
+        drawEngineNozzle(-58, 7.0, 2.2, -3.2);
+        drawEngineNozzle(-58, 7.0, 2.2, 3.2);
+        drawEngineNozzle(-58, 7.5, 2.5, 0.0);
 
-        c.beginPath();
-        c.moveTo(-45, 2);
-        c.lineTo(-52, 1);
-        c.lineTo(-52, 7);
-        c.lineTo(-45, 5);
-        c.closePath();
-        c.fill();
-
-        c.restore();
+        return nodes;
       }
+
+      const satNodes = createSatelliteNodes();
+      const rocketNodes = createSaturnVNodes();
 
       let savedCraft = localStorage.getItem("activeCraftIndex");
       let activeCraftIndex = (savedCraft === null) ? 0 : (parseInt(savedCraft, 10) === 0 ? 1 : 0);
@@ -294,9 +314,9 @@
 
       let craft = {
         x: -160,
-        y: header.clientHeight * 0.22,
+        y: header.clientHeight * 0.12,
         speed: 1.2,
-        angle: 0.02,
+        angle: 0.03,
         alpha: 0,
         state: "fading_in",
         exhaustParticles: []
@@ -304,11 +324,11 @@
 
       function initCraftPath() {
         if (activeCraftIndex === 1) {
-          craft.y = header.clientHeight * 0.22;
+          craft.y = header.clientHeight * 0.12;
           craft.angle = 0.02;
         } else {
-          craft.y = header.clientHeight * 0.78;
-          craft.angle = -0.02;
+          craft.y = header.clientHeight * 0.92;
+          craft.angle = -0.03;
         }
         craft.x = -160;
         craft.exhaustParticles = [];
@@ -325,13 +345,13 @@
 
         const targetAlpha = 1.0; 
         if (craft.state === "fading_in") {
-          craft.alpha += 0.04 * dt;
+          craft.alpha += 0.03 * dt;
           if (craft.alpha >= targetAlpha) {
             craft.alpha = targetAlpha;
             craft.state = "orbiting";
           }
         } else if (craft.state === "fading_out") {
-          craft.alpha -= 0.04 * dt;
+          craft.alpha -= 0.03 * dt;
           if (craft.alpha <= 0) {
             craft.alpha = 0;
             craftCompleted = true;
@@ -341,30 +361,48 @@
         }
 
         ctx.save();
-        ctx.translate(craft.x, craft.y);
+        ctx.translate(craft.x * dpr, craft.y * dpr);
         ctx.rotate(craft.angle);
-        ctx.globalAlpha = craft.alpha;
+
+        const nodes = activeCraftIndex === 0 ? satNodes : rocketNodes;
+        const baseScale = (activeCraftIndex === 0 ? 1.0 : 1.15) * dpr;
+
+        nodes.forEach(node => {
+          if (!node.isBlinking) {
+            ctx.fillStyle = node.color;
+            ctx.globalAlpha = craft.alpha;
+            ctx.fillRect(node.x * baseScale, node.y * baseScale, node.size * baseScale, node.size * baseScale);
+          }
+        });
 
         if (activeCraftIndex === 0) {
-          drawVectorSatellite(ctx);
+          const blinkValue = (Math.sin(Date.now() * 0.006) + 1) / 2;
+          ctx.fillStyle = `rgba(255, 0, 0, ${blinkValue * craft.alpha})`;
+          ctx.beginPath();
+          ctx.arc(0, -39 * baseScale, 2.0 * baseScale, 0, Math.PI * 2);
+          ctx.fill();
         } else {
-          drawVectorRocket(ctx);
+          ctx.fillStyle = "#090d16";
+          ctx.globalAlpha = craft.alpha;
+          ctx.font = `bold ${7 * dpr}px sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("U S A", 10 * baseScale, 0);
         }
 
         ctx.restore();
 
-        // Thrust particle animation for rocket
         if (activeCraftIndex === 1 && (craft.state === "orbiting" || craft.state === "fading_in")) {
-          const nozzleX = craft.x - Math.cos(craft.angle) * 52;
-          const nozzleY = craft.y - Math.sin(craft.angle) * 52;
-          const fireColors = ["#ef4444", "#f97316", "#facc15"];
+          const nozzleX = craft.x - Math.cos(craft.angle) * 65;
+          const nozzleY = craft.y - Math.sin(craft.angle) * 65;
+          const fireColors = ["#ff0000", "#ff4500", "#ffaa00"];
           
           craft.exhaustParticles.push({
             x: nozzleX,
-            y: nozzleY + (Math.random() - 0.5) * 6,
-            vx: -Math.cos(craft.angle) * (1.8 + Math.random() * 0.8),
-            vy: -Math.sin(craft.angle) * 0.5 + (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 3.5 + 1.5,
+            y: nozzleY + (Math.random() - 0.5) * 5,
+            vx: -Math.cos(craft.angle) * 1.0,
+            vy: -Math.sin(craft.angle) * 1.0,
+            size: Math.random() * 3.0 + 1.2,
             color: fireColors[Math.floor(Math.random() * fireColors.length)],
             alpha: craft.alpha
           });
@@ -374,8 +412,8 @@
           const p = craft.exhaustParticles[i];
           p.x += p.vx * dt;
           p.y += p.vy * dt;
-          p.alpha -= 0.04 * dt;
-          p.size *= Math.pow(0.92, dt);
+          p.alpha -= 0.035 * dt;
+          p.size *= Math.pow(0.94, dt);
 
           if (p.alpha <= 0 || p.size <= 0.2) {
             craft.exhaustParticles.splice(i, 1);
@@ -385,7 +423,7 @@
           ctx.globalAlpha = Math.max(0, p.alpha);
           ctx.fillStyle = p.color;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.arc(p.x * dpr, p.y * dpr, p.size * dpr, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -405,15 +443,15 @@
         lastTime = currentTime;
 
         if (isVisible) {
-          ctx.clearRect(0, 0, header.clientWidth, header.clientHeight);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
           ambientStars.forEach(star => {
             star.alpha += star.speed * star.fadeDir * dt;
-            if (star.alpha >= 0.9) {
-              star.alpha = 0.9;
+            if (star.alpha >= 1.4) {
+              star.alpha = 1.0;
               star.fadeDir = -1;
-            } else if (star.alpha <= 0.15) {
-              star.alpha = 0.15;
+            } else if (star.alpha <= 0.1) {
+              star.alpha = 0.1;
               star.fadeDir = 1;
               star.x = Math.random();
               star.y = Math.random();
@@ -421,7 +459,7 @@
 
             ctx.fillStyle = star.colorPrefix + star.alpha + ")";
             ctx.beginPath();
-            ctx.arc(star.x * header.clientWidth, star.y * header.clientHeight, star.size, 0, Math.PI * 2);
+            ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size * dpr, 0, Math.PI * 2);
             ctx.fill();
           });
 
@@ -431,8 +469,8 @@
 
             if (c.fadeState === "in") {
               c.alpha += 0.001 * dt;
-              if (c.alpha >= 0.5) {
-                c.alpha = 0.5;
+              if (c.alpha >= 0.65) {
+                c.alpha = 0.65;
                 c.fadeState = "hold";
               }
             } else if (c.fadeState === "hold") {
@@ -448,12 +486,12 @@
             }
 
             const points = c.template.stars.map(s => ({
-              x: c.x + (s[0] * c.scale),
-              y: c.y + (s[1] * c.scale)
+              x: (c.x + (s[0] * c.scale)) * dpr,
+              y: (c.y + (s[1] * c.scale)) * dpr
             }));
 
             ctx.strokeStyle = `rgba(180, 220, 255, ${c.alpha * 0.35})`; 
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.8 * dpr;
             c.template.lines.forEach(line => {
               const p1 = points[line[0]];
               const p2 = points[line[1]];
@@ -466,9 +504,9 @@
             });
 
             points.forEach(p => {
-              ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.0)})`;
+              ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, c.alpha * 2.2)})`;
               ctx.beginPath();
-              ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+              ctx.arc(p.x, p.y, 1.2 * dpr, 0, Math.PI * 2);
               ctx.fill();
             });
           });
